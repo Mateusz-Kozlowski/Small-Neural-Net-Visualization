@@ -1,4 +1,95 @@
+#include "MNISTdataLoader.h"
+
+Scalar validateClassification(
+	const std::vector<std::vector<Scalar>>& validationDataInputs,
+	const std::vector<std::vector<Scalar>>& validationDataLabels,
+	NeuralNet& net
+);
+
 int main()
 {
+	std::cout << "Loading data...";
+	
+	auto trainInputs = readMnistImages(
+		"handwritten digits data//train-images-idx3-ubyte"
+	);
+	auto trainLabels = readMnistLabels(
+		"handwritten digits data//train-labels-idx1-ubyte"
+	);
 
+	auto testInputs = readMnistImages(
+		"handwritten digits data//t10k-images-idx3-ubyte"
+	);
+	auto testLabels = readMnistLabels(
+		"handwritten digits data//t10k-labels-idx1-ubyte"
+	);
+
+	std::cout << "\n\n";
+
+	showData(trainInputs, trainLabels, { 0U, 1U });
+
+	preprocess(trainInputs);
+	preprocess(testInputs);
+
+	auto reorganisedTrainLabels = reorganizeLabels(trainLabels);
+	auto reorganisedTestLabels = reorganizeLabels(testLabels);
+
+	NeuralNet net({ 784U, 32U, 10U }, 1.0, 32U);
+
+	unsigned epochsCount = 1U;
+	std::cout << "Epochs count: ";
+	std::cin >> epochsCount;
+
+	for (int e = 1; e <= epochsCount; e++)
+	{
+		for (int i = 0; i < trainInputs.size(); i++)
+		{
+			net.trainingStep(trainInputs[i], reorganisedTrainLabels[i]);
+		}
+
+		std::cout << "Accuracy after " << e << " epochs: " << validateClassification(
+			testInputs,
+			reorganisedTestLabels,
+			net
+		);
+	}
+}
+
+Scalar validateClassification(
+	const std::vector<std::vector<Scalar>>& validationDataInputs,
+	const std::vector<std::vector<Scalar>>& validationDataLabels,
+	NeuralNet& net)
+{
+	unsigned goodAnswers = 0U;
+
+	for (int i = 0; i < validationDataInputs.size(); i++)
+	{
+		std::vector<Scalar> predictions = net.predict(validationDataInputs[i]);
+
+		// find max index in predictions:
+		unsigned maxIndex1 = 0U;
+
+		for (int j = 1; j < predictions.size(); j++) 
+		{
+			if (predictions[j] > predictions[maxIndex1])
+			{
+				maxIndex1 = j;
+			}
+		}
+
+		// find max index in validation outputs:
+		unsigned maxIndex2 = 0U;
+
+		for (int j = 1; j < predictions.size(); j++)
+		{
+			if (validationDataLabels[i][j] > validationDataLabels[i][maxIndex2])
+			{
+				maxIndex2 = j;
+			}
+		}
+
+		goodAnswers += maxIndex1 == maxIndex2;
+	}
+
+	return static_cast<Scalar>(goodAnswers) / static_cast<Scalar>(validationDataInputs.size());
 }
