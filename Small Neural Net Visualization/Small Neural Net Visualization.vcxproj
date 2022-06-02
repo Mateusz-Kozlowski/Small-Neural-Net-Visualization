@@ -149,11 +149,17 @@
   <ItemGroup>
     <ClCompile Include="src\NeuralNet.cpp" />
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\RandomEngine.cpp" />
+    <ClCompile Include="src\SynapsesMatrix.cpp" />
+    <ClCompile Include="src\Synapse.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Config.h" />
     <ClInclude Include="src\MNISTdataLoader.h" />
     <ClInclude Include="src\NeuralNet.h" />
+    <ClInclude Include="src\RandomEngine.h" />
+    <ClInclude Include="src\SynapsesMatrix.h" />
+    <ClInclude Include="src\Synapse.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

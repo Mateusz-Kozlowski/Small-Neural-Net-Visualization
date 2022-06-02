@@ -7,7 +7,7 @@ NeuralNet::NeuralNet(
 	: m_trainingStep(0U), m_learningRate(learningRate), m_miniBatchSize(miniBatchSize)
 {
 	initVals(topology);
-	initWeights(topology);
+	initSynapses(topology);
 	initBiases(topology);
 }
 
@@ -55,30 +55,12 @@ void NeuralNet::initVals(const std::vector<unsigned>& topology)
 	}
 }
 
-void NeuralNet::initWeights(const std::vector<unsigned>& topology)
+void NeuralNet::initSynapses(const std::vector<unsigned>& topology)
 {
-	std::random_device rd;
-	std::default_random_engine eng = std::default_random_engine(rd());
-	std::uniform_real_distribution<Scalar> dist(-1.0f, 1.0f);
-
-	m_weights.resize(topology.size() - 1);
-	m_weightsGradient.resize(topology.size() - 1);
-
-	for (int i = 0; i < m_weights.size(); i++)
+	for (int i = 0; i < topology.size() - 1; i++)
 	{
-		m_weights[i].resize(topology[i + 1]);
-		m_weightsGradient[i].resize(topology[i + 1]);
-
-		for (int n = 0; n < m_weights[i].size(); n++)
-		{
-			m_weights[i][n].resize(topology[i]);
-			m_weightsGradient[i][n].resize(topology[i]);
-
-			for (int p = 0; p < m_weights[i][n].size(); p++)
-			{
-				m_weights[i][n][p] = dist(eng);
-			}
-		}
+		m_synapses.emplace_back(SynapsesMatrix(topology[i + 1], topology[i]));
+		m_weightsGradient.emplace_back(SynapsesMatrix(topology[i + 1], topology[i]));
 	}
 }
 
@@ -103,7 +85,7 @@ void NeuralNet::propagateForward(const std::vector<Scalar>& input)
 {
 	m_val[0] = input;
 
-	for (int i = 0; i < m_weights.size(); i++)
+	for (int i = 0; i < m_synapses.size(); i++)
 	{
 		for (int n = 0; n < m_actVal[i].size(); n++)
 		{
@@ -113,14 +95,14 @@ void NeuralNet::propagateForward(const std::vector<Scalar>& input)
 			{
 				for (int p = 0; p < input.size(); p++)
 				{
-					m_val[i + 1][n] += input[p] * m_weights[i][n][p];
+					m_val[i + 1][n] += input[p] * m_synapses[i].getWeight(n, p);
 				}
 			}
 			else
 			{
 				for (int p = 0; p < m_actVal[i - 1].size(); p++)
 				{
-					m_val[i + 1][n] += m_actVal[i - 1][p] * m_weights[i][n][p];
+					m_val[i + 1][n] += m_actVal[i - 1][p] * m_synapses[i].getWeight(n, p);
 				}
 			}
 
@@ -161,7 +143,7 @@ void NeuralNet::propagateErrorsBack()
 			for (int n = 0; n < m_lossDerivativeWithRespectToActFunc[i + 1].size(); n++)
 			{
 				m_lossDerivativeWithRespectToActFunc[i][j] +=
-					m_weights[i + 1][n][j] *
+					m_synapses[i + 1].getWeight(n, j) *
 					m_derivatives[i + 1][n] *
 					m_lossDerivativeWithRespectToActFunc[i + 1][n];
 			}
@@ -179,23 +161,35 @@ void NeuralNet::updateWeightsGradients()
 {
 	for (int i = 0; i < m_weightsGradient.size(); i++)
 	{
-		for (int n = 0; n < m_weightsGradient[i].size(); n++)
+		for (int n = 0; n < m_weightsGradient[i].getDimensions().first; n++)
 		{
-			for (int p = 0; p < m_weightsGradient[i][n].size(); p++)
+			for (int p = 0; p < m_weightsGradient[i].getDimensions().second; p++)
 			{
 				if (i == 0)
 				{
-					m_weightsGradient[i][n][p] +=
+					Scalar change =
 						m_val[i][p] *
 						m_derivatives[i][n] *
 						m_lossDerivativeWithRespectToActFunc[i][n];
+
+					m_weightsGradient[i].setWeight(
+						n,
+						p,
+						m_weightsGradient[i].getWeight(n, p) + change
+					);
 				}
 				else
 				{
-					m_weightsGradient[i][n][p] +=
+					Scalar change =
 						m_actVal[i - 1][p] *
 						m_derivatives[i][n] *
 						m_lossDerivativeWithRespectToActFunc[i][n];
+
+					m_weightsGradient[i].setWeight(
+						n,
+						p,
+						m_weightsGradient[i].getWeight(n, p) + change
+					);
 				}
 			}
 		}
@@ -217,13 +211,19 @@ void NeuralNet::updateBiasesGradients()
 
 void NeuralNet::updateWeights()
 {
-	for (int i = 0; i < m_weights.size(); i++)
+	for (int i = 0; i < m_synapses.size(); i++)
 	{
-		for (int n = 0; n < m_weights[i].size(); n++)
+		for (int n = 0; n < m_synapses[i].getDimensions().first; n++)
 		{
-			for (int p = 0; p < m_weights[i][n].size(); p++)
+			for (int p = 0; p < m_synapses[i].getDimensions().second; p++)
 			{
-				m_weights[i][n][p] -= m_learningRate * m_weightsGradient[i][n][p] / m_miniBatchSize;
+				Scalar change = m_learningRate * m_weightsGradient[i].getWeight(n, p) / m_miniBatchSize;
+
+				m_synapses[i].setWeight(
+					n,
+					p,
+					m_synapses[i].getWeight(n, p) - change
+				);
 			}
 		}
 	}
@@ -248,13 +248,13 @@ void NeuralNet::resetGradients()
 
 void NeuralNet::resetWeightsGradients()
 {
-	for (auto& it1 : m_weightsGradient)
+	for (auto& it : m_weightsGradient)
 	{
-		for (auto& it2 : it1)
+		for (int n=0; n<it.getDimensions().first; n++)
 		{
-			for (auto& it3 : it2)
+			for (int p = 0; p < it.getDimensions().second; p++)
 			{
-				it3 = 0.0;
+				it.setWeight(n, p, 0.0);
 			}
 		}
 	}

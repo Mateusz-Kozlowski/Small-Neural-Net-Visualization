@@ -10,31 +10,31 @@ int main()
 {
 	std::cout << "Loading data...";
 	
-	auto trainInputs = readMnistImages(
+	auto trainInputs = MNISTdataLoader::readMnistImages(
 		"handwritten digits data//train-images-idx3-ubyte"
 	);
-	auto trainLabels = readMnistLabels(
+	auto trainLabels = MNISTdataLoader::readMnistLabels(
 		"handwritten digits data//train-labels-idx1-ubyte"
 	);
 
-	auto testInputs = readMnistImages(
+	auto testInputs = MNISTdataLoader::readMnistImages(
 		"handwritten digits data//t10k-images-idx3-ubyte"
 	);
-	auto testLabels = readMnistLabels(
+	auto testLabels = MNISTdataLoader::readMnistLabels(
 		"handwritten digits data//t10k-labels-idx1-ubyte"
 	);
 
 	std::cout << "\n\n";
 
-	showData(trainInputs, trainLabels, { 0U, 1U });
+	MNISTdataLoader::showData(trainInputs, trainLabels, { 0U, 1U });
 
-	preprocess(trainInputs);
-	preprocess(testInputs);
+	MNISTdataLoader::preprocess(trainInputs);
+	MNISTdataLoader::preprocess(testInputs);
 
-	auto reorganisedTrainLabels = reorganizeLabels(trainLabels);
-	auto reorganisedTestLabels = reorganizeLabels(testLabels);
+	auto reorganisedTrainLabels = MNISTdataLoader::reorganizeLabels(trainLabels);
+	auto reorganisedTestLabels = MNISTdataLoader::reorganizeLabels(testLabels);
 
-	NeuralNet net({ 784U, 32U, 10U }, 1.0, 32U);
+	NeuralNet net({ 784U, 32U, 16U, 10U }, 1.0, 128U);
 
 	unsigned epochsCount = 1U;
 	std::cout << "Epochs count: ";
@@ -51,7 +51,7 @@ int main()
 			testInputs,
 			reorganisedTestLabels,
 			net
-		);
+		) << '\n';
 	}
 }
 

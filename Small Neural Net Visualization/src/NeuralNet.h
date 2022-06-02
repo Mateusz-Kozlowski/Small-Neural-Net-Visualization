@@ -1,9 +1,6 @@
 #pragma once
 
-#include <vector>
-#include <random>
-
-#include "Config.h"
+#include "SynapsesMatrix.h"
 
 class NeuralNet
 {
@@ -23,7 +20,7 @@ public:
 
 private:
 	void initVals(const std::vector<unsigned>& topology);
-	void initWeights(const std::vector<unsigned>& topology);
+	void initSynapses(const std::vector<unsigned>& topology);
 	void initBiases(const std::vector<unsigned>& topology);
 
 	const std::vector<Scalar>& getOutput() const;
@@ -56,8 +53,8 @@ private:
 	std::vector<std::vector<Scalar>> m_derivatives;
 	std::vector<std::vector<Scalar>> m_lossDerivativeWithRespectToActFunc;
 
-	std::vector<std::vector<std::vector<Scalar>>> m_weights;
+	std::vector<SynapsesMatrix> m_synapses;
 
 	std::vector<std::vector<Scalar>> m_biasesGradient;
-	std::vector<std::vector<std::vector<Scalar>>> m_weightsGradient;
+	std::vector<SynapsesMatrix> m_weightsGradient;
 };
