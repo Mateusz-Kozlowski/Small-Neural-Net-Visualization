@@ -6,6 +6,11 @@ Scalar validateClassification(
 	NeuralNet& net
 );
 
+void randomShuffle(
+	std::vector<std::vector<Scalar>>& inputs,
+	std::vector<std::vector<Scalar>>& desiredOutputs
+);
+
 int main()
 {
 	std::cout << "Loading data...";
@@ -34,7 +39,7 @@ int main()
 	auto reorganisedTrainLabels = MNISTdataLoader::reorganizeLabels(trainLabels);
 	auto reorganisedTestLabels = MNISTdataLoader::reorganizeLabels(testLabels);
 
-	NeuralNet net({ 784U, 32U, 16U, 10U }, 1.0, 128U);
+	NeuralNet net({ 784U, 32U, 16U, 10U }, 1.0, 32U);
 
 	unsigned epochsCount = 1U;
 	std::cout << "Epochs count: ";
@@ -52,6 +57,8 @@ int main()
 			reorganisedTestLabels,
 			net
 		) << '\n';
+
+		randomShuffle(trainInputs, reorganisedTrainLabels);
 	}
 }
 
@@ -92,4 +99,17 @@ Scalar validateClassification(
 	}
 
 	return static_cast<Scalar>(goodAnswers) / static_cast<Scalar>(validationDataInputs.size());
+}
+
+void randomShuffle(
+	std::vector<std::vector<Scalar>>& inputs,
+	std::vector<std::vector<Scalar>>& desiredOutputs)
+{
+	for (int i = 0; i < inputs.size(); i++)
+	{
+		unsigned randomIndex = RandomEngine::getIntInRange(0U, inputs.size() - 1);
+
+		std::swap(inputs[randomIndex], inputs[i]);
+		std::swap(desiredOutputs[randomIndex], desiredOutputs[i]);
+	}
 }
