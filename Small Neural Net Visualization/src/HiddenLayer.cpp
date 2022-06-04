@@ -20,34 +20,8 @@ const std::vector<Scalar>& HiddenLayer::getInput() const
 	throw std::bad_function_call();
 }
 
-void HiddenLayer::updateBiasesGradients()
-{
-	for (int i = 0; i < m_neurons.size(); i++)
-	{
-		m_neurons[i].updateBiasGradient();
-	}
-}
-
-unsigned HiddenLayer::getSize() const
-{
-	return m_neurons.size();
-}
-
-void HiddenLayer::setBias(unsigned neuronIdx, const Scalar& bias)
-{
-	m_neurons[neuronIdx].setBias(bias);
-}
-
-void HiddenLayer::resetBiasesGradients()
-{
-	for (int i = 0; i < m_neurons.size(); i++)
-	{
-		m_neurons[i].resetBiasGradient();
-	}
-}
-
 void HiddenLayer::propagateForward(
-	const std::vector<Scalar>& inputVector, 
+	const std::vector<Scalar>& inputVector,
 	const SynapsesMatrix& inputSynapses)
 {
 	for (int i = 0; i < m_neurons.size(); i++)
@@ -64,7 +38,7 @@ void HiddenLayer::propagateForward(
 }
 
 void HiddenLayer::propagateForward(
-	const Layer& previousLayer, 
+	const Layer& previousLayer,
 	const SynapsesMatrix& inputSynapses)
 {
 	for (int i = 0; i < m_neurons.size(); i++)
@@ -100,18 +74,8 @@ void HiddenLayer::calcErrors(const std::vector<Scalar>& desiredOutputs)
 	throw std::bad_function_call();
 }
 
-const Scalar& HiddenLayer::getBias(unsigned neuronIdx) const
-{
-	return m_neurons[neuronIdx].getBias();
-}
-
-const std::vector<Neuron>& HiddenLayer::getNeurons() const
-{
-	return m_neurons;
-}
-
 void HiddenLayer::propagateErrorsBack(
-	const Layer& nextLayer, 
+	const Layer& nextLayer,
 	const SynapsesMatrix& outputSynapses)
 {
 	for (int i = 0; i < m_neurons.size(); i++)
@@ -121,5 +85,41 @@ void HiddenLayer::propagateErrorsBack(
 			nextLayer.getNeurons(),
 			outputSynapses.getSynapsesMatrix()
 		);
+	}
+}
+
+const std::vector<Neuron>& HiddenLayer::getNeurons() const
+{
+	return m_neurons;
+}
+
+void HiddenLayer::updateBiasesGradients()
+{
+	for (int i = 0; i < m_neurons.size(); i++)
+	{
+		m_neurons[i].updateBiasGradient();
+	}
+}
+
+unsigned HiddenLayer::getSize() const
+{
+	return m_neurons.size();
+}
+
+void HiddenLayer::setBias(unsigned neuronIdx, const Scalar& bias)
+{
+	m_neurons[neuronIdx].setBias(bias);
+}
+
+const Scalar& HiddenLayer::getBias(unsigned neuronIdx) const
+{
+	return m_neurons[neuronIdx].getBias();
+}
+
+void HiddenLayer::resetBiasesGradients()
+{
+	for (int i = 0; i < m_neurons.size(); i++)
+	{
+		m_neurons[i].resetBiasGradient();
 	}
 }

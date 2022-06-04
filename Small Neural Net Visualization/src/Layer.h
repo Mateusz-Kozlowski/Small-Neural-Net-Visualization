@@ -41,9 +41,4 @@ public:
 	virtual void setBias(unsigned neuronIdx, const Scalar& bias) = 0;
 	virtual const Scalar& getBias(unsigned neuronIdx) const = 0;
 	virtual void resetBiasesGradients() = 0;
-	
-	/*virtual const Scalar& getVal(unsigned idx) const = 0;
-	virtual const Scalar& getActVal(unsigned neuronIdx) const = 0;
-	virtual const Scalar& getDerivative(unsigned neuronIdx) const = 0;
-	virtual const Scalar& getLossDerivativeWithRespectToActFunc(unsigned neuronIdx) const = 0;*/
 };
