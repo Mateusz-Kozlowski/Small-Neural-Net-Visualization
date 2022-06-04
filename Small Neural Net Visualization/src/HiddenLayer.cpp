@@ -8,6 +8,18 @@ HiddenLayer::HiddenLayer(unsigned size) : Layer(size)
 	}
 }
 
+void HiddenLayer::setInput(const std::vector<Scalar>& input)
+{
+	std::cerr << "HiddenLayer class doesn't support this function\n";
+	throw std::bad_function_call();
+}
+
+const std::vector<Scalar>& HiddenLayer::getInput() const
+{
+	std::cerr << "HiddenLayer class doesn't support this function\n";
+	throw std::bad_function_call();
+}
+
 void HiddenLayer::updateBiasesGradients()
 {
 	for (int i = 0; i < m_neurons.size(); i++)
@@ -68,6 +80,12 @@ void HiddenLayer::propagateForward(
 	}
 }
 
+const std::vector<Scalar>& HiddenLayer::getOutput()
+{
+	std::cerr << "HiddenLayer class doesn't support this function\n";
+	throw std::bad_function_call();
+}
+
 void HiddenLayer::calcDerivatives()
 {
 	for (auto& neuron : m_neurons)
@@ -76,24 +94,15 @@ void HiddenLayer::calcDerivatives()
 	}
 }
 
-const Scalar& HiddenLayer::getActVal(unsigned neuronIdx) const
+void HiddenLayer::calcErrors(const std::vector<Scalar>& desiredOutputs)
 {
-	return m_neurons[neuronIdx].getActVal();
+	std::cerr << "HiddenLayer class doesn't support this function\n";
+	throw std::bad_function_call();
 }
 
 const Scalar& HiddenLayer::getBias(unsigned neuronIdx) const
 {
 	return m_neurons[neuronIdx].getBias();
-}
-
-const Scalar& HiddenLayer::getDerivative(unsigned neuronIdx) const
-{
-	return m_neurons[neuronIdx].getDerivative();
-}
-
-const Scalar& HiddenLayer::getLossDerivativeWithRespectToActFunc(unsigned neuronIdx) const
-{
-	return m_neurons[neuronIdx].getLossDerivativeWithRespectToActFunc();
 }
 
 const std::vector<Neuron>& HiddenLayer::getNeurons() const

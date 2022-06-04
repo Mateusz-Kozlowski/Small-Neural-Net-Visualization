@@ -10,6 +10,18 @@ OutputLayer::OutputLayer(unsigned size) : Layer(size)
 	m_output.resize(size);
 }
 
+void OutputLayer::setInput(const std::vector<Scalar>& input)
+{
+	std::cerr << "OutputLayer class doesn't support this function\n";
+	throw std::bad_function_call();
+}
+
+const std::vector<Scalar>& OutputLayer::getInput() const
+{
+	std::cerr << "OutputLayer class doesn't support this function\n";
+	throw std::bad_function_call();
+}
+
 void OutputLayer::updateBiasesGradients()
 {
 	for (int i = 0; i < m_neurons.size(); i++)
@@ -34,6 +46,14 @@ void OutputLayer::resetBiasesGradients()
 	{
 		neuron.resetBiasGradient();
 	}
+}
+
+void OutputLayer::propagateForward(
+	const std::vector<Scalar>& inputVector, 
+	const SynapsesMatrix& inputSynapses)
+{
+	std::cerr << "OutputLayer class doesn't support this function\n";
+	throw std::bad_function_call();
 }
 
 void OutputLayer::propagateForward(
@@ -69,24 +89,17 @@ void OutputLayer::calcErrors(const std::vector<Scalar>& desiredOutputs)
 	}
 }
 
-const Scalar& OutputLayer::getActVal(unsigned neuronIdx) const
+void OutputLayer::propagateErrorsBack(
+	const Layer& nextLayer, 
+	const SynapsesMatrix& outputSynapses)
 {
-	return m_neurons[neuronIdx].getActVal();
+	std::cerr << "OutputLayer class doesn't support this function\n";
+	throw std::bad_function_call();
 }
 
 const Scalar& OutputLayer::getBias(unsigned neuronIdx) const
 {
 	return m_neurons[neuronIdx].getBias();
-}
-
-const Scalar& OutputLayer::getDerivative(unsigned neuronIdx) const
-{
-	return m_neurons[neuronIdx].getDerivative();
-}
-
-const Scalar& OutputLayer::getLossDerivativeWithRespectToActFunc(unsigned neuronIdx) const
-{
-	return m_neurons[neuronIdx].getLossDerivativeWithRespectToActFunc();
 }
 
 const std::vector<Scalar>& OutputLayer::getOutput()
