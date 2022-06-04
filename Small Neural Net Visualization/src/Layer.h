@@ -7,6 +7,8 @@ class Layer
 public:
 	Layer(unsigned size);
 
+	virtual void updateBiasesGradients();
+
 	virtual const Scalar& getVal(unsigned idx) const;
 	virtual unsigned getSize() const = 0;
 
@@ -14,6 +16,7 @@ public:
 
 	virtual void setInput(const std::vector<Scalar>& input);
 	virtual void setBias(unsigned neuronIdx, const Scalar& bias);
+	virtual void resetBiasesGradients();
 
 	virtual void propagateForward(
 		const std::vector<Scalar>& inputVector,

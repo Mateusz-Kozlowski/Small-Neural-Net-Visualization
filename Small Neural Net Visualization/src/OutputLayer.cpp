@@ -10,6 +10,14 @@ OutputLayer::OutputLayer(unsigned size) : Layer(size)
 	m_output.resize(size);
 }
 
+void OutputLayer::updateBiasesGradients()
+{
+	for (int i = 0; i < m_neurons.size(); i++)
+	{
+		m_neurons[i].updateBiasGradient();
+	}
+}
+
 unsigned OutputLayer::getSize() const
 {
 	return m_neurons.size();
@@ -18,6 +26,14 @@ unsigned OutputLayer::getSize() const
 void OutputLayer::setBias(unsigned neuronIdx, const Scalar& bias)
 {
 	m_neurons[neuronIdx].setBias(bias);
+}
+
+void OutputLayer::resetBiasesGradients()
+{
+	for (auto& neuron : m_neurons)
+	{
+		neuron.resetBiasGradient();
+	}
 }
 
 void OutputLayer::propagateForward(

@@ -7,9 +7,12 @@ class HiddenLayer : public Layer
 public:
 	HiddenLayer(unsigned size);
 
+	virtual void updateBiasesGradients() override;
+
 	virtual unsigned getSize() const override;
 
 	virtual void setBias(unsigned neuronIdx, const Scalar& bias) override;
+	virtual void resetBiasesGradients() override;
 
 	virtual void propagateForward(
 		const std::vector<Scalar>& inputVector,

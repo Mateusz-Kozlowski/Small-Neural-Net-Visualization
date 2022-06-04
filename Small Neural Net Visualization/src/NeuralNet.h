@@ -27,7 +27,6 @@ public:
 private:
 	void initVals(const std::vector<unsigned>& topology);
 	void initSynapses(const std::vector<unsigned>& topology);
-	void initBiases(const std::vector<unsigned>& topology);
 
 	const std::vector<Scalar>& getOutput() const;
 
@@ -54,6 +53,4 @@ private:
 	
 	std::vector<std::unique_ptr<Layer>> m_layers;
 	std::vector<SynapsesMatrix> m_synapses;
-
-	std::vector<std::vector<Scalar>> m_biasesGradient;
 };

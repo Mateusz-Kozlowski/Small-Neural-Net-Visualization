@@ -62,3 +62,18 @@ const Scalar& Neuron::getBias() const
 {
 	return m_bias;
 }
+
+const Scalar& Neuron::getBiasGradient() const
+{
+	return m_biasGradient;
+}
+
+void Neuron::updateBiasGradient()
+{
+	m_biasGradient += m_derivative * m_lossDerivativeWithRespectToActFunc;
+}
+
+void Neuron::resetBiasGradient()
+{
+	m_biasGradient = 0.0;
+}

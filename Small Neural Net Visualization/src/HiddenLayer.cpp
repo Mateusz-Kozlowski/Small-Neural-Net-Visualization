@@ -8,6 +8,14 @@ HiddenLayer::HiddenLayer(unsigned size) : Layer(size)
 	}
 }
 
+void HiddenLayer::updateBiasesGradients()
+{
+	for (int i = 0; i < m_neurons.size(); i++)
+	{
+		m_neurons[i].updateBiasGradient();
+	}
+}
+
 unsigned HiddenLayer::getSize() const
 {
 	return m_neurons.size();
@@ -16,6 +24,14 @@ unsigned HiddenLayer::getSize() const
 void HiddenLayer::setBias(unsigned neuronIdx, const Scalar& bias)
 {
 	m_neurons[neuronIdx].setBias(bias);
+}
+
+void HiddenLayer::resetBiasesGradients()
+{
+	for (int i = 0; i < m_neurons.size(); i++)
+	{
+		m_neurons[i].resetBiasGradient();
+	}
 }
 
 void HiddenLayer::propagateForward(

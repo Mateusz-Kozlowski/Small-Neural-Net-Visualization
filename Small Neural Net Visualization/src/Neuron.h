@@ -29,10 +29,15 @@ public:
 	void setBias(const Scalar& bias);
 	const Scalar& getBias() const;
 	
+	const Scalar& getBiasGradient() const;
+	void updateBiasGradient();
+	void resetBiasGradient();
+
 private:
 	Scalar m_val;
 	Scalar m_bias;
 	Scalar m_actVal;
 	Scalar m_derivative;
 	Scalar m_lossDerivativeWithRespectToActFunc;
+	Scalar m_biasGradient;
 };

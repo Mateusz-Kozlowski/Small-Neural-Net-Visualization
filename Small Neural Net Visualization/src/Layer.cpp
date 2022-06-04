@@ -6,6 +6,12 @@ Layer::Layer(unsigned size)
 	
 }
 
+void Layer::updateBiasesGradients()
+{
+	std::cout << "NIEPOROZUMIENIE22\n";
+	exit(-17);
+}
+
 const Scalar& Layer::getVal(unsigned idx) const
 {
 	std::cout << "NIEPOROZUMIENIE 1\n";
@@ -15,6 +21,8 @@ const Scalar& Layer::getVal(unsigned idx) const
 
 const std::vector<Scalar>& Layer::getInput() const
 {
+	std::cout << "NIEPOROZUMIENIE21\n";
+	exit(-17);
 	return m_nullVector;
 }
 
@@ -27,6 +35,12 @@ void Layer::setInput(const std::vector<Scalar>& input)
 void Layer::setBias(unsigned neuronIdx, const Scalar& bias)
 {
 	std::cout << "NIEPOROZUMIENIE3\n";
+	exit(-17);
+}
+
+void Layer::resetBiasesGradients()
+{
+	std::cout << "NIEPOROZUMIENIE20\n";
 	exit(-17);
 }
 

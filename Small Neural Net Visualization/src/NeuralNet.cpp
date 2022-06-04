@@ -10,7 +10,6 @@ NeuralNet::NeuralNet(
 {
 	initVals(topology);
 	initSynapses(topology);
-	initBiases(topology);
 }
 
 const std::vector<Scalar>& NeuralNet::predict(const std::vector<Scalar>& input)
@@ -69,16 +68,6 @@ void NeuralNet::initSynapses(const std::vector<unsigned>& topology)
 	for (int i = 0; i < topology.size() - 1; i++)
 	{
 		m_synapses.emplace_back(SynapsesMatrix(topology[i + 1], topology[i]));
-	}
-}
-
-void NeuralNet::initBiases(const std::vector<unsigned>& topology)
-{
-	m_biasesGradient.resize(topology.size() - 1);
-
-	for (int i = 0; i < topology.size() - 1; i++)
-	{
-		m_biasesGradient[i].resize(topology[i + 1]);
 	}
 }
 
@@ -155,14 +144,9 @@ void NeuralNet::updateWeightsGradients()
 
 void NeuralNet::updateBiasesGradients()
 {
-	for (int i = 0; i < m_biasesGradient.size(); i++)
+	for (int i = 1; i < m_layers.size(); i++)
 	{
-		for (int j = 0; j < m_biasesGradient[i].size(); j++)
-		{
-			m_biasesGradient[i][j] +=
-				m_layers[i + 1]->getDerivative(j) *
-				m_layers[i + 1]->getLossDerivativeWithRespectToActFunc(j);
-		}
+		m_layers[i]->updateBiasesGradients();
 	}
 }
 
@@ -195,7 +179,11 @@ void NeuralNet::updateBiases()
 	{
 		for (int j = 0; j < m_layers[i]->getSize(); j++)
 		{
-			Scalar change = m_learningRate * m_biasesGradient[i - 1][j] / m_miniBatchSize;
+			Scalar change = 
+				m_learningRate * 
+				m_layers[i]->getNeurons()[j].getBiasGradient() / 
+				m_miniBatchSize;
+
 			m_layers[i]->setBias(
 				j,
 				m_layers[i]->getBias(j) - change
@@ -220,11 +208,8 @@ void NeuralNet::resetWeightsGradients()
 
 void NeuralNet::resetBiasesGradients()
 {
-	for (auto& it1 : m_biasesGradient)
+	for (int i = 1; i < m_layers.size(); i++)
 	{
-		for (auto& it2 : it1)
-		{
-			it2 = 0.0;
-		}
+		m_layers[i]->resetBiasesGradients();
 	}
 }
