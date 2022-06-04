@@ -13,7 +13,7 @@ void randomShuffle(
 
 int main()
 {
-	std::cout << "Loading data...";
+	std::cout << "Loading data...\n";
 	
 	auto trainInputs = MNISTdataLoader::readMnistImages(
 		"handwritten digits data//train-images-idx3-ubyte"
@@ -29,7 +29,7 @@ int main()
 		"handwritten digits data//t10k-labels-idx1-ubyte"
 	);
 
-	std::cout << "\n\n";
+	std::cout << "\nThis is how 2 first data points look like:\n";
 
 	MNISTdataLoader::showData(trainInputs, trainLabels, { 0U, 1U });
 
@@ -39,10 +39,10 @@ int main()
 	auto reorganisedTrainLabels = MNISTdataLoader::reorganizeLabels(trainLabels);
 	auto reorganisedTestLabels = MNISTdataLoader::reorganizeLabels(testLabels);
 
-	NeuralNet net({ 784U, 32U, 16U, 10U }, 1.0, 32U);
+	NeuralNet net({ 784U, 16U, 12U, 10U }, 1.0, 32U);
 
 	unsigned epochsCount = 1U;
-	std::cout << "Epochs count: ";
+	std::cout << "Learning epochs count: ";
 	std::cin >> epochsCount;
 
 	for (int e = 1; e <= epochsCount; e++)
@@ -52,7 +52,7 @@ int main()
 			net.trainingStep(trainInputs[i], reorganisedTrainLabels[i]);
 		}
 
-		std::cout << "Accuracy after " << e << " epochs: " << validateClassification(
+		std::cout << "Accuracy after " << e << " epoch: " << validateClassification(
 			testInputs,
 			reorganisedTestLabels,
 			net
@@ -72,14 +72,6 @@ Scalar validateClassification(
 	for (int i = 0; i < validationDataInputs.size(); i++)
 	{
 		std::vector<Scalar> predictions = net.predict(validationDataInputs[i]);
-
-		/*MNISTdataLoader::showImage(validationDataInputs[i]);
-		std::cout << "Net says:\n";
-		for (int i = 0; i < 10; i++)
-		{
-			std::cout << i << ": " << predictions[i] << '\n';
-		}
-		std::cin.get();*/
 
 		// find max index in predictions:
 		unsigned maxIndex1 = 0U;
@@ -105,9 +97,6 @@ Scalar validateClassification(
 
 		goodAnswers += maxIndex1 == maxIndex2;
 	}
-
-	//std::cout << "goodAnswers: " << goodAnswers << '\n';
-	//std::cout << "validationDataInputs.size(): " << validationDataInputs.size() << '\n';
 
 	return static_cast<Scalar>(goodAnswers) / static_cast<Scalar>(validationDataInputs.size());
 }

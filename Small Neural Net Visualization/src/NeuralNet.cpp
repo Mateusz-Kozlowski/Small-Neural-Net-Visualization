@@ -67,7 +67,12 @@ void NeuralNet::initSynapses(const std::vector<unsigned>& topology)
 {
 	for (int i = 0; i < topology.size() - 1; i++)
 	{
-		m_synapses.emplace_back(SynapsesMatrix(topology[i + 1], topology[i]));
+		m_synapses.emplace_back(
+			SynapsesMatrix(
+				topology[i + 1],
+				topology[i]
+			)
+		);
 	}
 }
 
@@ -111,7 +116,10 @@ void NeuralNet::propagateErrorsBack()
 {
 	for (int i = m_layers.size() - 2; i > 0; i--)
 	{
-		m_layers[i]->propagateErrorsBack(*m_layers[i + 1].get(), m_synapses[i]);
+		m_layers[i]->propagateErrorsBack(
+			*m_layers[i + 1].get(), 
+			m_synapses[i]
+		);
 	}
 }
 
@@ -152,21 +160,21 @@ void NeuralNet::updateBiasesGradients()
 
 void NeuralNet::updateWeights()
 {
-	for (int i = 0; i < m_synapses.size(); i++)
+	for (auto& synapsesMatrix : m_synapses)
 	{
-		for (int n = 0; n < m_synapses[i].getDimensions().first; n++)
+		for (int n = 0; n < synapsesMatrix.getDimensions().first; n++)
 		{
-			for (int p = 0; p < m_synapses[i].getDimensions().second; p++)
+			for (int p = 0; p < synapsesMatrix.getDimensions().second; p++)
 			{
 				Scalar change =
 					m_learningRate *
-					m_synapses[i].getSynapsesMatrix()[n][p].getGradient() /
+					synapsesMatrix.getSynapsesMatrix()[n][p].getGradient() /
 					m_miniBatchSize;
 
-				m_synapses[i].setWeight(
+				synapsesMatrix.setWeight(
 					n,
 					p,
-					m_synapses[i].getWeight(n, p) - change
+					synapsesMatrix.getWeight(n, p) - change
 				);
 			}
 		}
