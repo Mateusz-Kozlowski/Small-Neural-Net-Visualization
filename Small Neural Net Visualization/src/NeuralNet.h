@@ -1,6 +1,12 @@
 #pragma once
 
 #include "SynapsesMatrix.h"
+#include "InputLayer.h"
+#include "HiddenLayer.h"
+#include "OutputLayer.h"
+
+#include <memory>
+#include <iostream>
 
 class NeuralNet
 {
@@ -28,7 +34,6 @@ private:
 	void propagateForward(const std::vector<Scalar>& input);
 
 	void calcDerivatives();
-	void calcErrors(const std::vector<Scalar>& desiredOutputs);
 	void propagateErrorsBack();
 	
 	void updateGradients();
@@ -47,12 +52,7 @@ private:
 	Scalar m_learningRate;
 	unsigned m_miniBatchSize;
 	
-	std::vector<std::vector<Scalar>> m_val;
-	std::vector<std::vector<Scalar>> m_biases;
-	std::vector<std::vector<Scalar>> m_actVal;
-	std::vector<std::vector<Scalar>> m_derivatives;
-	std::vector<std::vector<Scalar>> m_lossDerivativeWithRespectToActFunc;
-
+	std::vector<std::unique_ptr<Layer>> m_layers;
 	std::vector<SynapsesMatrix> m_synapses;
 
 	std::vector<std::vector<Scalar>> m_biasesGradient;

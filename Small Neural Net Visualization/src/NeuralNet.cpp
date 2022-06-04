@@ -4,7 +4,9 @@ NeuralNet::NeuralNet(
 	const std::vector<unsigned>& topology,
 	const Scalar& learningRate, 
 	unsigned miniBatchSize)
-	: m_trainingStep(0U), m_learningRate(learningRate), m_miniBatchSize(miniBatchSize)
+	: m_trainingStep(0U), 
+	  m_learningRate(learningRate), 
+	  m_miniBatchSize(miniBatchSize)
 {
 	initVals(topology);
 	initSynapses(topology);
@@ -22,8 +24,8 @@ void NeuralNet::trainingStep(
 	const std::vector<Scalar>& desiredOutput)
 {
 	propagateForward(input);
-	calcDerivatives();
-	calcErrors(desiredOutput);
+	calcDerivatives();	
+	m_layers.back()->calcErrors(desiredOutput);
 	propagateErrorsBack();
 	updateGradients();
 
@@ -39,19 +41,26 @@ void NeuralNet::trainingStep(
 
 void NeuralNet::initVals(const std::vector<unsigned>& topology)
 {
-	m_val.resize(topology.size());
-	m_actVal.resize(topology.size() - 1);
-	m_derivatives.resize(topology.size() - 1);
-	m_lossDerivativeWithRespectToActFunc.resize(topology.size() - 1);
-
-	m_val[0].resize(topology[0]);
-
-	for (int i = 1; i < topology.size(); i++)
+	for (int i = 0; i < topology.size(); i++)
 	{
-		m_val[i].resize(topology[i]);
-		m_actVal[i - 1].resize(topology[i]);
-		m_derivatives[i - 1].resize(topology[i]);
-		m_lossDerivativeWithRespectToActFunc[i - 1].resize(topology[i]);
+		if (i == 0) // input layer
+		{
+			m_layers.emplace_back(
+				std::make_unique<InputLayer>(topology[i])
+			);
+		}
+		else if (i == topology.size() - 1) // output layer
+		{
+			m_layers.emplace_back(
+				std::make_unique<OutputLayer>(topology[i])
+			);
+		}
+		else // hidden layer
+		{
+			m_layers.emplace_back(
+				std::make_unique<HiddenLayer>(topology[i])
+			);
+		}
 	}
 }
 
@@ -66,88 +75,55 @@ void NeuralNet::initSynapses(const std::vector<unsigned>& topology)
 
 void NeuralNet::initBiases(const std::vector<unsigned>& topology)
 {
-	m_biases.resize(topology.size() - 1);
 	m_biasesGradient.resize(topology.size() - 1);
 
 	for (int i = 0; i < topology.size() - 1; i++)
 	{
-		m_biases[i].resize(topology[i + 1]);
 		m_biasesGradient[i].resize(topology[i + 1]);
 	}
 }
 
 const std::vector<Scalar>& NeuralNet::getOutput() const
 {
-	return m_actVal.back();
+	return m_layers.back()->getOutput();
 }
 
 void NeuralNet::propagateForward(const std::vector<Scalar>& input)
 {
-	m_val[0] = input;
+	m_layers[0]->setInput(input);
 
-	for (int i = 0; i < m_synapses.size(); i++)
+	for (int i = 1; i < m_layers.size(); i++)
 	{
-		for (int n = 0; n < m_actVal[i].size(); n++)
+		if (i == 1)
 		{
-			m_val[i + 1][n] = 0.0;
-
-			if (i == 0)
-			{
-				for (int p = 0; p < input.size(); p++)
-				{
-					m_val[i + 1][n] += input[p] * m_synapses[i].getWeight(n, p);
-				}
-			}
-			else
-			{
-				for (int p = 0; p < m_actVal[i - 1].size(); p++)
-				{
-					m_val[i + 1][n] += m_actVal[i - 1][p] * m_synapses[i].getWeight(n, p);
-				}
-			}
-
-			Scalar biasedVal = m_val[i + 1][n] + m_biases[i][n];
-
-			m_actVal[i][n] = 1.0 / (1.0 + exp(-biasedVal));
+			m_layers[i]->propagateForward(
+				m_layers[0]->getInput(),
+				m_synapses[i - 1]
+			);
+		}
+		else
+		{
+			m_layers[i]->propagateForward(
+				*m_layers[i - 1].get(),
+				m_synapses[i - 1]
+			);
 		}
 	}
 }
 
 void NeuralNet::calcDerivatives()
 {
-	for (int i = 0; i < m_derivatives.size(); i++)
+	for (int i = 1; i < m_layers.size(); i++)
 	{
-		for (int j = 0; j < m_derivatives[i].size(); j++)
-		{
-			m_derivatives[i][j] = m_actVal[i][j] * (1.0 - m_actVal[i][j]);
-		}
-	}
-}
-
-void NeuralNet::calcErrors(const std::vector<Scalar>& desiredOutputs)
-{
-	for (int i = 0; i < desiredOutputs.size(); i++)
-	{
-		m_lossDerivativeWithRespectToActFunc.back()[i] = m_actVal.back()[i] - desiredOutputs[i];
+		m_layers[i]->calcDerivatives();
 	}
 }
 
 void NeuralNet::propagateErrorsBack()
 {
-	for (int i = m_lossDerivativeWithRespectToActFunc.size() - 2; i >= 0; i--)
+	for (int i = m_layers.size() - 2; i > 0; i--)
 	{
-		for (int j = 0; j < m_lossDerivativeWithRespectToActFunc[i].size(); j++)
-		{
-			m_lossDerivativeWithRespectToActFunc[i][j] = 0.0;
-			
-			for (int n = 0; n < m_lossDerivativeWithRespectToActFunc[i + 1].size(); n++)
-			{
-				m_lossDerivativeWithRespectToActFunc[i][j] +=
-					m_synapses[i + 1].getWeight(n, j) *
-					m_derivatives[i + 1][n] *
-					m_lossDerivativeWithRespectToActFunc[i + 1][n];
-			}
-		}
+		m_layers[i]->propagateErrorsBack(*m_layers[i + 1].get(), m_synapses[i]);
 	}
 }
 
@@ -168,9 +144,9 @@ void NeuralNet::updateWeightsGradients()
 				if (i == 0)
 				{
 					Scalar change =
-						m_val[i][p] *
-						m_derivatives[i][n] *
-						m_lossDerivativeWithRespectToActFunc[i][n];
+						m_layers[i]->getVal(p) *
+						m_layers[i+1]->getDerivative(n) *
+						m_layers[i+1]->getLossDerivativeWithRespectToActFunc(n);
 
 					m_weightsGradient[i].setWeight(
 						n,
@@ -181,9 +157,9 @@ void NeuralNet::updateWeightsGradients()
 				else
 				{
 					Scalar change =
-						m_actVal[i - 1][p] *
-						m_derivatives[i][n] *
-						m_lossDerivativeWithRespectToActFunc[i][n];
+						m_layers[i]->getActVal(p) *
+						m_layers[i + 1]->getDerivative(n) *
+						m_layers[i + 1]->getLossDerivativeWithRespectToActFunc(n);
 
 					m_weightsGradient[i].setWeight(
 						n,
@@ -203,8 +179,8 @@ void NeuralNet::updateBiasesGradients()
 		for (int j = 0; j < m_biasesGradient[i].size(); j++)
 		{
 			m_biasesGradient[i][j] +=
-				m_derivatives[i][j] *
-				m_lossDerivativeWithRespectToActFunc[i][j];
+				m_layers[i + 1]->getDerivative(j) *
+				m_layers[i + 1]->getLossDerivativeWithRespectToActFunc(j);
 		}
 	}
 }
@@ -231,11 +207,15 @@ void NeuralNet::updateWeights()
 
 void NeuralNet::updateBiases()
 {
-	for (int i = 0; i < m_biases.size(); i++)
+	for (int i = 1; i < m_layers.size(); i++)
 	{
-		for (int j = 0; j < m_biases[i].size(); j++)
+		for (int j = 0; j < m_layers[i]->getSize(); j++)
 		{
-			m_biases[i][j] -= m_learningRate * m_biasesGradient[i][j] / m_miniBatchSize;
+			Scalar change = m_learningRate * m_biasesGradient[i - 1][j] / m_miniBatchSize;
+			m_layers[i]->setBias(
+				j,
+				m_layers[i]->getBias(j) - change
+			);
 		}
 	}
 }

@@ -147,6 +147,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Neuron.cpp" />
+    <ClCompile Include="src\OutputLayer.cpp" />
+    <ClCompile Include="src\HiddenLayer.cpp" />
+    <ClCompile Include="src\InputLayer.cpp" />
+    <ClCompile Include="src\Layer.cpp" />
     <ClCompile Include="src\NeuralNet.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\RandomEngine.cpp" />
@@ -154,6 +159,11 @@
     <ClCompile Include="src\Synapse.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Neuron.h" />
+    <ClInclude Include="src\OutputLayer.h" />
+    <ClInclude Include="src\HiddenLayer.h" />
+    <ClInclude Include="src\InputLayer.h" />
+    <ClInclude Include="src\Layer.h" />
     <ClInclude Include="src\Config.h" />
     <ClInclude Include="src\MNISTdataLoader.h" />
     <ClInclude Include="src\NeuralNet.h" />

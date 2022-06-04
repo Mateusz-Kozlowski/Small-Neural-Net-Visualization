@@ -73,6 +73,14 @@ Scalar validateClassification(
 	{
 		std::vector<Scalar> predictions = net.predict(validationDataInputs[i]);
 
+		/*MNISTdataLoader::showImage(validationDataInputs[i]);
+		std::cout << "Net says:\n";
+		for (int i = 0; i < 10; i++)
+		{
+			std::cout << i << ": " << predictions[i] << '\n';
+		}
+		std::cin.get();*/
+
 		// find max index in predictions:
 		unsigned maxIndex1 = 0U;
 
@@ -97,6 +105,9 @@ Scalar validateClassification(
 
 		goodAnswers += maxIndex1 == maxIndex2;
 	}
+
+	//std::cout << "goodAnswers: " << goodAnswers << '\n';
+	//std::cout << "validationDataInputs.size(): " << validationDataInputs.size() << '\n';
 
 	return static_cast<Scalar>(goodAnswers) / static_cast<Scalar>(validationDataInputs.size());
 }

@@ -5,7 +5,7 @@ Synapse::Synapse()
 	m_weight = RandomEngine::getScalarInRange(-1.0, 1.0);
 }
 
-const Scalar& Synapse::getWeight()
+const Scalar& Synapse::getWeight() const
 {
 	return m_weight;
 }

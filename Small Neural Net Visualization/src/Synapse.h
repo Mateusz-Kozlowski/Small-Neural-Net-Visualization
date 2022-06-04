@@ -7,7 +7,7 @@ class Synapse
 public:
 	Synapse();
 
-	const Scalar& getWeight();
+	const Scalar& getWeight() const;
 
 	void setWeight(const Scalar& val);
 

@@ -19,7 +19,7 @@ const std::pair<unsigned, unsigned>& SynapsesMatrix::getDimensions() const
 
 const Scalar& SynapsesMatrix::getWeight(
 	unsigned idxOfNextLayerNeuron, 
-	unsigned idxOfPreviousLayerNeuron)
+	unsigned idxOfPreviousLayerNeuron) const
 {
 	return m_synapses[idxOfNextLayerNeuron][idxOfPreviousLayerNeuron].getWeight();
 }
@@ -30,4 +30,9 @@ void SynapsesMatrix::setWeight(
 	const Scalar& val)
 {
 	m_synapses[idxOfNextLayerNeuron][idxOfPreviousLayerNeuron].setWeight(val);
+}
+
+const std::vector<std::vector<Synapse>>& SynapsesMatrix::getSynapsesVector() const
+{
+	return m_synapses;
 }
