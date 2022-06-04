@@ -147,6 +147,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\App.cpp" />
+    <ClCompile Include="src\MNISTdataLoader.cpp" />
     <ClCompile Include="src\Neuron.cpp" />
     <ClCompile Include="src\OutputLayer.cpp" />
     <ClCompile Include="src\HiddenLayer.cpp" />
@@ -156,8 +158,10 @@
     <ClCompile Include="src\RandomEngine.cpp" />
     <ClCompile Include="src\SynapsesMatrix.cpp" />
     <ClCompile Include="src\Synapse.cpp" />
+    <ClCompile Include="src\Utils.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\App.h" />
     <ClInclude Include="src\Neuron.h" />
     <ClInclude Include="src\OutputLayer.h" />
     <ClInclude Include="src\HiddenLayer.h" />
@@ -169,6 +173,7 @@
     <ClInclude Include="src\RandomEngine.h" />
     <ClInclude Include="src\SynapsesMatrix.h" />
     <ClInclude Include="src\Synapse.h" />
+    <ClInclude Include="src\Utils.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
