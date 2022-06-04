@@ -151,7 +151,6 @@
     <ClCompile Include="src\OutputLayer.cpp" />
     <ClCompile Include="src\HiddenLayer.cpp" />
     <ClCompile Include="src\InputLayer.cpp" />
-    <ClCompile Include="src\Layer.cpp" />
     <ClCompile Include="src\NeuralNet.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\RandomEngine.cpp" />

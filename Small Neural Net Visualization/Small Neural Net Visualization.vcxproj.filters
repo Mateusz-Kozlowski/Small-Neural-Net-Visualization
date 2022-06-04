@@ -45,9 +45,6 @@
     <ClCompile Include="src\InputLayer.cpp">
       <Filter>Source Files\layers</Filter>
     </ClCompile>
-    <ClCompile Include="src\Layer.cpp">
-      <Filter>Source Files\layers</Filter>
-    </ClCompile>
     <ClCompile Include="src\OutputLayer.cpp">
       <Filter>Source Files\layers</Filter>
     </ClCompile>

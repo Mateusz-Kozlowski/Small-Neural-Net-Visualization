@@ -1,6 +1,6 @@
 #include "InputLayer.h"
 
-InputLayer::InputLayer(unsigned size) : Layer(size)
+InputLayer::InputLayer(unsigned size)
 {
 	m_input.resize(size);
 }

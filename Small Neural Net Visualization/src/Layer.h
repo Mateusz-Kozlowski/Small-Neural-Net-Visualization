@@ -7,8 +7,6 @@
 class Layer
 {
 public:
-	Layer(unsigned size);
-
 	virtual void setInput(const std::vector<Scalar>& input) = 0;
 	virtual const std::vector<Scalar>& getInput() const = 0;
 	

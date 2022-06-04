@@ -1,6 +1,6 @@
 #include "OutputLayer.h"
 
-OutputLayer::OutputLayer(unsigned size) : Layer(size)
+OutputLayer::OutputLayer(unsigned size)
 {
 	for (int i = 0; i < size; i++)
 	{

@@ -1,6 +1,6 @@
 #include "HiddenLayer.h"
 
-HiddenLayer::HiddenLayer(unsigned size) : Layer(size)
+HiddenLayer::HiddenLayer(unsigned size)
 {
 	for (int i = 0; i < size; i++)
 	{
