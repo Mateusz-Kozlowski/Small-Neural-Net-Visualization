@@ -13,6 +13,18 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Source Files\layers">
+      <UniqueIdentifier>{e77ab210-ba8c-4e10-b499-26588aacda24}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\layers">
+      <UniqueIdentifier>{a73fdaa1-3228-4a59-ad31-a3649e5c79ce}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\synapses">
+      <UniqueIdentifier>{b9e473e4-852a-4cda-b7d7-909c6d04b86b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\synapses">
+      <UniqueIdentifier>{db94490a-09e0-4704-a924-2351e8c6fe31}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
@@ -21,29 +33,29 @@
     <ClCompile Include="src\NeuralNet.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\SynapsesMatrix.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Synapse.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\RandomEngine.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Layer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\InputLayer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\HiddenLayer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\OutputLayer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Neuron.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\HiddenLayer.cpp">
+      <Filter>Source Files\layers</Filter>
+    </ClCompile>
+    <ClCompile Include="src\InputLayer.cpp">
+      <Filter>Source Files\layers</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Layer.cpp">
+      <Filter>Source Files\layers</Filter>
+    </ClCompile>
+    <ClCompile Include="src\OutputLayer.cpp">
+      <Filter>Source Files\layers</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Synapse.cpp">
+      <Filter>Source Files\synapses</Filter>
+    </ClCompile>
+    <ClCompile Include="src\SynapsesMatrix.cpp">
+      <Filter>Source Files\synapses</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -56,29 +68,29 @@
     <ClInclude Include="src\MNISTdataLoader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\SynapsesMatrix.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Synapse.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\RandomEngine.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Layer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\InputLayer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\HiddenLayer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\OutputLayer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Neuron.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\HiddenLayer.h">
+      <Filter>Header Files\layers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\InputLayer.h">
+      <Filter>Header Files\layers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Layer.h">
+      <Filter>Header Files\layers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\OutputLayer.h">
+      <Filter>Header Files\layers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\SynapsesMatrix.h">
+      <Filter>Header Files\synapses</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Synapse.h">
+      <Filter>Header Files\synapses</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
