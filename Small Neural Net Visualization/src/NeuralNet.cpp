@@ -69,7 +69,6 @@ void NeuralNet::initSynapses(const std::vector<unsigned>& topology)
 	for (int i = 0; i < topology.size() - 1; i++)
 	{
 		m_synapses.emplace_back(SynapsesMatrix(topology[i + 1], topology[i]));
-		m_weightsGradient.emplace_back(SynapsesMatrix(topology[i + 1], topology[i]));
 	}
 }
 
@@ -135,39 +134,21 @@ void NeuralNet::updateGradients()
 
 void NeuralNet::updateWeightsGradients()
 {
-	for (int i = 0; i < m_weightsGradient.size(); i++)
+	for (int i = 0; i < m_synapses.size(); i++)
 	{
-		for (int n = 0; n < m_weightsGradient[i].getDimensions().first; n++)
+		if (i == 0)
 		{
-			for (int p = 0; p < m_weightsGradient[i].getDimensions().second; p++)
-			{
-				if (i == 0)
-				{
-					Scalar change =
-						m_layers[i]->getVal(p) *
-						m_layers[i+1]->getDerivative(n) *
-						m_layers[i+1]->getLossDerivativeWithRespectToActFunc(n);
-
-					m_weightsGradient[i].setWeight(
-						n,
-						p,
-						m_weightsGradient[i].getWeight(n, p) + change
-					);
-				}
-				else
-				{
-					Scalar change =
-						m_layers[i]->getActVal(p) *
-						m_layers[i + 1]->getDerivative(n) *
-						m_layers[i + 1]->getLossDerivativeWithRespectToActFunc(n);
-
-					m_weightsGradient[i].setWeight(
-						n,
-						p,
-						m_weightsGradient[i].getWeight(n, p) + change
-					);
-				}
-			}
+			m_synapses[i].updateWeightsGradients(
+				m_layers[i]->getInput(),
+				m_layers[i + 1]->getNeurons()
+			);
+		}
+		else
+		{
+			m_synapses[i].updateWeightsGradients(
+				m_layers[i]->getNeurons(),
+				m_layers[i + 1]->getNeurons()
+			);
 		}
 	}
 }
@@ -193,7 +174,10 @@ void NeuralNet::updateWeights()
 		{
 			for (int p = 0; p < m_synapses[i].getDimensions().second; p++)
 			{
-				Scalar change = m_learningRate * m_weightsGradient[i].getWeight(n, p) / m_miniBatchSize;
+				Scalar change =
+					m_learningRate *
+					m_synapses[i].getSynapsesMatrix()[n][p].getGradient() /
+					m_miniBatchSize;
 
 				m_synapses[i].setWeight(
 					n,
@@ -228,15 +212,9 @@ void NeuralNet::resetGradients()
 
 void NeuralNet::resetWeightsGradients()
 {
-	for (auto& it : m_weightsGradient)
+	for (auto& synapseMatrix : m_synapses)
 	{
-		for (int n=0; n<it.getDimensions().first; n++)
-		{
-			for (int p = 0; p < it.getDimensions().second; p++)
-			{
-				it.setWeight(n, p, 0.0);
-			}
-		}
+		synapseMatrix.resetGradients();
 	}
 }
 

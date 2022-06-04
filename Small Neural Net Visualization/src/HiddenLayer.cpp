@@ -94,7 +94,7 @@ void HiddenLayer::propagateErrorsBack(
 		m_neurons[i].calcLossDerivativeWithRespectToActFunc(
 			i,
 			nextLayer.getNeurons(),
-			outputSynapses.getSynapsesVector()
+			outputSynapses.getSynapsesMatrix()
 		);
 	}
 }

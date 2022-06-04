@@ -25,7 +25,18 @@ public:
 		const Scalar& val
 	);
 
-	const std::vector<std::vector<Synapse>>& getSynapsesVector() const;
+	void updateWeightsGradients(
+		const std::vector<Scalar>& input,
+		const std::vector<Neuron>& nextLayerNeurons
+	);
+	void updateWeightsGradients(
+		const std::vector<Neuron>& previousLayerNeurons,
+		const std::vector<Neuron>& nextLayerNeurons
+	);
+
+	const std::vector<std::vector<Synapse>>& getSynapsesMatrix() const;
+
+	void resetGradients();
 
 private:
 	std::vector<std::vector<Synapse>> m_synapses;

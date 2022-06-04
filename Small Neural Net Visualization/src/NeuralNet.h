@@ -56,5 +56,4 @@ private:
 	std::vector<SynapsesMatrix> m_synapses;
 
 	std::vector<std::vector<Scalar>> m_biasesGradient;
-	std::vector<SynapsesMatrix> m_weightsGradient;
 };
