@@ -32,7 +32,9 @@ void App::run()
 
 	unsigned epochsCount = 1U;
 	std::cout << "Learning epochs count: ";
-	std::cin >> epochsCount;
+	//std::cin >> epochsCount;
+	epochsCount = 9;
+	std::cout << '\n';
 
 	for (int e = 1; e <= epochsCount; e++)
 	{
