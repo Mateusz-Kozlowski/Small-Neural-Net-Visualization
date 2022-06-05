@@ -11,7 +11,10 @@ int Utils::MNISTdataLoader::readInt(std::ifstream& file)
 {
 	int result = 0;
 
-	for (int byte = 0; byte < 4; byte++) result = (result <<= 8) + readChar(file);
+	for (int byte = 0; byte < 4; byte++) 
+	{
+		result = (result <<= 8) + readChar(file);
+	}
 
 	return result;
 }
@@ -37,7 +40,13 @@ std::vector<std::vector<Scalar>> Utils::MNISTdataLoader::readMnistImages(const c
 
 	std::vector<std::vector<Scalar>> images(imagesCount, std::vector<Scalar>(imageSize));
 
-	for (auto& image : images) for (Scalar& pixel : image) pixel = static_cast<Scalar>(readChar(file));
+	for (auto& image : images) 
+	{
+		for (Scalar& pixel : image) 
+		{
+			pixel = static_cast<Scalar>(readChar(file));
+		}
+	}
 
 	file.close();
 
@@ -62,7 +71,10 @@ std::vector<int> Utils::MNISTdataLoader::readMnistLabels(const char* filename)
 
 	std::vector<int> labels(number_of_labels);
 
-	for (int& label : labels) label = readChar(file);
+	for (int& label : labels)
+	{
+		label = readChar(file);
+	}
 
 	file.close();
 
@@ -73,11 +85,19 @@ void Utils::MNISTdataLoader::showImage(const std::vector<Scalar>& image)
 {
 	for (int i = 0; i < image.size(); i++)
 	{
-		if (image[i] > 0.5) std::cout << '#';
+		if (image[i] > 0.5)
+		{
+			std::cout << '#';
+		}
+		else
+		{
+			std::cout << '.';
+		}
 
-		else std::cout << '.';
-
-		if (i % 28 == 27) std::cout << '\n';
+		if (i % 28 == 27)
+		{
+			std::cout << '\n';
+		}
 	}
 }
 
