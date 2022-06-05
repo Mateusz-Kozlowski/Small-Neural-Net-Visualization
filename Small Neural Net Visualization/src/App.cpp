@@ -1,5 +1,12 @@
 #include "App.h"
 
+App::App()
+{
+	initWindow();
+	loadData();
+	initNet();
+}
+
 void App::run()
 {
 	std::cout << "Loading data...\n";
@@ -51,4 +58,19 @@ void App::run()
 
 		Utils::randomShuffle(trainInputs, reorganisedTrainLabels);
 	}
+}
+
+void App::initWindow()
+{
+
+}
+
+void App::loadData()
+{
+
+}
+
+void App::initNet()
+{
+
 }
