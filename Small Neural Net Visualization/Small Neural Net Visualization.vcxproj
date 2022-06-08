@@ -160,6 +160,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\App.cpp" />
+    <ClCompile Include="src\DataPointRenderer.cpp" />
     <ClCompile Include="src\MNISTdataLoader.cpp" />
     <ClCompile Include="src\Neuron.cpp" />
     <ClCompile Include="src\OutputLayer.cpp" />
@@ -174,6 +175,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\App.h" />
+    <ClInclude Include="src\DataPointRenderer.h" />
     <ClInclude Include="src\Neuron.h" />
     <ClInclude Include="src\OutputLayer.h" />
     <ClInclude Include="src\HiddenLayer.h" />
@@ -188,6 +190,7 @@
     <ClInclude Include="src\Utils.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="config\graphics.ini" />
     <None Include="openal32.dll" />
     <None Include="sfml-audio-2.dll" />
     <None Include="sfml-audio-d-2.dll" />

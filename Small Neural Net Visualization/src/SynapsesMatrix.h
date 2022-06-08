@@ -38,6 +38,9 @@ public:
 
 	void resetGradients();
 
+	void updateRendering(const Scalar& biggestAbsValOfWeightInNet);
+	void render(sf::RenderTarget& target) const;
+
 private:
 	std::vector<std::vector<Synapse>> m_synapses;
 };

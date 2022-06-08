@@ -9,6 +9,8 @@
 class Neuron
 {
 public:
+	Neuron();
+
 	void setVal(const Scalar& val);
 	
 	void activate();

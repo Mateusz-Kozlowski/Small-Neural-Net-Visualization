@@ -8,7 +8,21 @@ SynapsesMatrix::SynapsesMatrix(
 
 	for (auto& it : m_synapses)
 	{
-		it.resize(previousLayerNeuronsCount);
+		it.resize(
+			previousLayerNeuronsCount,
+			Synapse(
+				sf::Vector2f(0.0f, 0.0f),
+				sf::Vector2f(0.0f, 0.0f)
+			)
+		);
+
+		for (auto& it2 : it)
+		{
+			it2 = Synapse(
+				sf::Vector2f(0.0f, 0.0f),
+				sf::Vector2f(0.0f, 0.0f)
+			);
+		}
 	}
 }
 
@@ -38,9 +52,11 @@ void SynapsesMatrix::updateWeightsGradients(
 {
 	for (int n = 0; n < m_synapses.size(); n++)
 	{
-		for (int p = 0; p < m_synapses.back().size(); p++)
+		// instead of n it could be for example 0 or .back() because it's a matrix (has rectangular shape):
+		for (int p = 0; p < m_synapses[n].size(); p++)
 		{
 			m_synapses[n][p].updateGradient(
+				p == 0 && n==0,
 				input[p],
 				nextLayerNeurons[n].getDerivative(),
 				nextLayerNeurons[n].getLossDerivativeWithRespectToActFunc()
@@ -55,9 +71,11 @@ void SynapsesMatrix::updateWeightsGradients(
 {
 	for (int n = 0; n < m_synapses.size(); n++)
 	{
-		for (int p = 0; p < m_synapses.back().size(); p++)
+		// instead of n it could be for example 0 or .back() because it's a matrix (has rectangular shape)
+		for (int p = 0; p < m_synapses[n].size(); p++)
 		{
 			m_synapses[n][p].updateGradient(
+				false,
 				previousLayerNeurons[p].getActVal(),
 				nextLayerNeurons[n].getDerivative(),
 				nextLayerNeurons[n].getLossDerivativeWithRespectToActFunc()
@@ -78,6 +96,28 @@ void SynapsesMatrix::resetGradients()
 		for (auto& it2 : it1)
 		{
 			it2.resetGradient();
+		}
+	}
+}
+
+void SynapsesMatrix::updateRendering(const Scalar& biggestAbsValOfWeightInNet)
+{
+	for (auto& it : m_synapses)
+	{
+		for (auto& synapse : it)
+		{
+			synapse.updateRendering(biggestAbsValOfWeightInNet);
+		}
+	}
+}
+
+void SynapsesMatrix::render(sf::RenderTarget& target) const
+{
+	for (const auto& it : m_synapses)
+	{
+		for (const auto& synapse : it)
+		{
+			synapse.render(target);
 		}
 	}
 }

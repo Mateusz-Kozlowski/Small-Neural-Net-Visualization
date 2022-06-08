@@ -7,6 +7,7 @@
 
 #include <memory>
 #include <iostream>
+#include <fstream>
 
 class NeuralNet
 {
@@ -17,12 +18,20 @@ public:
 		unsigned miniBatchSize
 	);
 
+	void save(const std::string& path);
+	void load(const std::string& path);
+
 	const std::vector<Scalar>& predict(const std::vector<Scalar>& input);
 	
 	void trainingStep(
 		const std::vector<Scalar>& input,
 		const std::vector<Scalar>& desiredOutput
 	);
+
+	void updateRendering();
+	void render(sf::RenderTarget& target);
+
+	void saveWeightsAndBiases();
 
 private:
 	void initVals(const std::vector<unsigned>& topology);
@@ -45,6 +54,8 @@ private:
 	void resetGradients();
 	void resetWeightsGradients();
 	void resetBiasesGradients();
+
+	void saveGradients();
 
 	unsigned m_trainingStep;
 

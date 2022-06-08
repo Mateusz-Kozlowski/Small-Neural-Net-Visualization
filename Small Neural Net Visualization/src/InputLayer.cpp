@@ -7,7 +7,16 @@ InputLayer::InputLayer(unsigned size)
 
 void InputLayer::setInput(const std::vector<Scalar>& input)
 {
-	m_input = input;
+	if (input.size() != m_input.size())
+	{
+		std::cerr << "InputLayer::setInput(const std::vector<Scalar>&): " << "WRONG INPUT SIZE!\n";
+		exit(-13);
+	}
+	
+	for (int i = 0; i < input.size(); i++)
+	{
+		m_input[i] = input[i];
+	}
 }
 
 const std::vector<Scalar>& InputLayer::getInput() const
