@@ -1,6 +1,8 @@
 #include "Neuron.h"
 
-Neuron::Neuron()
+Neuron::Neuron(
+	const sf::Vector2f& pos,
+	float radius)
 	: m_val(0.0),
 	  m_bias(0.0),
 	  m_actVal(0.0),
@@ -8,7 +10,7 @@ Neuron::Neuron()
 	  m_lossDerivativeWithRespectToActFunc(0.0),
 	  m_biasGradient(0.0)
 {
-
+	initCircle(pos, radius);
 }
 
 void Neuron::setVal(const Scalar& val)
@@ -96,4 +98,24 @@ void Neuron::updateBiasGradient()
 void Neuron::resetBiasGradient()
 {
 	m_biasGradient = 0.0;
+}
+
+void Neuron::updateRendering()
+{
+	sf::Color color(255, 255, 255);
+
+	color.a = 255 * m_actVal;
+
+	m_circle.setFillColor(color);
+}
+
+void Neuron::render(sf::RenderTarget& target) const
+{
+	target.draw(m_circle);
+}
+
+void Neuron::initCircle(const sf::Vector2f& pos, float radius)
+{
+	m_circle.setPosition(pos);
+	m_circle.setRadius(radius);
 }

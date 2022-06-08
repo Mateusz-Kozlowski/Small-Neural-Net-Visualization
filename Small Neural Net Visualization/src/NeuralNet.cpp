@@ -11,7 +11,7 @@ NeuralNet::NeuralNet(
 	  m_learningRate(learningRate), 
 	  m_miniBatchSize(miniBatchSize)
 {
-	initVals(topology);
+	initLayers(topology);
 	initSynapses(topology);
 	initBg(pos, size, bgColor);
 }
@@ -160,34 +160,68 @@ void NeuralNet::trainingStep(
 
 void NeuralNet::updateRendering()
 {
-
+	for (auto& layer : m_layers)
+	{
+		layer->updateRendering();
+	}
 }
 
 void NeuralNet::render(sf::RenderTarget& target)
 {
 	target.draw(m_bg);
+
+	for (const auto& layer : m_layers)
+	{
+		layer->render(target);
+	}
 }
 
-void NeuralNet::initVals(const std::vector<unsigned>& topology)
+void NeuralNet::initLayers(const std::vector<unsigned>& topology)
 {
 	for (int i = 0; i < topology.size(); i++)
 	{
 		if (i == 0) // input layer
 		{
 			m_layers.emplace_back(
-				std::make_unique<InputLayer>(topology[i])
+				std::make_unique<InputLayer>(
+					topology[i],
+					m_bg.getPosition(),
+					sf::Color::Magenta,
+					(topology[0] - getBiggestNonInputLayerSize(topology)) / 2U,
+					getBiggestNonInputLayerSize(topology),
+					32.0f, // TODO: unhardcode these
+					32.0f
+				)
 			);
 		}
 		else if (i == topology.size() - 1) // output layer
 		{
 			m_layers.emplace_back(
-				std::make_unique<OutputLayer>(topology[i])
+				std::make_unique<OutputLayer>(
+					topology[i],
+					sf::Vector2f(
+						m_bg.getPosition().x + i * 256.0f,
+						m_bg.getPosition().y
+					),
+					sf::Color::Magenta,
+					32.0f,
+					32.0f
+				)
 			);
 		}
 		else // hidden layer
 		{
 			m_layers.emplace_back(
-				std::make_unique<HiddenLayer>(topology[i])
+				std::make_unique<HiddenLayer>(
+					topology[i],
+					sf::Vector2f(
+						m_bg.getPosition().x + i * 256.0f,
+						m_bg.getPosition().y
+					),
+					sf::Color::Magenta,
+					32.0f,
+					32.0f
+				)
 			);
 		}
 	}
@@ -214,6 +248,18 @@ void NeuralNet::initBg(
 	m_bg.setPosition(pos);
 	m_bg.setSize(size);
 	m_bg.setFillColor(bgColor);
+}
+
+unsigned NeuralNet::getBiggestNonInputLayerSize(const std::vector<unsigned>& topology)
+{
+	unsigned result = 0U;
+
+	for (int i = 1; i < topology.size(); i++)
+	{
+		result = std::max(result, topology[i]);
+	}
+
+	return result;
 }
 
 const std::vector<Scalar>& NeuralNet::getOutput() const

@@ -5,7 +5,13 @@
 class HiddenLayer : public Layer
 {
 public:
-	HiddenLayer(unsigned size);
+	HiddenLayer(
+		unsigned size,
+		const sf::Vector2f& pos,
+		const sf::Color& bgColor,
+		float renderedInputCircleDiameter,
+		float distBetweenRenderedInputsCircles
+	);
 
 	virtual void setInput(const std::vector<Scalar>& input) override;
 	virtual const std::vector<Scalar>& getInput() const override;
@@ -40,6 +46,24 @@ public:
 	virtual const Scalar& getBias(unsigned neuronIdx) const override;
 	virtual void resetBiasesGradients() override;
 
+	virtual void updateRendering() override;
+	virtual void render(sf::RenderTarget& target) const override;
+
 private:
+	void initNeurons(
+		unsigned size,
+		const sf::Vector2f& pos,
+		float renderedInputCircleDiameter,
+		float distBetweenRenderedInputsCircles
+	);
+	void initBg(
+		const sf::Vector2f& pos,
+		const sf::Color& bgColor,
+		float renderedInputCircleDiameter,
+		float distBetweenRenderedInputsCircles
+	);
+
 	std::vector<Neuron> m_neurons;
+
+	sf::RectangleShape m_bg;
 };

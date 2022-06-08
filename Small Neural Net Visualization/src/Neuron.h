@@ -9,7 +9,10 @@
 class Neuron
 {
 public:
-	Neuron();
+	Neuron(
+		const sf::Vector2f& pos,
+		float radius
+	);
 
 	void setVal(const Scalar& val);
 	
@@ -35,11 +38,18 @@ public:
 	void updateBiasGradient();
 	void resetBiasGradient();
 
+	void updateRendering();
+	void render(sf::RenderTarget& target) const;
+
 private:
+	void initCircle(const sf::Vector2f& pos, float radius);
+
 	Scalar m_val;
 	Scalar m_bias;
 	Scalar m_actVal;
 	Scalar m_derivative;
 	Scalar m_lossDerivativeWithRespectToActFunc;
 	Scalar m_biasGradient;
+
+	sf::CircleShape m_circle;
 };

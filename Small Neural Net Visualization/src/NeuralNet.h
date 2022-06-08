@@ -37,13 +37,15 @@ public:
 	void saveWeightsAndBiases();
 
 private:
-	void initVals(const std::vector<unsigned>& topology);
+	void initLayers(const std::vector<unsigned>& topology);
 	void initSynapses(const std::vector<unsigned>& topology);
 	void initBg(
 		const sf::Vector2f& pos,
 		const sf::Vector2f& size,
 		const sf::Color& bgColor
 	);
+
+	static unsigned getBiggestNonInputLayerSize(const std::vector<unsigned>& topology);
 
 	const std::vector<Scalar>& getOutput() const;
 

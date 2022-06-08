@@ -39,4 +39,7 @@ public:
 	virtual void setBias(unsigned neuronIdx, const Scalar& bias) = 0;
 	virtual const Scalar& getBias(unsigned neuronIdx) const = 0;
 	virtual void resetBiasesGradients() = 0;
+
+	virtual void updateRendering() = 0;
+	virtual void render(sf::RenderTarget& target) const = 0;
 };

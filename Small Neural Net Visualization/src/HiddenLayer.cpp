@@ -1,11 +1,24 @@
 #include "HiddenLayer.h"
 
-HiddenLayer::HiddenLayer(unsigned size)
+HiddenLayer::HiddenLayer(
+	unsigned size,
+	const sf::Vector2f& pos,
+	const sf::Color& bgColor,
+	float renderedInputCircleDiameter,
+	float distBetweenRenderedInputsCircles)
 {
-	for (int i = 0; i < size; i++)
-	{
-		m_neurons.emplace_back(Neuron());
-	}
+	initNeurons(
+		size, 
+		pos, 
+		renderedInputCircleDiameter, 
+		distBetweenRenderedInputsCircles
+	);
+	initBg(
+		pos,
+		bgColor,
+		renderedInputCircleDiameter,
+		distBetweenRenderedInputsCircles
+	);
 }
 
 void HiddenLayer::setInput(const std::vector<Scalar>& input)
@@ -133,4 +146,58 @@ void HiddenLayer::resetBiasesGradients()
 	{
 		m_neurons[i].resetBiasGradient();
 	}
+}
+
+void HiddenLayer::updateRendering()
+{
+	for (auto& neuron : m_neurons)
+	{
+		neuron.updateRendering();
+	}
+}
+
+void HiddenLayer::render(sf::RenderTarget& target) const
+{
+	target.draw(m_bg);
+
+	for (auto& neuron : m_neurons)
+	{
+		neuron.render(target);
+	}
+}
+
+void HiddenLayer::initNeurons(
+	unsigned size,
+	const sf::Vector2f& pos, 
+	float renderedInputCircleDiameter, 
+	float distBetweenRenderedInputsCircles)
+{
+	for (int i = 0; i < size; i++)
+	{
+		m_neurons.emplace_back(
+			Neuron(
+				sf::Vector2f(
+					pos.x,
+					pos.y + i * (renderedInputCircleDiameter + distBetweenRenderedInputsCircles)
+				),
+				renderedInputCircleDiameter / 2.0f
+			)
+		);
+	}
+}
+
+void HiddenLayer::initBg(
+	const sf::Vector2f& pos, 
+	const sf::Color& bgColor, 
+	float renderedInputCircleDiameter, 
+	float distBetweenRenderedInputsCircles)
+{
+	m_bg.setPosition(pos);
+	m_bg.setFillColor(bgColor);
+	m_bg.setSize(
+		sf::Vector2f(
+			renderedInputCircleDiameter,
+			m_neurons.size() * (renderedInputCircleDiameter + distBetweenRenderedInputsCircles)
+		)
+	);
 }

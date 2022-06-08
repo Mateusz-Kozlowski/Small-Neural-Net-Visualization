@@ -1,8 +1,29 @@
 #include "InputLayer.h"
 
-InputLayer::InputLayer(unsigned size)
+InputLayer::InputLayer(
+	unsigned size,
+	const sf::Vector2f& pos,
+	const sf::Color& bgColor,
+	unsigned firstRenderedInputIdx,
+	unsigned renderedInputsCount,
+	float renderedInputCircleDiameter,
+	float distBetweenRenderedInputsCircles)
+	: m_firstRenderedInputIdx(firstRenderedInputIdx)
 {
 	m_input.resize(size);
+	initRenderedInputsCircles(
+		pos,
+		renderedInputsCount,
+		renderedInputCircleDiameter,
+		distBetweenRenderedInputsCircles
+	);
+	initBg(
+		pos,
+		bgColor,
+		renderedInputsCount,
+		renderedInputCircleDiameter,
+		distBetweenRenderedInputsCircles
+	);
 }
 
 void InputLayer::setInput(const std::vector<Scalar>& input)
@@ -99,4 +120,65 @@ void InputLayer::resetBiasesGradients()
 {
 	std::cerr << "InputLayer class doesn't support this function\n";
 	throw std::bad_function_call();
+}
+
+void InputLayer::updateRendering()
+{
+	for (int i = 0; i < m_renderedInputsCircles.size(); i++)
+	{
+		sf::Color color(255, 255, 255);
+
+		color.a = 255 * m_input[m_firstRenderedInputIdx + i];
+
+		m_renderedInputsCircles[i].setFillColor(color);
+	}
+}
+
+void InputLayer::render(sf::RenderTarget& target) const
+{
+	target.draw(m_bg);
+	
+	for (const auto& renderedInputCircle : m_renderedInputsCircles)
+	{
+		target.draw(renderedInputCircle);
+	}
+}
+
+void InputLayer::initRenderedInputsCircles(
+	const sf::Vector2f& pos,
+	unsigned renderedInputsCount,
+	float renderedInputCircleDiameter,
+	float distBetweenRenderedInputsCircles)
+{
+	m_renderedInputsCircles.resize(
+		renderedInputsCount, 
+		sf::CircleShape(renderedInputCircleDiameter / 2.0f)
+	);
+
+	for (int i = 0; i < renderedInputsCount; i++)
+	{
+		m_renderedInputsCircles[i].setPosition(
+			sf::Vector2f(
+				pos.x,
+				pos.y + i * (renderedInputCircleDiameter + distBetweenRenderedInputsCircles)
+			)
+		);
+	}
+}
+
+void InputLayer::initBg(
+	const sf::Vector2f& pos,
+	const sf::Color& bgColor,
+	unsigned renderedInputsCount, 
+	float renderedInputCircleDiameter, 
+	float distBetweenRenderedInputsCircles)
+{
+	m_bg.setPosition(pos);
+	m_bg.setFillColor(bgColor);
+	m_bg.setSize(
+		sf::Vector2f(
+			renderedInputCircleDiameter,
+			renderedInputsCount * (renderedInputCircleDiameter + distBetweenRenderedInputsCircles)
+		)
+	);
 }

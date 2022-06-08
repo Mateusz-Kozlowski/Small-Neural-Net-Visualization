@@ -5,7 +5,15 @@
 class InputLayer : public Layer
 {
 public:
-	InputLayer(unsigned size);
+	InputLayer(
+		unsigned size,
+		const sf::Vector2f& pos,
+		const sf::Color& bgColor,
+		unsigned firstRenderedInputIdx,
+		unsigned renderedInputsCount,
+		float renderedInputCircleDiameter,
+		float distBetweenRenderedInputsCircles
+	);
 
 	virtual void setInput(const std::vector<Scalar>& input) override;
 	virtual const std::vector<Scalar>& getInput() const override;
@@ -40,6 +48,29 @@ public:
 	virtual const Scalar& getBias(unsigned neuronIdx) const override;
 	virtual void resetBiasesGradients() override;
 
+	virtual void updateRendering() override;
+	virtual void render(sf::RenderTarget& target) const override;
+
 private:
+	void initRenderedInputsCircles(
+		const sf::Vector2f& pos,
+		unsigned renderedInputsCount,
+		float renderedInputCircleDiameter,
+		float distBetweenRenderedInputsCircles
+	);
+	void initBg(
+		const sf::Vector2f& pos,
+		const sf::Color& bgColor,
+		unsigned renderedInputsCount,
+		float renderedInputCircleDiameter,
+		float distBetweenRenderedInputsCircles
+	);
+
+	unsigned m_firstRenderedInputIdx;
+
 	std::vector<Scalar> m_input;
+
+	std::vector<sf::CircleShape> m_renderedInputsCircles;
+
+	sf::RectangleShape m_bg;
 };
