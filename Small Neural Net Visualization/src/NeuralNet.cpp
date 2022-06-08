@@ -30,10 +30,10 @@ void NeuralNet::save(const std::string& path)
 
 	for (int i=1; i<m_layers.size(); i++)
 	{
-		std::cout << "saving " << i << " layer biases:\n";
+		//std::cout << "saving " << i << " layer biases:\n";
 		for (int j=0; j<m_layers[i]->getSize(); j++)
 		{
-			std::cout << "j=" << j << '\n';
+			//std::cout << "j=" << j << '\n';
 
 			auto temp = m_layers[i]->getNeurons()[j];
 			
@@ -58,12 +58,12 @@ void NeuralNet::save(const std::string& path)
 	
 	file.close();
 
-	std::cout << "saving completed\n";
+	//std::cout << "saving completed\n";
 }
 
 void NeuralNet::load(const std::string& path)
 {
-	std::cerr << "LOL KURWA\n";
+	//std::cerr << "LOL KURWA\n";
 
 	std::ifstream file(path);
 

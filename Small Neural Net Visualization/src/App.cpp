@@ -11,6 +11,8 @@ App::App()
 
 void App::run()
 {
+	std::cout << "App is now running:\n";
+
 	while (m_window.isOpen())
 	{
 		update();
@@ -44,6 +46,7 @@ void App::initWindow()
 
 	file.close();
 
+	std::cout << "window info:\n";
 	std::cout << "title: " << title << '\n';
 	std::cout << "width: " << width << '\n';
 	std::cout << "height: " << height << '\n';
@@ -89,8 +92,8 @@ void App::loadData()
 
 void App::initNet()
 {
-	m_net = std::make_unique<NeuralNet>(NeuralNet({ 784U, 32U, 32U, 10U }, 1.0, 32U));
-	m_net->save("XD kuriozum ale i tak rozkurwiê frajerów etyk¹ pracy.ini");
+	m_net = std::make_unique<NeuralNet>(NeuralNet({ 784U, 24U, 16U, 10U }, 1.0, 32U));
+	m_net->save("brand new a dumb net.ini");
 }
 
 void App::initDataPointRenderer()
@@ -160,7 +163,8 @@ void App::updateLearningProcess()
 	{
 		m_trainingDataIdx = 0U;
 
-		m_net->saveWeightsAndBiases();
+		m_net->save("after" + std::to_string(m_epochIdx) + "epoch.ini");
+		//m_net->saveWeightsAndBiases();
 
 		std::cout << "Accuracy after " << m_epochIdx << " epoch: " << Utils::validateClassification(
 			m_testInputs,
@@ -168,13 +172,7 @@ void App::updateLearningProcess()
 			*m_net.get()
 		) << '\n';
 
-		exit(8);
-
 		m_epochIdx++;
-
-		std::string path = "after" + std::to_string(m_epochIdx) + "epoch.ini";
-		std::cout << "so now lets save:\n";
-		m_net->save(path);
 
 		Utils::randomShuffle(m_trainInputs, m_trainLabels);
 	}
