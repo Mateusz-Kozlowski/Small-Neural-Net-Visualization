@@ -3,13 +3,17 @@
 NeuralNet::NeuralNet(
 	const std::vector<unsigned>& topology,
 	const Scalar& learningRate, 
-	unsigned miniBatchSize)
+	unsigned miniBatchSize,
+	const sf::Vector2f& pos,
+	const sf::Vector2f& size,
+	const sf::Color& bgColor)
 	: m_trainingStep(0U),
 	  m_learningRate(learningRate), 
 	  m_miniBatchSize(miniBatchSize)
 {
 	initVals(topology);
 	initSynapses(topology);
+	initBg(pos, size, bgColor);
 }
 
 void NeuralNet::save(const std::string& path)
@@ -161,7 +165,7 @@ void NeuralNet::updateRendering()
 
 void NeuralNet::render(sf::RenderTarget& target)
 {
-
+	target.draw(m_bg);
 }
 
 void NeuralNet::initVals(const std::vector<unsigned>& topology)
@@ -200,6 +204,16 @@ void NeuralNet::initSynapses(const std::vector<unsigned>& topology)
 			)
 		);
 	}
+}
+
+void NeuralNet::initBg(
+	const sf::Vector2f& pos, 
+	const sf::Vector2f& size, 
+	const sf::Color& bgColor)
+{
+	m_bg.setPosition(pos);
+	m_bg.setSize(size);
+	m_bg.setFillColor(bgColor);
 }
 
 const std::vector<Scalar>& NeuralNet::getOutput() const

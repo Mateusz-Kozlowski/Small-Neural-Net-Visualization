@@ -92,7 +92,16 @@ void App::loadData()
 
 void App::initNet()
 {
-	m_net = std::make_unique<NeuralNet>(NeuralNet({ 784U, 24U, 16U, 10U }, 1.0, 32U));
+	m_net = std::make_unique<NeuralNet>(
+		NeuralNet(
+			{ 784U, 24U, 16U, 10U },
+			1.0,
+			32U,
+			sf::Vector2f(0.0f, 0.0f),
+			sf::Vector2f(900.0f, 900.0f),
+			sf::Color(255, 255, 255, 50)
+		)
+	);
 	m_net->save("brand new a dumb net.ini");
 }
 

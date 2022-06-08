@@ -124,5 +124,12 @@
     <None Include="sfml-window-2.dll" />
     <None Include="sfml-window-d-2.dll" />
     <None Include="config\graphics.ini" />
+    <None Include="brand new a dumb net.ini" />
+    <None Include="after1epoch.ini" />
+    <None Include="after2epoch.ini" />
+    <None Include="handwritten digits data\t10k-images-idx3-ubyte" />
+    <None Include="handwritten digits data\t10k-labels-idx1-ubyte" />
+    <None Include="handwritten digits data\train-images-idx3-ubyte" />
+    <None Include="handwritten digits data\train-labels-idx1-ubyte" />
   </ItemGroup>
 </Project>

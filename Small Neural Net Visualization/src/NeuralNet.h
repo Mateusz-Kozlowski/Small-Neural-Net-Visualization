@@ -15,7 +15,10 @@ public:
 	NeuralNet(
 		const std::vector<unsigned>& topology,
 		const Scalar& learningRate,
-		unsigned miniBatchSize
+		unsigned miniBatchSize,
+		const sf::Vector2f& pos,
+		const sf::Vector2f& size,
+		const sf::Color& bgColor
 	);
 
 	void save(const std::string& path);
@@ -36,6 +39,11 @@ public:
 private:
 	void initVals(const std::vector<unsigned>& topology);
 	void initSynapses(const std::vector<unsigned>& topology);
+	void initBg(
+		const sf::Vector2f& pos,
+		const sf::Vector2f& size,
+		const sf::Color& bgColor
+	);
 
 	const std::vector<Scalar>& getOutput() const;
 
@@ -64,4 +72,6 @@ private:
 	
 	std::vector<std::unique_ptr<Layer>> m_layers;
 	std::vector<SynapsesMatrix> m_synapses;
+
+	sf::RectangleShape m_bg;
 };
