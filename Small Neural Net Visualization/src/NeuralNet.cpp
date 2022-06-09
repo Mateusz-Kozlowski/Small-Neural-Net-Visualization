@@ -192,6 +192,7 @@ void NeuralNet::initLayers(
 	const sf::Vector2f& size)
 {
 	float neuronDiameter = calcNeuronDiameter(topology, size.y);
+	float spaceBetweenLayers = calcSpaceBetweenLayers(topology, size);
 
 	for (int i = 0; i < topology.size(); i++)
 	{
@@ -215,7 +216,7 @@ void NeuralNet::initLayers(
 				std::make_unique<OutputLayer>(
 					topology[i],
 					sf::Vector2f(
-						pos.x + i * 256.0f,
+						pos.x + i * (neuronDiameter + spaceBetweenLayers),
 						pos.y
 					),
 					sf::Color::Magenta,
@@ -230,7 +231,7 @@ void NeuralNet::initLayers(
 				std::make_unique<HiddenLayer>(
 					topology[i],
 					sf::Vector2f(
-						pos.x + i * 256.0f,
+						pos.x + i * (neuronDiameter + spaceBetweenLayers),
 						pos.y
 					),
 					sf::Color::Magenta,
@@ -281,6 +282,14 @@ unsigned NeuralNet::getBiggestNonInputLayerSize(const std::vector<unsigned>& top
 	}
 
 	return result;
+}
+
+float NeuralNet::calcSpaceBetweenLayers(
+	const std::vector<unsigned>& topology, 
+	const sf::Vector2f& size)
+{
+	float neuronDiameter = calcNeuronDiameter(topology, size.y);
+	return (size.x - topology.size() * neuronDiameter) / (topology.size() - 1);
 }
 
 const std::vector<Scalar>& NeuralNet::getOutput() const

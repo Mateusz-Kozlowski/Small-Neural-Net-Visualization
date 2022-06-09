@@ -57,6 +57,10 @@ private:
 		float netHeight
 	);
 	static unsigned getBiggestNonInputLayerSize(const std::vector<unsigned>& topology);
+	static float calcSpaceBetweenLayers(
+		const std::vector<unsigned>& topology,
+		const sf::Vector2f& size
+	);
 
 	const std::vector<Scalar>& getOutput() const;
 
