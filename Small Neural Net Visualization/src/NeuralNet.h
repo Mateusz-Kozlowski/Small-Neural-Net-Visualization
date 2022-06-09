@@ -21,6 +21,9 @@ public:
 		const sf::Color& bgColor
 	);
 
+	const sf::Vector2f& getPos() const;
+	const sf::Vector2f& getSize() const;
+
 	void save(const std::string& path);
 	void load(const std::string& path);
 
@@ -37,7 +40,7 @@ public:
 	void saveWeightsAndBiases();
 
 private:
-	void initLayers(const std::vector<unsigned>& topology);
+	void initLayers(const sf::Vector2f& pos, const std::vector<unsigned>& topology);
 	void initSynapses(const std::vector<unsigned>& topology);
 	void initBg(
 		const sf::Vector2f& pos,

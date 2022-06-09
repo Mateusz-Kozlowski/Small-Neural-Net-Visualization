@@ -92,34 +92,84 @@ void App::loadData()
 
 void App::initNet()
 {
+	std::string path = "config/net.ini";
+
+	std::ifstream file(path);
+
+	if (!file.is_open())
+	{
+		std::cerr << "CANNOT OPEN: " << path << '\n';
+		exit(-17);
+	}
+
+	unsigned layersCount;
+	std::vector<unsigned> topology;
+	float learningRate;
+	unsigned miniBatchSize;
+	sf::Vector2f pos;
+	float width;
+	unsigned red, green, blue, alfa;
+
+	file >> layersCount;
+	topology.resize(layersCount);
+	for (int i = 0; i < layersCount; i++)
+	{
+		file >> topology[i];
+	}
+
+	file >> learningRate;
+	file >> miniBatchSize;
+	file >> pos.x >> pos.y;
+	file >> width;
+	file >> red >> green >> blue >> alfa;
+
+	file.close();
+
+	sf::Vector2f size(
+		width,
+		m_window.getSize().y - 2.0f * pos.y
+	);
+
 	m_net = std::make_unique<NeuralNet>(
 		NeuralNet(
-			{ 784U, 24U, 16U, 10U },
-			1.0,
-			32U,
-			sf::Vector2f(0.0f, 0.0f),
-			sf::Vector2f(900.0f, 900.0f),
-			sf::Color(255, 255, 255, 50)
+			topology,
+			learningRate,
+			miniBatchSize,
+			pos,
+			size,
+			sf::Color(red, green, blue, alfa)
 		)
 	);
-	m_net->save("brand new a dumb net.ini");
+
+	m_net->save("brand new and dumb net.ini");
 }
 
 void App::initDataPointRenderer()
 {
+	float size = 256.0f;
+	float dataPointRendererLeftMargin =
+		0.5f * (
+			m_window.getSize().x
+			- m_net->getPos().x
+			- m_net->getSize().x
+			- size
+	);
+
+	sf::Vector2f pos(
+		m_net->getPos().x + m_net->getSize().x + dataPointRendererLeftMargin,
+		m_net->getPos().y
+	);
+
 	m_dataPointRenderer = std::make_unique<DataPointRenderer>(
 		DataPointRenderer(
+			pos,
 			sf::Vector2f(
-				1000.0f,
-				32.0f
-			),
-			sf::Vector2f(
-				128.0f,
-				128.0f
+				size,
+				size
 			),
 			sf::Color::Magenta,
 			4.0f,
-			784U
+			m_testInputs[0].size()
 		)
 	);
 }

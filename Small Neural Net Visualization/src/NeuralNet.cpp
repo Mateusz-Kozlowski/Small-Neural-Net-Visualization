@@ -11,9 +11,19 @@ NeuralNet::NeuralNet(
 	  m_learningRate(learningRate), 
 	  m_miniBatchSize(miniBatchSize)
 {
-	initLayers(topology);
+	initLayers(pos, topology);
 	initSynapses(topology);
 	initBg(pos, size, bgColor);
+}
+
+const sf::Vector2f& NeuralNet::getPos() const
+{
+	return m_bg.getPosition();
+}
+
+const sf::Vector2f& NeuralNet::getSize() const
+{
+	return m_bg.getSize();
 }
 
 void NeuralNet::save(const std::string& path)
@@ -176,7 +186,9 @@ void NeuralNet::render(sf::RenderTarget& target)
 	}
 }
 
-void NeuralNet::initLayers(const std::vector<unsigned>& topology)
+void NeuralNet::initLayers(
+	const sf::Vector2f& pos, 
+	const std::vector<unsigned>& topology)
 {
 	for (int i = 0; i < topology.size(); i++)
 	{
@@ -185,7 +197,7 @@ void NeuralNet::initLayers(const std::vector<unsigned>& topology)
 			m_layers.emplace_back(
 				std::make_unique<InputLayer>(
 					topology[i],
-					m_bg.getPosition(),
+					pos,
 					sf::Color::Magenta,
 					(topology[0] - getBiggestNonInputLayerSize(topology)) / 2U,
 					getBiggestNonInputLayerSize(topology),
@@ -200,8 +212,8 @@ void NeuralNet::initLayers(const std::vector<unsigned>& topology)
 				std::make_unique<OutputLayer>(
 					topology[i],
 					sf::Vector2f(
-						m_bg.getPosition().x + i * 256.0f,
-						m_bg.getPosition().y
+						pos.x + i * 256.0f,
+						pos.y
 					),
 					sf::Color::Magenta,
 					32.0f,
@@ -215,8 +227,8 @@ void NeuralNet::initLayers(const std::vector<unsigned>& topology)
 				std::make_unique<HiddenLayer>(
 					topology[i],
 					sf::Vector2f(
-						m_bg.getPosition().x + i * 256.0f,
-						m_bg.getPosition().y
+						pos.x + i * 256.0f,
+						pos.y
 					),
 					sf::Color::Magenta,
 					32.0f,
