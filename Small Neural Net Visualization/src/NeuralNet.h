@@ -62,6 +62,8 @@ private:
 		const sf::Vector2f& size
 	);
 
+	void alignNonInputLayersVertically(const sf::Vector2f& size);
+
 	const std::vector<Scalar>& getOutput() const;
 
 	void propagateForward(const std::vector<Scalar>& input);

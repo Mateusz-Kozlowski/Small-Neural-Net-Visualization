@@ -42,4 +42,12 @@ public:
 
 	virtual void updateRendering() = 0;
 	virtual void render(sf::RenderTarget& target) const = 0;
+
+	virtual void moveVertically(float offset) = 0;
+
+	const sf::Vector2f& getPos() const;
+	const sf::Vector2f& getRenderingSize() const;
+
+protected:
+	sf::RectangleShape m_bg;
 };

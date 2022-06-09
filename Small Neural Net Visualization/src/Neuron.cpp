@@ -114,6 +114,16 @@ void Neuron::render(sf::RenderTarget& target) const
 	target.draw(m_circle);
 }
 
+const sf::Vector2f& Neuron::getPos() const
+{
+	return m_circle.getPosition();
+}
+
+void Neuron::setPos(const sf::Vector2f& pos)
+{
+	m_circle.setPosition(pos);
+}
+
 void Neuron::initCircle(const sf::Vector2f& pos, float radius)
 {
 	m_circle.setPosition(pos);

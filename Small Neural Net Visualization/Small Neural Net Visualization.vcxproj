@@ -161,6 +161,7 @@
   <ItemGroup>
     <ClCompile Include="src\App.cpp" />
     <ClCompile Include="src\DataPointRenderer.cpp" />
+    <ClCompile Include="src\Layer.cpp" />
     <ClCompile Include="src\MNISTdataLoader.cpp" />
     <ClCompile Include="src\Neuron.cpp" />
     <ClCompile Include="src\OutputLayer.cpp" />

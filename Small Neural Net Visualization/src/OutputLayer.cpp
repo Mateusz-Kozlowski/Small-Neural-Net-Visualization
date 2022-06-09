@@ -147,6 +147,24 @@ void OutputLayer::render(sf::RenderTarget& target) const
 	}
 }
 
+void OutputLayer::moveVertically(float offset)
+{
+	m_bg.setPosition(
+		m_bg.getPosition().x,
+		m_bg.getPosition().y + offset
+	);
+
+	for (auto& neuron : m_neurons)
+	{
+		neuron.setPos(
+			sf::Vector2f(
+				neuron.getPos().x,
+				neuron.getPos().y + offset
+			)
+		);
+	}
+}
+
 void OutputLayer::initNeurons(
 	unsigned size,
 	const sf::Vector2f& pos, 

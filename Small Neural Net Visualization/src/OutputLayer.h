@@ -51,6 +51,8 @@ public:
 	virtual void updateRendering() override;
 	virtual void render(sf::RenderTarget& target) const override;
 
+	virtual void moveVertically(float offset) override;
+
 private:
 	void initNeurons(
 		unsigned size,
@@ -67,6 +69,4 @@ private:
 
 	std::vector<Neuron> m_neurons;
 	std::vector<Scalar> m_output;
-
-	sf::RectangleShape m_bg;
 };

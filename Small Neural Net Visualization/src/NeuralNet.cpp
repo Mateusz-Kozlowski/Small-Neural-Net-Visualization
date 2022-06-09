@@ -2,7 +2,7 @@
 
 NeuralNet::NeuralNet(
 	const std::vector<unsigned>& topology,
-	const Scalar& learningRate, 
+	const Scalar& learningRate,
 	unsigned miniBatchSize,
 	const sf::Vector2f& pos,
 	const sf::Vector2f& size,
@@ -241,6 +241,8 @@ void NeuralNet::initLayers(
 			);
 		}
 	}
+
+	alignNonInputLayersVertically(size);
 }
 
 void NeuralNet::initSynapses(const std::vector<unsigned>& topology)
@@ -290,6 +292,16 @@ float NeuralNet::calcSpaceBetweenLayers(
 {
 	float neuronDiameter = calcNeuronDiameter(topology, size.y);
 	return (size.x - topology.size() * neuronDiameter) / (topology.size() - 1);
+}
+
+void NeuralNet::alignNonInputLayersVertically(const sf::Vector2f& size)
+{
+	for (int i = 1; i < m_layers.size(); i++)
+	{
+		m_layers[i]->moveVertically(
+			(size.y - m_layers[i]->getRenderingSize().y) / 2.0f
+		);
+	}
 }
 
 const std::vector<Scalar>& NeuralNet::getOutput() const

@@ -144,6 +144,12 @@ void InputLayer::render(sf::RenderTarget& target) const
 	}
 }
 
+void InputLayer::moveVertically(float offset)
+{
+	std::cerr << "InputLayer class doesn't support this function\n";
+	throw std::bad_function_call();
+}
+
 void InputLayer::initRenderedInputsCircles(
 	const sf::Vector2f& pos,
 	unsigned renderedInputsCount,

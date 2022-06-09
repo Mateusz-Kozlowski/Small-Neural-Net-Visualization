@@ -51,6 +51,8 @@ public:
 	virtual void updateRendering() override;
 	virtual void render(sf::RenderTarget& target) const override;
 
+	virtual void moveVertically(float offset) override;
+
 private:
 	void initRenderedInputsCircles(
 		const sf::Vector2f& pos,
@@ -71,6 +73,4 @@ private:
 	std::vector<Scalar> m_input;
 
 	std::vector<sf::CircleShape> m_renderedInputsCircles;
-
-	sf::RectangleShape m_bg;
 };

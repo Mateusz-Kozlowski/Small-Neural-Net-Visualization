@@ -41,6 +41,9 @@ public:
 	void updateRendering();
 	void render(sf::RenderTarget& target) const;
 
+	const sf::Vector2f& getPos() const;
+	void setPos(const sf::Vector2f& pos);
+
 private:
 	void initCircle(const sf::Vector2f& pos, float radius);
 
