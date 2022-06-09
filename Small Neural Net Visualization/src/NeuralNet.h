@@ -40,7 +40,11 @@ public:
 	void saveWeightsAndBiases();
 
 private:
-	void initLayers(const sf::Vector2f& pos, const std::vector<unsigned>& topology);
+	void initLayers(
+		const std::vector<unsigned>& topology,
+		const sf::Vector2f& pos, 
+		const sf::Vector2f& size
+	);
 	void initSynapses(const std::vector<unsigned>& topology);
 	void initBg(
 		const sf::Vector2f& pos,
@@ -48,6 +52,10 @@ private:
 		const sf::Color& bgColor
 	);
 
+	static float calcNeuronDiameter(
+		const std::vector<unsigned>& topology,
+		float netHeight
+	);
 	static unsigned getBiggestNonInputLayerSize(const std::vector<unsigned>& topology);
 
 	const std::vector<Scalar>& getOutput() const;

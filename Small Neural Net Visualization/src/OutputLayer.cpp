@@ -178,7 +178,7 @@ void OutputLayer::initBg(
 	m_bg.setSize(
 		sf::Vector2f(
 			renderedInputCircleDiameter,
-			m_neurons.size() * (renderedInputCircleDiameter + distBetweenRenderedInputsCircles)
+			m_neurons.size() * (renderedInputCircleDiameter + distBetweenRenderedInputsCircles) - distBetweenRenderedInputsCircles
 		)
 	);
 }

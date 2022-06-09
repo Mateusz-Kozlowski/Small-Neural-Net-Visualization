@@ -178,7 +178,7 @@ void InputLayer::initBg(
 	m_bg.setSize(
 		sf::Vector2f(
 			renderedInputCircleDiameter,
-			renderedInputsCount * (renderedInputCircleDiameter + distBetweenRenderedInputsCircles)
+			m_renderedInputsCircles.size() * (renderedInputCircleDiameter + distBetweenRenderedInputsCircles) - distBetweenRenderedInputsCircles
 		)
 	);
 }

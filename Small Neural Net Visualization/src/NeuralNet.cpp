@@ -11,7 +11,7 @@ NeuralNet::NeuralNet(
 	  m_learningRate(learningRate), 
 	  m_miniBatchSize(miniBatchSize)
 {
-	initLayers(pos, topology);
+	initLayers(topology, pos, size);
 	initSynapses(topology);
 	initBg(pos, size, bgColor);
 }
@@ -187,9 +187,12 @@ void NeuralNet::render(sf::RenderTarget& target)
 }
 
 void NeuralNet::initLayers(
-	const sf::Vector2f& pos, 
-	const std::vector<unsigned>& topology)
+	const std::vector<unsigned>& topology,
+	const sf::Vector2f& pos,
+	const sf::Vector2f& size)
 {
+	float neuronDiameter = calcNeuronDiameter(topology, size.y);
+
 	for (int i = 0; i < topology.size(); i++)
 	{
 		if (i == 0) // input layer
@@ -201,8 +204,8 @@ void NeuralNet::initLayers(
 					sf::Color::Magenta,
 					(topology[0] - getBiggestNonInputLayerSize(topology)) / 2U,
 					getBiggestNonInputLayerSize(topology),
-					32.0f, // TODO: unhardcode these
-					32.0f
+					neuronDiameter,
+					neuronDiameter
 				)
 			);
 		}
@@ -216,8 +219,8 @@ void NeuralNet::initLayers(
 						pos.y
 					),
 					sf::Color::Magenta,
-					32.0f,
-					32.0f
+					neuronDiameter,
+					neuronDiameter
 				)
 			);
 		}
@@ -231,8 +234,8 @@ void NeuralNet::initLayers(
 						pos.y
 					),
 					sf::Color::Magenta,
-					32.0f,
-					32.0f
+					neuronDiameter,
+					neuronDiameter
 				)
 			);
 		}
@@ -260,6 +263,12 @@ void NeuralNet::initBg(
 	m_bg.setPosition(pos);
 	m_bg.setSize(size);
 	m_bg.setFillColor(bgColor);
+}
+
+float NeuralNet::calcNeuronDiameter(const std::vector<unsigned>& topology, float netHeight)
+{
+	unsigned howManyDiametersFitInBiggestNonInputLayer = 2U * getBiggestNonInputLayerSize(topology) - 1U;
+	return netHeight / howManyDiametersFitInBiggestNonInputLayer;
 }
 
 unsigned NeuralNet::getBiggestNonInputLayerSize(const std::vector<unsigned>& topology)
