@@ -150,6 +150,21 @@ void InputLayer::moveVertically(float offset)
 	throw std::bad_function_call();
 }
 
+const std::vector<sf::CircleShape>& InputLayer::getRenderedInputsCircles() const
+{
+	return m_renderedInputsCircles;
+}
+
+unsigned InputLayer::getIdxOfFirstRenderedNetInput() const
+{
+	return m_firstRenderedInputIdx;
+}
+
+unsigned InputLayer::getNumberOfRenderedNetInputs() const
+{
+	return m_renderedInputsCircles.size();
+}
+
 void InputLayer::initRenderedInputsCircles(
 	const sf::Vector2f& pos,
 	unsigned renderedInputsCount,

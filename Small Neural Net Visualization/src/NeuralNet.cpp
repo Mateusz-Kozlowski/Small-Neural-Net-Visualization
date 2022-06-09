@@ -174,6 +174,11 @@ void NeuralNet::updateRendering()
 	{
 		layer->updateRendering();
 	}
+
+	for (auto& synapsesMatrix : m_synapses)
+	{
+		synapsesMatrix.updateRendering(getBiggestAbsValOfWeight());
+	}
 }
 
 void NeuralNet::render(sf::RenderTarget& target)
@@ -183,6 +188,11 @@ void NeuralNet::render(sf::RenderTarget& target)
 	for (const auto& layer : m_layers)
 	{
 		layer->render(target);
+	}
+
+	for (const auto& matrixSynapse : m_synapses)
+	{
+		matrixSynapse.render(target);
 	}
 }
 
@@ -249,12 +259,27 @@ void NeuralNet::initSynapses(const std::vector<unsigned>& topology)
 {
 	for (int i = 0; i < topology.size() - 1; i++)
 	{
-		m_synapses.emplace_back(
-			SynapsesMatrix(
-				topology[i + 1],
-				topology[i]
-			)
-		);
+		if (i == 0)
+		{
+			m_synapses.emplace_back(
+				SynapsesMatrix(
+					m_layers[1]->getNeurons(),
+					m_layers[0]->getSize(),
+					m_layers[0]->getRenderedInputsCircles(),
+					m_layers[0]->getIdxOfFirstRenderedNetInput(),
+					m_layers[0]->getNumberOfRenderedNetInputs()
+				)
+			);
+		}
+		else
+		{
+			m_synapses.emplace_back(
+				SynapsesMatrix(
+					m_layers[i + 1]->getNeurons(),
+					m_layers[i]->getNeurons()
+				)
+			);
+		}
 	}
 }
 
@@ -429,6 +454,28 @@ void NeuralNet::saveGradients()
 
 	gradienciki.close();
 	//exit(7);
+}
+
+const Scalar& NeuralNet::getBiggestAbsValOfWeight() const
+{
+	Scalar result = 0.0;
+
+	for (const auto& synapsesMatrix : m_synapses)
+	{
+		for (const auto& it1 : synapsesMatrix.getSynapsesMatrix())
+		{
+			for (const auto& it2 : it1)
+			{
+				// I'm not sure if I can trust std::max(result, it2.getWeight())
+				if (result < std::abs(it2.getWeight()))
+				{
+					result = std::abs(it2.getWeight());
+				}
+			}
+		}
+	}
+
+	return result;
 }
 
 void NeuralNet::saveWeightsAndBiases()

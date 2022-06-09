@@ -7,7 +7,7 @@
 class Synapse
 {
 public:
-	Synapse(const sf::Vector2f& startPos, const sf::Vector2f& endPos);
+	Synapse(bool isRendered, const sf::Vector2f& startPos, const sf::Vector2f& endPos);
 
 	const Scalar& getWeight() const;
 	void setWeight(const Scalar& val);
@@ -25,6 +25,8 @@ public:
 	void render(sf::RenderTarget& target) const;
 
 private:
+	bool m_isRendered;
+
 	Scalar m_weight;
 	Scalar m_gradient;
 

@@ -124,6 +124,11 @@ void Neuron::setPos(const sf::Vector2f& pos)
 	m_circle.setPosition(pos);
 }
 
+float Neuron::getDiameter() const
+{
+	return 2.0f * m_circle.getRadius();
+}
+
 void Neuron::initCircle(const sf::Vector2f& pos, float radius)
 {
 	m_circle.setPosition(pos);

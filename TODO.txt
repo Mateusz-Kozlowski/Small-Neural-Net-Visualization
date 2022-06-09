@@ -1,1 +1,5 @@
-hiding/showing layers bg by pressing keys
+- hiding/showing layers bg by pressing keys
+- print accuracy in %
+- add pausing
+- add visual layer of desired outputs
+- add rendering labels using a font

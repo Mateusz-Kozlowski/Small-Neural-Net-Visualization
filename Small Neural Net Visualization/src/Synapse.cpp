@@ -1,7 +1,7 @@
 #include "Synapse.h"
 
-Synapse::Synapse(const sf::Vector2f& startPos, const sf::Vector2f& endPos)
-	: m_gradient(0.0)
+Synapse::Synapse(bool isRendered, const sf::Vector2f& startPos, const sf::Vector2f& endPos)
+	: m_isRendered(isRendered), m_gradient(0.0)
 {
 	m_weight = RandomEngine::getScalarInRange(-1.0, 1.0);
 
@@ -63,9 +63,17 @@ void Synapse::updateRendering(const Scalar& biggestAbsValOfWeightInNet)
 	}
 
 	color.a = 255 * abs(m_weight) / biggestAbsValOfWeightInNet;
+
+	m_line[0].color = color;
+	m_line[1].color = color;
 }
 
 void Synapse::render(sf::RenderTarget& target) const
 {
+	if (!m_isRendered)
+	{
+		return;
+	}
+
 	target.draw(&m_line[0], m_line.size(), sf::Lines);
 }

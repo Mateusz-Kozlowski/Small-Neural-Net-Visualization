@@ -1,26 +1,88 @@
 #include "SynapsesMatrix.h"
 
 SynapsesMatrix::SynapsesMatrix(
-	unsigned nextLayerNeuronsCount, 
-	unsigned previousLayerNeuronsCount)
+	const std::vector<Neuron>& nextLayerNeurons,
+	unsigned inputSize,
+	const std::vector<sf::CircleShape>& renderedNetInputsCircles,
+	unsigned idxOfFirstRenderedNetInput,
+	unsigned renderedInputsCount)
 {
-	m_synapses.resize(nextLayerNeuronsCount);
+	m_synapses.resize(nextLayerNeurons.size());
+	
+	float neuronDiameter = nextLayerNeurons.back().getDiameter();
 
-	for (auto& it : m_synapses)
+	for (int n = 0; n < m_synapses.size(); n++)
 	{
-		it.resize(
-			previousLayerNeuronsCount,
+		m_synapses[n].resize(
+			inputSize,
 			Synapse(
+				false,
 				sf::Vector2f(0.0f, 0.0f),
 				sf::Vector2f(0.0f, 0.0f)
 			)
 		);
 
-		for (auto& it2 : it)
+		for (int p = 0; p < m_synapses[n].size(); p++)
 		{
-			it2 = Synapse(
+			if (p >= idxOfFirstRenderedNetInput && p < idxOfFirstRenderedNetInput + renderedInputsCount)
+			{
+				const sf::CircleShape& renderedNetInputCircle = renderedNetInputsCircles[p - idxOfFirstRenderedNetInput];
+
+				m_synapses[n][p] = Synapse(
+					true,
+					sf::Vector2f(
+						renderedNetInputCircle.getPosition().x + neuronDiameter,
+						renderedNetInputCircle.getPosition().y + neuronDiameter / 2.0f
+					),
+					sf::Vector2f(
+						nextLayerNeurons[n].getPos().x,
+						nextLayerNeurons[n].getPos().y + neuronDiameter / 2.0f
+					)
+				);
+			}
+			else
+			{
+				m_synapses[n][p] = Synapse(
+					false,
+					sf::Vector2f(0.0f, 0.0f),
+					sf::Vector2f(0.0f, 0.0f)
+				);
+			}
+		}
+	}
+}
+
+SynapsesMatrix::SynapsesMatrix(
+	const std::vector<Neuron>& nextLayerNeurons,
+	const std::vector<Neuron>& previousLayerNeurons)
+{
+	m_synapses.resize(nextLayerNeurons.size());
+
+	float neuronDiameter = nextLayerNeurons.back().getDiameter();
+
+	for (int n = 0; n < m_synapses.size(); n++)
+	{
+		m_synapses[n].resize(
+			previousLayerNeurons.size(),
+			Synapse(
+				true,
 				sf::Vector2f(0.0f, 0.0f),
 				sf::Vector2f(0.0f, 0.0f)
+			)
+		);
+
+		for (int p = 0; p < m_synapses[n].size(); p++)
+		{
+			m_synapses[n][p] = Synapse(
+				true,
+				sf::Vector2f(
+					previousLayerNeurons[p].getPos().x + neuronDiameter,
+					previousLayerNeurons[p].getPos().y + neuronDiameter / 2.0f
+				),
+				sf::Vector2f(
+					nextLayerNeurons[n].getPos().x,
+					nextLayerNeurons[n].getPos().y + neuronDiameter / 2.0f
+				)
 			);
 		}
 	}

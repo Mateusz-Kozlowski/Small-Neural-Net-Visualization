@@ -51,6 +51,11 @@ public:
 
 	virtual void moveVertically(float offset) override;
 
+	virtual const std::vector<sf::CircleShape>& getRenderedInputsCircles() const override;
+
+	virtual unsigned getIdxOfFirstRenderedNetInput() const override;
+	virtual unsigned getNumberOfRenderedNetInputs() const override;
+
 private:
 	void initNeurons(
 		unsigned size,

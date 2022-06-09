@@ -8,8 +8,15 @@ class SynapsesMatrix
 {
 public:
 	SynapsesMatrix(
-		unsigned nextLayerNeuronsCount, 
-		unsigned previousLayerNeuronsCount
+		const std::vector<Neuron>& nextLayerNeurons,
+		unsigned inputSize,
+		const std::vector<sf::CircleShape>& renderedNetInputsCircles,
+		unsigned idxOfFirstRenderedNetInput,
+		unsigned renderedInputsCount
+	);
+	SynapsesMatrix(
+		const std::vector<Neuron>& nextLayerNeurons,
+		const std::vector<Neuron>& previousLayerNeurons
 	);
 
 	const std::pair<unsigned, unsigned>& getDimensions() const;

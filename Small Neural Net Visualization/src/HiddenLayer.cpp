@@ -184,6 +184,24 @@ void HiddenLayer::moveVertically(float offset)
 	}
 }
 
+const std::vector<sf::CircleShape>& HiddenLayer::getRenderedInputsCircles() const
+{
+	std::cerr << "HiddenLayer class doesn't support this function\n";
+	throw std::bad_function_call();
+}
+
+unsigned HiddenLayer::getIdxOfFirstRenderedNetInput() const
+{
+	std::cerr << "HiddenLayer class doesn't support this function\n";
+	throw std::bad_function_call();
+}
+
+unsigned HiddenLayer::getNumberOfRenderedNetInputs() const
+{
+	std::cerr << "HiddenLayer class doesn't support this function\n";
+	throw std::bad_function_call();
+}
+
 void HiddenLayer::initNeurons(
 	unsigned size,
 	const sf::Vector2f& pos, 

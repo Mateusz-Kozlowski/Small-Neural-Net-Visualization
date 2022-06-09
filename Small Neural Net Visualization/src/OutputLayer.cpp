@@ -165,6 +165,24 @@ void OutputLayer::moveVertically(float offset)
 	}
 }
 
+const std::vector<sf::CircleShape>& OutputLayer::getRenderedInputsCircles() const
+{
+	std::cerr << "OutputLayer class doesn't support this function\n";
+	throw std::bad_function_call();
+}
+
+unsigned OutputLayer::getIdxOfFirstRenderedNetInput() const
+{
+	std::cerr << "OutputLayer class doesn't support this function\n";
+	throw std::bad_function_call();
+}
+
+unsigned OutputLayer::getNumberOfRenderedNetInputs() const
+{
+	std::cerr << "OutputLayer class doesn't support this function\n";
+	throw std::bad_function_call();
+}
+
 void OutputLayer::initNeurons(
 	unsigned size,
 	const sf::Vector2f& pos, 

@@ -45,6 +45,11 @@ public:
 
 	virtual void moveVertically(float offset) = 0;
 
+	virtual const std::vector<sf::CircleShape>& getRenderedInputsCircles() const = 0;
+
+	virtual unsigned getIdxOfFirstRenderedNetInput() const = 0;
+	virtual unsigned getNumberOfRenderedNetInputs() const = 0;
+
 	const sf::Vector2f& getPos() const;
 	const sf::Vector2f& getRenderingSize() const;
 

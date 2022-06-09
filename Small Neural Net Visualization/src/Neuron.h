@@ -44,6 +44,8 @@ public:
 	const sf::Vector2f& getPos() const;
 	void setPos(const sf::Vector2f& pos);
 
+	float getDiameter() const;
+
 private:
 	void initCircle(const sf::Vector2f& pos, float radius);
 
