@@ -252,11 +252,11 @@ void App::updateLearningProcess()
 
 		m_net->save("the newest version of net.ini");
 		
-		std::cout << "Accuracy after " << m_epochIdx << " epoch: " << Utils::validateClassification(
+		std::cout << "Accuracy after " << m_epochIdx << " epoch: " << 100.0f * Utils::validateClassification(
 			m_testInputs,
 			m_testLabels,
 			*m_net.get()
-		) << '\n';
+		) << "%\n";
 
 		m_epochIdx++;
 

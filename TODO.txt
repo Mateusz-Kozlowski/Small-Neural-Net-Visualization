@@ -1,4 +1,4 @@
-- print accuracy in %
+- add '\n' to saving nn before biases
 - add pausing
 - add visual layer of desired outputs
 - add rendering labels using a font
