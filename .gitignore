@@ -3,6 +3,10 @@
 ##
 ## Get latest from https://github.com/github/gitignore/blob/master/VisualStudio.gitignore
 
+# Small Neural Net Visualization
+# Small Neural Net Visualization/brand new and dumb net.ini
+# Small Neural Net Visualization/the newest version of net.ini
+
 # User-specific files
 *.rsuser
 *.suo

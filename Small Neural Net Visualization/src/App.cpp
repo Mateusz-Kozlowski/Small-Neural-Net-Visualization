@@ -239,9 +239,8 @@ void App::updateLearningProcess()
 	{
 		m_trainingDataIdx = 0U;
 
-		m_net->save("after" + std::to_string(m_epochIdx) + "epoch.ini");
-		//m_net->saveWeightsAndBiases();
-
+		m_net->save("the newest version of net.ini");
+		
 		std::cout << "Accuracy after " << m_epochIdx << " epoch: " << Utils::validateClassification(
 			m_testInputs,
 			m_testLabels,
