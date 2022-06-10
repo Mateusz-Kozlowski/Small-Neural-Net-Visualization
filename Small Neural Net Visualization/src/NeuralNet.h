@@ -22,6 +22,7 @@ public:
 	void save(const std::string& path);
 	void load(const std::string& path);
 
+	const std::vector<Scalar>& getOutput() const;
 	const std::vector<Scalar>& predict(const std::vector<Scalar>& input);
 	
 	void trainingStep(
@@ -66,8 +67,6 @@ private:
 	);
 
 	void alignNonInputLayersVertically(const sf::Vector2f& size);
-
-	const std::vector<Scalar>& getOutput() const;
 
 	void propagateForward(const std::vector<Scalar>& input);
 

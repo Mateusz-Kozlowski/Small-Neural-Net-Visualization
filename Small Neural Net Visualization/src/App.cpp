@@ -1,7 +1,7 @@
 #include "App.h"
 
 App::App()
-	: m_trainingDataIdx(0U), m_epochIdx(1U)
+	: m_trainingDataIdx(-1), m_epochIdx(1U), m_learingPaused(false)
 {
 	initWindow();
 	loadData();
@@ -228,27 +228,49 @@ void App::updateEvents()
 					m_net->showLayersBg();
 				}
 			}
+			if (event.key.code == sf::Keyboard::Space)
+			{
+				m_learingPaused = !m_learingPaused;
+
+				for (const auto& it : m_trainLabels[m_trainingDataIdx])
+				{
+					std::cout << it << ' ';
+				}
+				std::cout << '\n';
+
+				Utils::MNISTdataLoader::showData(
+					m_trainInputs,
+					m_trainLabels,
+					{
+						m_trainingDataIdx,
+						m_trainingDataIdx
+					}
+				);
+
+				auto output = m_net->getOutput();
+
+				std::cout << "output:\n";
+				for (int j = 0; j < output.size(); j++)
+				{
+					std::cout << "j: " << output[j] << '\n';
+				}
+			}
 		}
 	}
 }
 
 void App::updateLearningProcess()
 {
-	m_net->trainingStep(
-		m_trainInputs[m_trainingDataIdx],
-		m_trainLabels[m_trainingDataIdx]
-	);
-
-	m_trainingDataIdx++;
-
-	if (m_trainingDataIdx % 10'000 == 0)
+	if (m_learingPaused)
 	{
-		std::cout << m_trainingDataIdx << '\n';
+		return;
 	}
+	
+	m_trainingDataIdx++;
 
 	if (m_trainingDataIdx == m_trainInputs.size())
 	{
-		m_trainingDataIdx = 0U;
+		m_trainingDataIdx = 0;
 
 		m_net->save("the newest version of net.ini");
 		
@@ -261,6 +283,18 @@ void App::updateLearningProcess()
 		m_epochIdx++;
 
 		Utils::randomShuffle(m_trainInputs, m_trainLabels);
+
+		return;
+	}
+
+	m_net->trainingStep(
+		m_trainInputs[m_trainingDataIdx],
+		m_trainLabels[m_trainingDataIdx]
+	);
+
+	if ((m_trainingDataIdx + 1) % 10'000 == 0)
+	{
+		std::cout << m_trainInputs.size() - m_trainingDataIdx - 1 << " digits have left to the end of the current epoch\n";
 	}
 }
 

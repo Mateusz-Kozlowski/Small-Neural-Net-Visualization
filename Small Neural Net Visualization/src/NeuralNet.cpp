@@ -132,6 +132,11 @@ void NeuralNet::load(const std::string& path)
 	file.close();
 }
 
+const std::vector<Scalar>& NeuralNet::getOutput() const
+{
+	return m_layers.back()->getOutput();
+}
+
 const std::vector<Scalar>& NeuralNet::predict(const std::vector<Scalar>& input)
 {
 	propagateForward(input);
@@ -323,11 +328,6 @@ void NeuralNet::alignNonInputLayersVertically(const sf::Vector2f& size)
 			(size.y - m_layers[i]->getRenderingSize().y) / 2.0f
 		);
 	}
-}
-
-const std::vector<Scalar>& NeuralNet::getOutput() const
-{
-	return m_layers.back()->getOutput();
 }
 
 void NeuralNet::propagateForward(const std::vector<Scalar>& input)

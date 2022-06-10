@@ -26,8 +26,9 @@ private:
 	std::unique_ptr<NeuralNet> m_net;
 	sf::RenderWindow m_window;
 
-	unsigned m_trainingDataIdx;
+	int m_trainingDataIdx;
 	unsigned m_epochIdx;
+	bool m_learingPaused;
 
 	std::vector<std::vector<Scalar>> m_trainInputs;
 	std::vector<std::vector<Scalar>> m_trainLabels;

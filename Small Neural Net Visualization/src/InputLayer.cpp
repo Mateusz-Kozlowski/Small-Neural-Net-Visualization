@@ -31,6 +31,7 @@ void InputLayer::setInput(const std::vector<Scalar>& input)
 	if (input.size() != m_input.size())
 	{
 		std::cerr << "InputLayer::setInput(const std::vector<Scalar>&): " << "WRONG INPUT SIZE!\n";
+		std::cerr << input.size() << "!=" << m_input.size() << '\n';
 		exit(-13);
 	}
 	

@@ -21,6 +21,11 @@ namespace Utils
 			const std::vector<int>& labels,
 			std::pair<unsigned, unsigned> index_range
 		);
+		void showData(
+			const std::vector<std::vector<Scalar>>& images,
+			const std::vector<std::vector<Scalar>>& labels,
+			std::pair<unsigned, unsigned> index_range
+		);
 
 		void preprocess(std::vector<std::vector<Scalar>>& images);
 

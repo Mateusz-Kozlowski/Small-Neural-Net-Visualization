@@ -94,6 +94,22 @@ void Utils::MNISTdataLoader::showData(
 	}
 }
 
+void Utils::MNISTdataLoader::showData(
+	const std::vector<std::vector<Scalar>>& images,
+	const std::vector<std::vector<Scalar>>& labels,
+	std::pair<unsigned, unsigned> index_range)
+{
+	for (int i = index_range.first; i <= index_range.second; i++)
+	{
+		for (int j = 0; j < 10; j++)
+		{
+			std::cout << j << ": " << labels[i][j] << '\n';
+		}
+		showImage(images[i]);
+		std::cout << '\n';
+	}
+}
+
 void Utils::MNISTdataLoader::preprocess(std::vector<std::vector<Scalar>>& images)
 {
 	for (auto& image : images)
