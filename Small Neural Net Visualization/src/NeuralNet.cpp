@@ -43,24 +43,17 @@ void NeuralNet::save(const std::string& path)
 	{
 		file << m_layers[i]->getSize() << ' ';
 	}
+	file << '\n';
 
 	for (int i=1; i<m_layers.size(); i++)
 	{
-		//std::cout << "saving " << i << " layer biases:\n";
 		for (int j=0; j<m_layers[i]->getSize(); j++)
 		{
-			//std::cout << "j=" << j << '\n';
-
-			auto temp = m_layers[i]->getNeurons()[j];
-			
-			int xd = 0;
-			xd++;
-
 			file << m_layers[i]->getNeurons()[j].getBias() << ' ';
-
-			xd--;
 		}
 	}
+	file << '\n';
+
 	for (const auto& synapsesMatrix : m_synapses)
 	{
 		for (const auto& it1 : synapsesMatrix.getSynapsesMatrix())
@@ -73,8 +66,6 @@ void NeuralNet::save(const std::string& path)
 	}
 	
 	file.close();
-
-	//std::cout << "saving completed\n";
 }
 
 void NeuralNet::load(const std::string& path)
