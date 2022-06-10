@@ -10,8 +10,8 @@ NeuralNet::NeuralNet(
 	: m_trainingStep(0U),
 	  m_learningRate(learningRate), 
 	  m_miniBatchSize(miniBatchSize),
-	  m_bgIsRendered(true),
-	  m_layersbgAreRendered(true)
+	  m_bgIsRendered(false),
+	  m_layersbgAreRendered(false)
 {
 	initLayers(topology, pos, size);
 	initSynapses(topology);
