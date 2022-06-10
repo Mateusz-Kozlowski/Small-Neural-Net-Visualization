@@ -268,6 +268,11 @@ void App::updateLearningProcess()
 	
 	m_trainingDataIdx++;
 
+	if (m_trainingDataIdx % 10'000 == 0)
+	{
+		std::cout << m_trainingDataIdx << '\n';
+	}
+
 	if (m_trainingDataIdx == m_trainInputs.size())
 	{
 		m_trainingDataIdx = 0;
@@ -291,11 +296,6 @@ void App::updateLearningProcess()
 		m_trainInputs[m_trainingDataIdx],
 		m_trainLabels[m_trainingDataIdx]
 	);
-
-	if ((m_trainingDataIdx + 1) % 10'000 == 0)
-	{
-		std::cout << m_trainInputs.size() - m_trainingDataIdx - 1 << " digits have left to the end of the current epoch\n";
-	}
 }
 
 void App::updateRendering()

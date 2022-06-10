@@ -86,7 +86,7 @@ private:
 
 	void saveGradients();
 
-	const Scalar& getBiggestAbsValOfWeight() const;
+	Scalar getBiggestAbsValOfWeight() const;
 
 	unsigned m_trainingStep;
 

@@ -19,7 +19,7 @@ public:
 		const Scalar& nextLossDerivativeWithRespectToActFunc
 	);
 
-	void updateRendering(const Scalar& biggestAbsValOfWeightInNet);
+	void updateRendering(Scalar biggestAbsValOfWeightInMatrix);
 	void render(sf::RenderTarget& target) const;
 
 private:

@@ -162,13 +162,15 @@ void SynapsesMatrix::resetGradients()
 	}
 }
 
-void SynapsesMatrix::updateRendering(const Scalar& biggestAbsValOfWeightInNet)
+void SynapsesMatrix::updateRendering()
 {
+	Scalar biggestAbsValOfWeightInMatrix = getBiggestAbsValOfWeightInMatrix();
+
 	for (auto& it : m_synapses)
 	{
 		for (auto& synapse : it)
 		{
-			synapse.updateRendering(biggestAbsValOfWeightInNet);
+			synapse.updateRendering(biggestAbsValOfWeightInMatrix);
 		}
 	}
 }
@@ -182,4 +184,22 @@ void SynapsesMatrix::render(sf::RenderTarget& target) const
 			synapse.render(target);
 		}
 	}
+}
+
+Scalar SynapsesMatrix::getBiggestAbsValOfWeightInMatrix() const
+{
+	Scalar result = m_synapses.back().back().getWeight();
+
+	for (const auto& it1 : m_synapses)
+	{
+		for (const auto& it2 : it1)
+		{
+			if (abs(it2.getWeight()) > result)
+			{
+				result = abs(it2.getWeight());
+			}
+		}
+	}
+
+	return result;
 }

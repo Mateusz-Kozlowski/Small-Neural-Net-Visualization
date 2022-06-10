@@ -49,7 +49,7 @@ void Synapse::updateGradient(
 	}
 }
 
-void Synapse::updateRendering(const Scalar& biggestAbsValOfWeightInNet)
+void Synapse::updateRendering(Scalar biggestAbsValOfWeightInMatrix)
 {
 	sf::Color color(0, 0, 0);
 
@@ -62,7 +62,7 @@ void Synapse::updateRendering(const Scalar& biggestAbsValOfWeightInNet)
 		color.r = 255;
 	}
 
-	color.a = 255 * abs(m_weight) / biggestAbsValOfWeightInNet;
+	color.a = 255 * abs(m_weight) / biggestAbsValOfWeightInMatrix;
 
 	m_line[0].color = color;
 	m_line[1].color = color;

@@ -43,9 +43,11 @@ public:
 
 	void resetGradients();
 
-	void updateRendering(const Scalar& biggestAbsValOfWeightInNet);
+	void updateRendering();
 	void render(sf::RenderTarget& target) const;
 
 private:
+	Scalar getBiggestAbsValOfWeightInMatrix() const;
+
 	std::vector<std::vector<Synapse>> m_synapses;
 };

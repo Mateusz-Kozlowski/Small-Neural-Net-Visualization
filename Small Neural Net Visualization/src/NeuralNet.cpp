@@ -175,7 +175,7 @@ void NeuralNet::updateRendering()
 
 	for (auto& synapsesMatrix : m_synapses)
 	{
-		synapsesMatrix.updateRendering(getBiggestAbsValOfWeight());
+		synapsesMatrix.updateRendering();
 	}
 }
 
@@ -452,7 +452,7 @@ void NeuralNet::saveGradients()
 	//exit(7);
 }
 
-const Scalar& NeuralNet::getBiggestAbsValOfWeight() const
+Scalar NeuralNet::getBiggestAbsValOfWeight() const
 {
 	Scalar result = 0.0;
 
