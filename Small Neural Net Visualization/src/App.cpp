@@ -37,12 +37,14 @@ void App::initWindow()
 	unsigned frameRateLimit;
 	bool verticalSyncEnabled;
 	sf::Vector2i position;
+	bool keyRepeatEnabled;
 
 	getline(file, title);
 	file >> width >> height;
 	file >> frameRateLimit;
 	file >> verticalSyncEnabled;
 	file >> position.x >> position.y;
+	file >> keyRepeatEnabled;
 
 	file.close();
 
@@ -59,6 +61,7 @@ void App::initWindow()
 	m_window.setFramerateLimit(frameRateLimit);
 	m_window.setVerticalSyncEnabled(verticalSyncEnabled);
 	m_window.setPosition(position);
+	m_window.setKeyRepeatEnabled(keyRepeatEnabled);
 }
 
 void App::loadData()
@@ -200,6 +203,20 @@ void App::updateEvents()
 		if (event.type == sf::Event::Closed)
 		{
 			m_window.close();
+		}
+		if (event.type == sf::Event::KeyPressed)
+		{
+			if (event.key.code == sf::Keyboard::N)
+			{
+				if (m_net->isBgRendered())
+				{
+					m_net->hideBg();
+				}
+				else
+				{
+					m_net->showBg();
+				}
+			}
 		}
 	}
 }

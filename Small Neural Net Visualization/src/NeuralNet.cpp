@@ -183,7 +183,10 @@ void NeuralNet::updateRendering()
 
 void NeuralNet::render(sf::RenderTarget& target)
 {
-	target.draw(m_bg);
+	if (m_bgIsRendered)
+	{
+		target.draw(m_bg);
+	}
 
 	for (const auto& layer : m_layers)
 	{
@@ -515,6 +518,21 @@ void NeuralNet::saveWeightsAndBiases()
 
 	wb.close();
 	//exit(7);
+}
+
+bool NeuralNet::isBgRendered() const
+{
+	return m_bgIsRendered;
+}
+
+void NeuralNet::hideBg()
+{
+	m_bgIsRendered = false;
+}
+
+void NeuralNet::showBg()
+{
+	m_bgIsRendered = true;
 }
 
 void NeuralNet::updateWeights()

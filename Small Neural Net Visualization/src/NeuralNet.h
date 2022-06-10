@@ -39,6 +39,10 @@ public:
 
 	void saveWeightsAndBiases();
 
+	bool isBgRendered() const;
+	void hideBg();
+	void showBg();
+
 private:
 	void initLayers(
 		const std::vector<unsigned>& topology,
@@ -93,6 +97,8 @@ private:
 	
 	std::vector<std::unique_ptr<Layer>> m_layers;
 	std::vector<SynapsesMatrix> m_synapses;
+
+	bool m_bgIsRendered;
 
 	sf::RectangleShape m_bg;
 };
