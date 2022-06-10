@@ -156,9 +156,12 @@ void HiddenLayer::updateRendering()
 	}
 }
 
-void HiddenLayer::render(sf::RenderTarget& target) const
+void HiddenLayer::render(sf::RenderTarget& target, bool bgIsRendered) const
 {
-	target.draw(m_bg);
+	if (bgIsRendered)
+	{
+		target.draw(m_bg);
+	}
 
 	for (auto& neuron : m_neurons)
 	{

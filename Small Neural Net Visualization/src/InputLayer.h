@@ -49,7 +49,7 @@ public:
 	virtual void resetBiasesGradients() override;
 
 	virtual void updateRendering() override;
-	virtual void render(sf::RenderTarget& target) const override;
+	virtual void render(sf::RenderTarget& target, bool bgIsRendered) const override;
 
 	virtual void moveVertically(float offset) override;
 

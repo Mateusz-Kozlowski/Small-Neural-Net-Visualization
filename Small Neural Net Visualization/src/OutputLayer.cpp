@@ -137,9 +137,12 @@ void OutputLayer::updateRendering()
 	}
 }
 
-void OutputLayer::render(sf::RenderTarget& target) const
+void OutputLayer::render(sf::RenderTarget& target, bool bgIsRendered) const
 {
-	target.draw(m_bg);
+	if (bgIsRendered)
+	{
+		target.draw(m_bg);
+	}
 
 	for (auto& neuron : m_neurons)
 	{

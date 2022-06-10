@@ -9,7 +9,9 @@ NeuralNet::NeuralNet(
 	const sf::Color& bgColor)
 	: m_trainingStep(0U),
 	  m_learningRate(learningRate), 
-	  m_miniBatchSize(miniBatchSize)
+	  m_miniBatchSize(miniBatchSize),
+	  m_bgIsRendered(true),
+	  m_layersbgAreRendered(true)
 {
 	initLayers(topology, pos, size);
 	initSynapses(topology);
@@ -190,7 +192,7 @@ void NeuralNet::render(sf::RenderTarget& target)
 
 	for (const auto& layer : m_layers)
 	{
-		layer->render(target);
+		layer->render(target, m_layersbgAreRendered);
 	}
 
 	for (const auto& matrixSynapse : m_synapses)
@@ -533,6 +535,21 @@ void NeuralNet::hideBg()
 void NeuralNet::showBg()
 {
 	m_bgIsRendered = true;
+}
+
+bool NeuralNet::areLayersBgRendered() const
+{
+	return m_layersbgAreRendered;
+}
+
+void NeuralNet::hideLayersBg()
+{
+	m_layersbgAreRendered = false;
+}
+
+void NeuralNet::showLayersBg()
+{
+	m_layersbgAreRendered = true;
 }
 
 void NeuralNet::updateWeights()

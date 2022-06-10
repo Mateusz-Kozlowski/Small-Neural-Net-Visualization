@@ -217,6 +217,17 @@ void App::updateEvents()
 					m_net->showBg();
 				}
 			}
+			if (event.key.code == sf::Keyboard::L)
+			{
+				if (m_net->areLayersBgRendered())
+				{
+					m_net->hideLayersBg();
+				}
+				else
+				{
+					m_net->showLayersBg();
+				}
+			}
 		}
 	}
 }

@@ -1,4 +1,3 @@
-- hiding/showing layers bg by pressing keys
 - print accuracy in %
 - add pausing
 - add visual layer of desired outputs

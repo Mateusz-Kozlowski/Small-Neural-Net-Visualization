@@ -134,9 +134,12 @@ void InputLayer::updateRendering()
 	}
 }
 
-void InputLayer::render(sf::RenderTarget& target) const
+void InputLayer::render(sf::RenderTarget& target, bool bgIsRendered) const
 {
-	target.draw(m_bg);
+	if (bgIsRendered)
+	{
+		target.draw(m_bg);
+	}
 	
 	for (const auto& renderedInputCircle : m_renderedInputsCircles)
 	{

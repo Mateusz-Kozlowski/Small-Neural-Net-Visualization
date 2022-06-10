@@ -41,7 +41,7 @@ public:
 	virtual void resetBiasesGradients() = 0;
 
 	virtual void updateRendering() = 0;
-	virtual void render(sf::RenderTarget& target) const = 0;
+	virtual void render(sf::RenderTarget& target, bool bgIsRendered) const = 0;
 
 	virtual void moveVertically(float offset) = 0;
 

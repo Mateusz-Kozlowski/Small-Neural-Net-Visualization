@@ -43,6 +43,10 @@ public:
 	void hideBg();
 	void showBg();
 
+	bool areLayersBgRendered() const;
+	void hideLayersBg();
+	void showLayersBg();
+
 private:
 	void initLayers(
 		const std::vector<unsigned>& topology,
@@ -99,6 +103,7 @@ private:
 	std::vector<SynapsesMatrix> m_synapses;
 
 	bool m_bgIsRendered;
+	bool m_layersbgAreRendered;
 
 	sf::RectangleShape m_bg;
 };
