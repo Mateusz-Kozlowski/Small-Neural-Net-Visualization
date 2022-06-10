@@ -1,10 +1,6 @@
 #pragma once
 
-#include <vector>
-#include <iostream>
-
 #include "Synapse.h"
-#include "Config.h"
 
 class Neuron
 {

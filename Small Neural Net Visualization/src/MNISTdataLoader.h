@@ -2,11 +2,6 @@
 
 #include "NeuralNet.h"
 
-#include <fstream>
-#include <vector>
-#include <iostream>
-#include <cassert>
-
 namespace Utils
 {
 	namespace MNISTdataLoader

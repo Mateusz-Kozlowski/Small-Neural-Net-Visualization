@@ -2,8 +2,6 @@
 
 #include "RandomEngine.h"
 
-#include "SFML/Graphics.hpp"
-
 class Synapse
 {
 public:

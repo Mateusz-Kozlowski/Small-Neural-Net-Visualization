@@ -1,7 +1,5 @@
 #pragma once
 
-#include <vector>
-
 #include "Neuron.h"
 
 class SynapsesMatrix

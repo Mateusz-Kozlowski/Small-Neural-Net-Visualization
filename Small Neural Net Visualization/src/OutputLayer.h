@@ -2,8 +2,6 @@
 
 #include "Layer.h"
 
-#include <iostream>
-
 class OutputLayer : public Layer
 {
 public:

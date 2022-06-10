@@ -1,13 +1,8 @@
 #pragma once
 
-#include "SynapsesMatrix.h"
 #include "InputLayer.h"
 #include "HiddenLayer.h"
 #include "OutputLayer.h"
-
-#include <memory>
-#include <iostream>
-#include <fstream>
 
 class NeuralNet
 {

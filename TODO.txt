@@ -1,7 +1,6 @@
 - add pausing
 - add visual layer of desired outputs
 - add rendering labels using a font
-- add libraries.h or sth like that
 - pure virtual neuronalLayer class or sth like that
 - why there was a bug? 
 	wrong input coping?

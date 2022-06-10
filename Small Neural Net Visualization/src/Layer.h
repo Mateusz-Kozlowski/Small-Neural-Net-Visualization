@@ -2,8 +2,6 @@
 
 #include "SynapsesMatrix.h"
 
-#include <functional>
-
 class Layer
 {
 public:

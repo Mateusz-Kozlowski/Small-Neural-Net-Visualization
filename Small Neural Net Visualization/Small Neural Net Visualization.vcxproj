@@ -177,6 +177,7 @@
   <ItemGroup>
     <ClInclude Include="src\App.h" />
     <ClInclude Include="src\DataPointRenderer.h" />
+    <ClInclude Include="src\Libraries.h" />
     <ClInclude Include="src\Neuron.h" />
     <ClInclude Include="src\OutputLayer.h" />
     <ClInclude Include="src\HiddenLayer.h" />
@@ -191,10 +192,9 @@
     <ClInclude Include="src\Utils.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="after1epoch.ini" />
-    <None Include="after2epoch.ini" />
-    <None Include="brand new a dumb net.ini" />
+    <None Include="brand new and dumb net.ini" />
     <None Include="config\graphics.ini" />
+    <None Include="config\net.ini" />
     <None Include="handwritten digits data\t10k-images-idx3-ubyte" />
     <None Include="handwritten digits data\t10k-labels-idx1-ubyte" />
     <None Include="handwritten digits data\train-images-idx3-ubyte" />
@@ -210,6 +210,7 @@
     <None Include="sfml-system-d-2.dll" />
     <None Include="sfml-window-2.dll" />
     <None Include="sfml-window-d-2.dll" />
+    <None Include="the newest version of net.ini" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
