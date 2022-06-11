@@ -268,7 +268,7 @@ void App::updateLearningProcess()
 	
 	m_trainingDataIdx++;
 
-	if (m_trainingDataIdx % 10'000 == 0)
+	if (m_trainingDataIdx % 10'000 == 0 && m_trainingDataIdx != 0)
 	{
 		std::cout << m_trainingDataIdx << '\n';
 	}
@@ -288,8 +288,6 @@ void App::updateLearningProcess()
 		m_epochIdx++;
 
 		Utils::randomShuffle(m_trainInputs, m_trainLabels);
-
-		return;
 	}
 
 	m_net->trainingStep(
