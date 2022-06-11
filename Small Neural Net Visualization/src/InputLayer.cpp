@@ -35,10 +35,7 @@ void InputLayer::setInput(const std::vector<Scalar>& input)
 		exit(-13);
 	}
 	
-	for (int i = 0; i < input.size(); i++)
-	{
-		m_input[i] = input[i];
-	}
+	m_input = input;
 }
 
 const std::vector<Scalar>& InputLayer::getInput() const
