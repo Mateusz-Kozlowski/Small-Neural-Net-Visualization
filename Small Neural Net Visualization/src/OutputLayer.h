@@ -9,8 +9,8 @@ public:
 		unsigned size,
 		const sf::Vector2f& pos,
 		const sf::Color& bgColor,
-		float renderedInputCircleDiameter,
-		float distBetweenRenderedInputsCircles
+		float neuronCircleDiameter,
+		float distBetweenNeuronsCircles
 	);
 
 	virtual void setInput(const std::vector<Scalar>& input) override;
@@ -60,14 +60,14 @@ private:
 	void initNeurons(
 		unsigned size,
 		const sf::Vector2f& pos,
-		float renderedInputCircleDiameter,
-		float distBetweenRenderedInputsCircles
+		float neuronCircleDiameter,
+		float distBetweenNeuronsCircles
 	);
 	void initBg(
 		const sf::Vector2f& pos,
 		const sf::Color& bgColor,
-		float renderedInputCircleDiameter,
-		float distBetweenRenderedInputsCircles
+		float neuronCircleDiameter,
+		float distBetweenNeuronsCircles
 	);
 
 	std::vector<Neuron> m_neurons;

@@ -3,6 +3,7 @@
 #include "InputLayer.h"
 #include "HiddenLayer.h"
 #include "OutputLayer.h"
+#include "DesiredOutputsRenderer.h"
 
 class NeuralNet
 {
@@ -30,7 +31,7 @@ public:
 		const std::vector<Scalar>& desiredOutput
 	);
 
-	void updateRendering();
+	void updateRendering(const std::vector<Scalar>& desiredOutput);
 	void render(sf::RenderTarget& target);
 
 	void saveWeightsAndBiases();
@@ -54,6 +55,11 @@ private:
 		const sf::Vector2f& pos,
 		const sf::Vector2f& size,
 		const sf::Color& bgColor
+	);
+	void initDesiredOutputsRenderer(
+		const std::vector<unsigned>& topology,
+		const sf::Vector2f& pos,
+		const sf::Vector2f& size
 	);
 
 	static float calcNeuronDiameter(
@@ -100,4 +106,6 @@ private:
 	bool m_layersbgAreRendered;
 
 	sf::RectangleShape m_bg;
+
+	std::unique_ptr<DesiredOutputsRenderer> m_desiredOutputsRenderer;
 };

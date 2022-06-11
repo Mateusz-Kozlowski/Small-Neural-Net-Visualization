@@ -159,6 +159,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\DesiredOutputsRenderer.cpp" />
     <ClCompile Include="src\App.cpp" />
     <ClCompile Include="src\DataPointRenderer.cpp" />
     <ClCompile Include="src\Layer.cpp" />
@@ -175,6 +176,7 @@
     <ClCompile Include="src\Utils.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\DesiredOutputsRenderer.h" />
     <ClInclude Include="src\App.h" />
     <ClInclude Include="src\DataPointRenderer.h" />
     <ClInclude Include="src\Libraries.h" />

@@ -4,20 +4,20 @@ HiddenLayer::HiddenLayer(
 	unsigned size,
 	const sf::Vector2f& pos,
 	const sf::Color& bgColor,
-	float renderedInputCircleDiameter,
-	float distBetweenRenderedInputsCircles)
+	float neuronCircleDiameter,
+	float distBetweenNeuronsCircles)
 {
 	initNeurons(
 		size, 
 		pos, 
-		renderedInputCircleDiameter, 
-		distBetweenRenderedInputsCircles
+		neuronCircleDiameter,
+		distBetweenNeuronsCircles
 	);
 	initBg(
 		pos,
 		bgColor,
-		renderedInputCircleDiameter,
-		distBetweenRenderedInputsCircles
+		neuronCircleDiameter,
+		distBetweenNeuronsCircles
 	);
 }
 
@@ -207,9 +207,9 @@ unsigned HiddenLayer::getNumberOfRenderedNetInputs() const
 
 void HiddenLayer::initNeurons(
 	unsigned size,
-	const sf::Vector2f& pos, 
-	float renderedInputCircleDiameter, 
-	float distBetweenRenderedInputsCircles)
+	const sf::Vector2f& pos,
+	float neuronCircleDiameter,
+	float distBetweenNeuronsCircles)
 {
 	for (int i = 0; i < size; i++)
 	{
@@ -217,26 +217,26 @@ void HiddenLayer::initNeurons(
 			Neuron(
 				sf::Vector2f(
 					pos.x,
-					pos.y + i * (renderedInputCircleDiameter + distBetweenRenderedInputsCircles)
+					pos.y + i * (neuronCircleDiameter + distBetweenNeuronsCircles)
 				),
-				renderedInputCircleDiameter / 2.0f
+				neuronCircleDiameter / 2.0f
 			)
 		);
 	}
 }
 
 void HiddenLayer::initBg(
-	const sf::Vector2f& pos, 
-	const sf::Color& bgColor, 
-	float renderedInputCircleDiameter, 
-	float distBetweenRenderedInputsCircles)
+	const sf::Vector2f& pos,
+	const sf::Color& bgColor,
+	float neuronCircleDiameter,
+	float distBetweenNeuronsCircles)
 {
 	m_bg.setPosition(pos);
 	m_bg.setFillColor(bgColor);
 	m_bg.setSize(
 		sf::Vector2f(
-			renderedInputCircleDiameter,
-			m_neurons.size() * (renderedInputCircleDiameter + distBetweenRenderedInputsCircles) - distBetweenRenderedInputsCircles
+			neuronCircleDiameter,
+			m_neurons.size() * (neuronCircleDiameter + distBetweenNeuronsCircles) - distBetweenNeuronsCircles
 		)
 	);
 }

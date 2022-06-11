@@ -298,6 +298,6 @@ void App::updateLearningProcess()
 
 void App::updateRendering()
 {
-	m_net->updateRendering();
+	m_net->updateRendering(m_trainLabels[m_trainingDataIdx]);
 	m_dataPointRenderer->updateRendering(m_trainInputs[m_trainingDataIdx]);
 }
