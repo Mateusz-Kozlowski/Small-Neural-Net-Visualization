@@ -159,6 +159,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\NeuralLayer.cpp" />
     <ClCompile Include="src\DesiredOutputsRenderer.cpp" />
     <ClCompile Include="src\App.cpp" />
     <ClCompile Include="src\DataPointRenderer.cpp" />
@@ -176,6 +177,7 @@
     <ClCompile Include="src\Utils.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\NeuralLayer.h" />
     <ClInclude Include="src\DesiredOutputsRenderer.h" />
     <ClInclude Include="src\App.h" />
     <ClInclude Include="src\DataPointRenderer.h" />

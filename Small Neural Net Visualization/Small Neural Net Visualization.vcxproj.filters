@@ -72,6 +72,9 @@
     <ClCompile Include="src\DesiredOutputsRenderer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\NeuralLayer.cpp">
+      <Filter>Source Files\layers</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\NeuralNet.h">
@@ -121,6 +124,9 @@
     </ClInclude>
     <ClInclude Include="src\DesiredOutputsRenderer.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\NeuralLayer.h">
+      <Filter>Header Files\layers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -1,4 +1,3 @@
-- pure virtual neuronalLayer class or sth like that
 - why there was a bug? 
 	wrong input coping?
 	initializing vars in classes?
