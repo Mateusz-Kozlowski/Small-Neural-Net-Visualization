@@ -34,8 +34,6 @@ public:
 	void updateRendering(const std::vector<Scalar>& desiredOutput);
 	void render(sf::RenderTarget& target);
 
-	void saveWeightsAndBiases();
-
 	bool isBgRendered() const;
 	void hideBg();
 	void showBg();
@@ -89,8 +87,6 @@ private:
 	void resetGradients();
 	void resetWeightsGradients();
 	void resetBiasesGradients();
-
-	void saveGradients();
 
 	Scalar getBiggestAbsValOfWeight() const;
 

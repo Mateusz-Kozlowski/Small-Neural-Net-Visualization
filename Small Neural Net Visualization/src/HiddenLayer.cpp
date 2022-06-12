@@ -42,17 +42,6 @@ void HiddenLayer::propagateForward(
 		Scalar input = 0.0;
 		for (int p = 0; p < inputVector.size(); p++)
 		{
-			if (inputVector[p] * inputSynapses.getWeight(i, p) != 0.0)
-			{
-				/*std::cout
-					<< p << ": "
-					<< "val += "
-					<< inputVector[p] << "*" << inputSynapses.getWeight(i, p)
-					<< inputVector[p] * inputSynapses.getWeight(i, p) << '\n';*/
-			}
-
-			//Scalar itsStupidButItPreventAbug = inputVector[p] * inputSynapses.getWeight(i, p);
-
 			input += inputVector[p] * inputSynapses.getWeight(i, p);
 		}
 

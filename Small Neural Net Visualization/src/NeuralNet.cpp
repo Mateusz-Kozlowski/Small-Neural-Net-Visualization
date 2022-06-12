@@ -71,8 +71,6 @@ void NeuralNet::save(const std::string& path)
 
 void NeuralNet::load(const std::string& path)
 {
-	//std::cerr << "LOL KURWA\n";
-
 	std::ifstream file(path);
 
 	if (!file.is_open())
@@ -86,9 +84,11 @@ void NeuralNet::load(const std::string& path)
 	file >> layersCount;
 	if (layersCount != m_layers.size())
 	{
-		std::cerr << layersCount << ' ' << m_layers.size() << '\n';
-		std::cerr << "LOL KURWA\n";
-		exit(-11);
+		std::cerr << "LOADING NET FROM FILE FAILED\n";
+		std::cerr << "LAYERS COUNT FROM FILE: " << layersCount << '\n';
+		std::cerr << "CURRENT NUMBER OF LAYERS IN NET: " << m_layers.size() << '\n';
+		std::cerr << "NOTE: THE PROGRAM DOESN'T SUPPORT READING A NET FROM A FILE TO AN EMPTY NET OBJECT\n";
+		exit(-13);
 	}
 
 	while (layersCount--)
@@ -102,8 +102,11 @@ void NeuralNet::load(const std::string& path)
 	{
 		if (topology[i] != m_layers[i]->getSize())
 		{
-			std::cerr << "LOL KURWA12\n";
-			exit(-12);
+			std::cerr << "LOADING NET FROM FILE FAILED\n";
+			std::cerr << "NEURONS COUNT IN " << i << " LAYER ACCORDING TO FILE: " << topology[i] << '\n';
+			std::cerr << "CURRENT NUMBER OF NEURONS IN THIS LAYER: " << m_layers[i]->getSize() << '\n';
+			std::cerr << "NOTE: THE PROGRAM DOESN'T SUPPORT READING A NET FROM A FILE TO AN EMPTY NET OBJECT\n";
+			exit(-13);
 		}
 	}
 
@@ -153,9 +156,6 @@ void NeuralNet::trainingStep(
 	m_layers.back()->calcErrors(desiredOutput);
 	propagateErrorsBack();
 	updateGradients();
-	
-	//saveGradients();
-	//saveWeightsAndBiases();
 
 	if ((m_trainingStep + 1U) % m_miniBatchSize == 0)
 	{
@@ -317,7 +317,8 @@ void NeuralNet::initDesiredOutputsRenderer(
 			desiredOutputsRendererPos,
 			sf::Color::Blue,
 			neuronDiameter,
-			neuronDiameter
+			neuronDiameter,
+			sf::Color::White
 		)
 	);
 }
@@ -416,9 +417,6 @@ void NeuralNet::updateWeightsGradients()
 				m_layers[i]->getInput(),
 				m_layers[i + 1]->getNeurons()
 			);
-
-			//std::cout << "from net:\n";
-			//std::cout << m_synapses[0].getSynapsesMatrix()[0][0].getGradient() << '\n';
 		}
 		else
 		{
@@ -428,9 +426,6 @@ void NeuralNet::updateWeightsGradients()
 			);
 		}
 	}
-
-	//std::cout << "from net:\n";
-	//std::cout << m_synapses[0].getSynapsesMatrix()[0][0].getGradient() << '\n';
 }
 
 void NeuralNet::updateBiasesGradients()
@@ -439,45 +434,6 @@ void NeuralNet::updateBiasesGradients()
 	{
 		m_layers[i]->updateBiasesGradients();
 	}
-}
-
-void NeuralNet::saveGradients()
-{
-	std::string path = "gradienciki po 1ST minibaczu.ini";
-
-	std::ofstream gradienciki(path);
-
-	if (!gradienciki.is_open())
-	{
-		std::cerr << "CANNOT OPEN: " << path << '\n';
-		exit(-13);
-	}
-
-	for (int i = 1; i < m_layers.size(); i++)
-	{
-		for (int j = 0; j < m_layers[i]->getSize(); j++)
-		{
-			gradienciki << m_layers[i]->getNeurons()[j].getBiasGradient() << '\n';
-		}
-	}
-
-	gradienciki << "Weights gradients:\n";
-
-	int idx = 0;
-	for (const auto& synapsesMatrix : m_synapses)
-	{
-		for (const auto& it1 : synapsesMatrix.getSynapsesMatrix())
-		{
-			for (const auto& it2 : it1)
-			{
-				gradienciki << it2.getGradient() << '\n';
-				idx++;
-			}
-		}
-	}
-
-	gradienciki.close();
-	//exit(7);
 }
 
 Scalar NeuralNet::getBiggestAbsValOfWeight() const
@@ -500,45 +456,6 @@ Scalar NeuralNet::getBiggestAbsValOfWeight() const
 	}
 
 	return result;
-}
-
-void NeuralNet::saveWeightsAndBiases()
-{
-	std::string path = "w&b po 1ST minibaczu.ini";
-
-	std::ofstream wb(path);
-
-	if (!wb.is_open())
-	{
-		std::cerr << "CANNOT OPEN: " << path << '\n';
-		exit(-13);
-	}
-
-	for (int i = 1; i < m_layers.size(); i++)
-	{
-		for (int j = 0; j < m_layers[i]->getSize(); j++)
-		{
-			wb << m_layers[i]->getNeurons()[j].getBias() << '\n';
-		}
-	}
-
-	wb << "Weights:\n";
-
-	int idx = 0;
-	for (const auto& synapsesMatrix : m_synapses)
-	{
-		for (const auto& it1 : synapsesMatrix.getSynapsesMatrix())
-		{
-			for (const auto& it2 : it1)
-			{
-				wb << it2.getWeight() << '\n';
-				idx++;
-			}
-		}
-	}
-
-	wb.close();
-	//exit(7);
 }
 
 bool NeuralNet::isBgRendered() const

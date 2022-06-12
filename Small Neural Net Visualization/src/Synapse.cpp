@@ -31,22 +31,13 @@ void Synapse::resetGradient()
 }
 
 void Synapse::updateGradient(
-	bool flag,
 	const Scalar& previousActVal,
 	const Scalar& nextDerivative,
 	const Scalar& nextLossDerivativeWithRespectToActFunc)
 {
-	if (flag == true)
-	{
-		//std::cout << previousActVal * nextDerivative * nextLossDerivativeWithRespectToActFunc << '\n';
-		//std::cin.get();
-	}
+	// I'm not sure but it seems that it could remove a bug so I'll leave it like this:
 	Scalar change = previousActVal * nextDerivative * nextLossDerivativeWithRespectToActFunc;
 	m_gradient += change;
-	if (flag == true)
-	{
-		//std::cout << "so it is=" << m_gradient << '\n';
-	}
 }
 
 void Synapse::updateRendering(Scalar biggestAbsValOfWeightInMatrix)

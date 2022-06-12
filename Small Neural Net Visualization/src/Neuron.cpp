@@ -22,11 +22,8 @@ void Neuron::activate()
 {
 	Scalar biasedVal = m_val + m_bias;
 
-	//std::cout << "val: " << m_val << ",bias: " << m_bias << '\n';
-
 	m_actVal = 1.0 / (1.0 + exp(-biasedVal));
 
-	//std::cout << "act: " << m_actVal << '\n';
 }
 
 const Scalar& Neuron::getActVal() const
@@ -87,11 +84,6 @@ const Scalar& Neuron::getBiasGradient() const
 
 void Neuron::updateBiasGradient()
 {
-	/*std::cout
-		<< "Hi I'm neuron and: "
-		<< m_derivative << "*" << m_lossDerivativeWithRespectToActFunc << "="
-		<< m_derivative * m_lossDerivativeWithRespectToActFunc << '\n';*/
-
 	m_biasGradient += m_derivative * m_lossDerivativeWithRespectToActFunc;
 }
 

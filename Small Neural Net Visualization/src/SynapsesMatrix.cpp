@@ -118,7 +118,6 @@ void SynapsesMatrix::updateWeightsGradients(
 		for (int p = 0; p < m_synapses[n].size(); p++)
 		{
 			m_synapses[n][p].updateGradient(
-				p == 0 && n==0,
 				input[p],
 				nextLayerNeurons[n].getDerivative(),
 				nextLayerNeurons[n].getLossDerivativeWithRespectToActFunc()
@@ -137,7 +136,6 @@ void SynapsesMatrix::updateWeightsGradients(
 		for (int p = 0; p < m_synapses[n].size(); p++)
 		{
 			m_synapses[n][p].updateGradient(
-				false,
 				previousLayerNeurons[p].getActVal(),
 				nextLayerNeurons[n].getDerivative(),
 				nextLayerNeurons[n].getLossDerivativeWithRespectToActFunc()

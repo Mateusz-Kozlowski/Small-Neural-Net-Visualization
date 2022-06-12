@@ -1,11 +1,13 @@
 #include "DesiredOutputsRenderer.h"
 
 DesiredOutputsRenderer::DesiredOutputsRenderer(
-	unsigned size, 
-	const sf::Vector2f& pos, 
-	const sf::Color& bgColor, 
-	float diameterOfDesiredOutputCircle, 
-	float distBetweenDesiredOutputCircles)
+	unsigned size,
+	const sf::Vector2f& pos,
+	const sf::Color& bgColor,
+	float diameterOfDesiredOutputCircle,
+	float distBetweenDesiredOutputCircles,
+	const sf::Color& desiredOutputsCirclesColor)
+	: m_desiredOutputsCirclesColor(desiredOutputsCirclesColor)
 {
 	initCircles(
 		size, 
@@ -25,14 +27,11 @@ void DesiredOutputsRenderer::setDesiredOutput(const std::vector<Scalar>& desired
 {
 	for (int i = 0; i < desiredOutput.size(); i++)
 	{
-		m_desiredOutputsCircles[i].setFillColor(
-			sf::Color(
-				255,
-				255,
-				255,
-				255 * desiredOutput[i]
-			)
-		);
+		sf::Color desiredOutputsCirclesColor = m_desiredOutputsCirclesColor;
+		
+		desiredOutputsCirclesColor.a = 255 * desiredOutput[i];
+
+		m_desiredOutputsCircles[i].setFillColor(desiredOutputsCirclesColor);
 	}
 }
 

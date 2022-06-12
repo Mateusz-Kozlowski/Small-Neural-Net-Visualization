@@ -102,7 +102,7 @@ void App::initNet()
 	if (!file.is_open())
 	{
 		std::cerr << "CANNOT OPEN: " << path << '\n';
-		exit(-17);
+		exit(-13);
 	}
 
 	unsigned layersCount;
@@ -231,29 +231,6 @@ void App::updateEvents()
 			if (event.key.code == sf::Keyboard::Space)
 			{
 				m_learingPaused = !m_learingPaused;
-
-				for (const auto& it : m_trainLabels[m_trainingDataIdx])
-				{
-					std::cout << it << ' ';
-				}
-				std::cout << '\n';
-
-				Utils::MNISTdataLoader::showData(
-					m_trainInputs,
-					m_trainLabels,
-					{
-						m_trainingDataIdx,
-						m_trainingDataIdx
-					}
-				);
-
-				auto output = m_net->getOutput();
-
-				std::cout << "output:\n";
-				for (int j = 0; j < output.size(); j++)
-				{
-					std::cout << "j: " << output[j] << '\n';
-				}
 			}
 		}
 	}

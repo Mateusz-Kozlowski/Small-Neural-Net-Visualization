@@ -10,7 +10,8 @@ public:
 		const sf::Vector2f& pos,
 		const sf::Color& bgColor,
 		float diameterOfDesiredOutputCircle,
-		float distBetweenDesiredOutputCircles
+		float distBetweenDesiredOutputCircles,
+		const sf::Color& desiredOutputsCirclesColor
 	);
 
 	void setDesiredOutput(const std::vector<Scalar>& desiredOutput);
@@ -34,4 +35,6 @@ private:
 	std::vector<sf::CircleShape> m_desiredOutputsCircles;
 
 	sf::RectangleShape m_bg;
+
+	sf::Color m_desiredOutputsCirclesColor;
 };

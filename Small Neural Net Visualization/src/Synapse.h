@@ -13,7 +13,6 @@ public:
 	const Scalar& getGradient() const;
 	void resetGradient();
 	void updateGradient(
-		bool flag,
 		const Scalar& previousActVal,
 		const Scalar& nextDerivative,
 		const Scalar& nextLossDerivativeWithRespectToActFunc
