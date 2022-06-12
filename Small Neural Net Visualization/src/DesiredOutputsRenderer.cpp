@@ -23,6 +23,11 @@ DesiredOutputsRenderer::DesiredOutputsRenderer(
 	);
 }
 
+const sf::Color& DesiredOutputsRenderer::getBgColor() const
+{
+	return m_bg.getFillColor();
+}
+
 void DesiredOutputsRenderer::setDesiredOutput(const std::vector<Scalar>& desiredOutput)
 {
 	for (int i = 0; i < desiredOutput.size(); i++)

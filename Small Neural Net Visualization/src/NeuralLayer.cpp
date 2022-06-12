@@ -134,7 +134,8 @@ void NeuralLayer::initNeurons(
 	unsigned size,
 	const sf::Vector2f& pos,
 	float neuronCircleDiameter,
-	float distBetweenNeuronsCircles)
+	float distBetweenNeuronsCircles,
+	const sf::Color& baseNeuronsColor)
 {
 	for (int i = 0; i < size; i++)
 	{
@@ -144,7 +145,8 @@ void NeuralLayer::initNeurons(
 					pos.x,
 					pos.y + i * (neuronCircleDiameter + distBetweenNeuronsCircles)
 				),
-				neuronCircleDiameter / 2.0f
+				neuronCircleDiameter / 2.0f,
+				baseNeuronsColor
 			)
 		);
 	}

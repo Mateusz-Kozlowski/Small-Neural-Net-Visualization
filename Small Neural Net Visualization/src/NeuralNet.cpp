@@ -6,17 +6,28 @@ NeuralNet::NeuralNet(
 	unsigned miniBatchSize,
 	const sf::Vector2f& pos,
 	const sf::Vector2f& size,
-	const sf::Color& bgColor)
+	const sf::Color& bgColor,
+	const sf::Color& layersBgColor,
+	const sf::Color& desiredOutputsBgColor,
+	const sf::Color& baseNeuronsColor,
+	bool bgIsRendered,
+	bool layersBgAreRendered)
 	: m_trainingStep(0U),
 	  m_learningRate(learningRate), 
 	  m_miniBatchSize(miniBatchSize),
-	  m_bgIsRendered(false),
-	  m_layersbgAreRendered(false)
+	  m_bgIsRendered(bgIsRendered),
+	  m_layersBgAreRendered(layersBgAreRendered)
 {
-	initLayers(topology, pos, size);
+	initLayers(topology, pos, size, layersBgColor, baseNeuronsColor);
 	initSynapses(topology);
 	initBg(pos, size, bgColor);
-	initDesiredOutputsRenderer(topology, pos, size);
+	initDesiredOutputsRenderer(
+		topology, 
+		pos, 
+		size, 
+		desiredOutputsBgColor,
+		baseNeuronsColor
+	);
 }
 
 const sf::Vector2f& NeuralNet::getPos() const
@@ -39,6 +50,35 @@ void NeuralNet::save(const std::string& path)
 		exit(-100);
 	}
 
+	file << m_trainingStep << '\n';
+	file << m_learningRate << '\n';
+	file << m_miniBatchSize << '\n';
+	file << m_bgIsRendered << '\n';
+	file << m_layersBgAreRendered << '\n';
+	file << m_bg.getPosition().x << ' ' << m_bg.getPosition().y << '\n';
+	file << m_bg.getSize().x << ' ' << m_bg.getSize().y << '\n';
+
+	file << static_cast<int>(m_bg.getFillColor().r) << ' ';
+	file << static_cast<int>(m_bg.getFillColor().g) << ' ';
+	file << static_cast<int>(m_bg.getFillColor().b) << ' ';
+	file << static_cast<int>(m_bg.getFillColor().a) << '\n';
+	
+	file << static_cast<int>(m_layers.back()->getBgColor().r) << ' ';
+	file << static_cast<int>(m_layers.back()->getBgColor().g) << ' ';
+	file << static_cast<int>(m_layers.back()->getBgColor().b) << ' ';
+	file << static_cast<int>(m_layers.back()->getBgColor().a) << '\n';
+
+	file << static_cast<int>(m_desiredOutputsRenderer->getBgColor().r) << ' ';
+	file << static_cast<int>(m_desiredOutputsRenderer->getBgColor().g) << ' ';
+	file << static_cast<int>(m_desiredOutputsRenderer->getBgColor().b) << ' ';
+	file << static_cast<int>(m_desiredOutputsRenderer->getBgColor().a) << '\n';
+
+	file << static_cast<int>(m_layers.back()->getNeurons().back().getBaseColor().r) << ' ';
+	file << static_cast<int>(m_layers.back()->getNeurons().back().getBaseColor().g) << ' ';
+	file << static_cast<int>(m_layers.back()->getNeurons().back().getBaseColor().b) << ' ';
+	file << static_cast<int>(m_layers.back()->getNeurons().back().getBaseColor().a) << '\n';
+
+	// save topology:
 	file << m_layers.size() << '\n';
 	for (int i = 0; i < m_layers.size(); i++)
 	{
@@ -46,6 +86,7 @@ void NeuralNet::save(const std::string& path)
 	}
 	file << '\n';
 
+	// save biases:
 	for (int i=1; i<m_layers.size(); i++)
 	{
 		for (int j=0; j<m_layers[i]->getSize(); j++)
@@ -55,6 +96,7 @@ void NeuralNet::save(const std::string& path)
 	}
 	file << '\n';
 
+	// save weights:
 	for (const auto& synapsesMatrix : m_synapses)
 	{
 		for (const auto& it1 : synapsesMatrix.getSynapsesMatrix())
@@ -75,21 +117,65 @@ void NeuralNet::load(const std::string& path)
 
 	if (!file.is_open())
 	{
+		std::cerr << "CANNOT OPEN: " << path << '\n';
 		exit(-13);
 	}
+
+	sf::Vector2f pos;
+	sf::Vector2f size;
+	
+	unsigned bgColorRed, bgColorGreen, bgColorBlue, bgColorAlfa;
+	unsigned layersBgColorRed, layersBgColorGreen, layersBgColorBlue, layersBgColorAlfa;
+	unsigned desiredOutputBgColorRed, desiredOutputBgColorGreen, desiredOutputBgColorBlue, desiredOutputBgColorAlfa;
+	unsigned baseNeuronsColorRed, baseNeuronsColorGreen, baseNeuronsColorBlue, baseNeuronsColorAlfa;
+	sf::Color bgColor;
+	sf::Color layersBgColor;
+	sf::Color desiredOutputBgColor;
+	sf::Color baseNeuronsColor;
 
 	unsigned layersCount;
 	std::vector<unsigned> topology;
 
+	file >> m_trainingStep;
+	file >> m_learningRate;
+	file >> m_miniBatchSize;
+	file >> m_bgIsRendered;
+	file >> m_layersBgAreRendered;
+	
+	file >> pos.x >> pos.y;
+	file >> size.x >> size.y;
+
+	file >> bgColorRed >> bgColorGreen >> bgColorBlue >> bgColorAlfa;
+	file >> layersBgColorRed >> layersBgColorGreen >> layersBgColorBlue >> layersBgColorAlfa;
+	file >> desiredOutputBgColorRed >> desiredOutputBgColorGreen >> desiredOutputBgColorBlue >> desiredOutputBgColorAlfa;
+	file >> baseNeuronsColorRed >> baseNeuronsColorGreen >> baseNeuronsColorBlue >> baseNeuronsColorAlfa;
+
 	file >> layersCount;
-	if (layersCount != m_layers.size())
-	{
-		std::cerr << "LOADING NET FROM FILE FAILED\n";
-		std::cerr << "LAYERS COUNT FROM FILE: " << layersCount << '\n';
-		std::cerr << "CURRENT NUMBER OF LAYERS IN NET: " << m_layers.size() << '\n';
-		std::cerr << "NOTE: THE PROGRAM DOESN'T SUPPORT READING A NET FROM A FILE TO AN EMPTY NET OBJECT\n";
-		exit(-13);
-	}
+
+	bgColor = sf::Color(
+		bgColorRed, 
+		bgColorGreen, 
+		bgColorBlue, 
+		bgColorAlfa
+	);
+	layersBgColor = sf::Color(
+		layersBgColorRed, 
+		layersBgColorGreen, 
+		layersBgColorBlue, 
+		layersBgColorAlfa
+	);
+	desiredOutputBgColor = sf::Color(
+		desiredOutputBgColorRed,
+		desiredOutputBgColorGreen,
+		desiredOutputBgColorBlue,
+		desiredOutputBgColorAlfa
+	);
+	baseNeuronsColor = sf::Color(
+		baseNeuronsColorRed,
+		baseNeuronsColorGreen,
+		baseNeuronsColorBlue,
+		baseNeuronsColorAlfa
+	);
 
 	while (layersCount--)
 	{
@@ -98,18 +184,18 @@ void NeuralNet::load(const std::string& path)
 		topology.push_back(a);
 	}
 
-	for (int i = 0; i < 3; i++)
-	{
-		if (topology[i] != m_layers[i]->getSize())
-		{
-			std::cerr << "LOADING NET FROM FILE FAILED\n";
-			std::cerr << "NEURONS COUNT IN " << i << " LAYER ACCORDING TO FILE: " << topology[i] << '\n';
-			std::cerr << "CURRENT NUMBER OF NEURONS IN THIS LAYER: " << m_layers[i]->getSize() << '\n';
-			std::cerr << "NOTE: THE PROGRAM DOESN'T SUPPORT READING A NET FROM A FILE TO AN EMPTY NET OBJECT\n";
-			exit(-13);
-		}
-	}
+	initLayers(topology, pos, size, layersBgColor, baseNeuronsColor);
+	initSynapses(topology);
+	initBg(pos, size, bgColor);
+	initDesiredOutputsRenderer(
+		topology, 
+		pos, 
+		size, 
+		desiredOutputBgColor, 
+		baseNeuronsColor
+	);
 
+	// load biases:
 	for (int i = 1; i < topology.size(); i++)
 	{
 		for (int j = 0; j < topology[i]; j++)
@@ -120,6 +206,7 @@ void NeuralNet::load(const std::string& path)
 		}
 	}
 
+	// load weights:
 	for (int i = 1; i < topology.size(); i++)
 	{
 		for (int n = 0; n < topology[i]; n++)
@@ -191,10 +278,10 @@ void NeuralNet::render(sf::RenderTarget& target)
 
 	for (const auto& layer : m_layers)
 	{
-		layer->render(target, m_layersbgAreRendered);
+		layer->render(target, m_layersBgAreRendered);
 	}
 
-	m_desiredOutputsRenderer->render(target, m_layersbgAreRendered);
+	m_desiredOutputsRenderer->render(target, m_layersBgAreRendered);
 
 	for (const auto& matrixSynapse : m_synapses)
 	{
@@ -205,10 +292,14 @@ void NeuralNet::render(sf::RenderTarget& target)
 void NeuralNet::initLayers(
 	const std::vector<unsigned>& topology,
 	const sf::Vector2f& pos,
-	const sf::Vector2f& size)
+	const sf::Vector2f& size,
+	const sf::Color& layersBgColor,
+	const sf::Color& baseNeuronsColor)
 {
 	float neuronDiameter = calcNeuronDiameter(topology, size.y);
 	float spaceBetweenLayers = calcSpaceBetweenLayers(topology, size);
+
+	m_layers.clear();
 
 	for (int i = 0; i < topology.size(); i++)
 	{
@@ -218,11 +309,12 @@ void NeuralNet::initLayers(
 				std::make_unique<InputLayer>(
 					topology[0],
 					pos,
-					sf::Color::Magenta,
+					layersBgColor,
 					(topology[0] - getBiggestNonInputLayerSize(topology)) / 2U,
 					getBiggestNonInputLayerSize(topology),
 					neuronDiameter,
-					neuronDiameter
+					neuronDiameter,
+					baseNeuronsColor
 				)
 			);
 		}
@@ -235,9 +327,10 @@ void NeuralNet::initLayers(
 						pos.x + i * (neuronDiameter + spaceBetweenLayers),
 						pos.y
 					),
-					sf::Color::Magenta,
+					layersBgColor,
 					neuronDiameter,
-					neuronDiameter
+					neuronDiameter,
+					baseNeuronsColor
 				)
 			);
 		}
@@ -250,9 +343,10 @@ void NeuralNet::initLayers(
 						pos.x + i * (neuronDiameter + spaceBetweenLayers),
 						pos.y
 					),
-					sf::Color::Magenta,
+					layersBgColor,
 					neuronDiameter,
-					neuronDiameter
+					neuronDiameter,
+					baseNeuronsColor
 				)
 			);
 		}
@@ -263,6 +357,8 @@ void NeuralNet::initLayers(
 
 void NeuralNet::initSynapses(const std::vector<unsigned>& topology)
 {
+	m_synapses.clear();
+
 	for (int i = 0; i < topology.size() - 1; i++)
 	{
 		if (i == 0)
@@ -302,7 +398,9 @@ void NeuralNet::initBg(
 void NeuralNet::initDesiredOutputsRenderer(
 	const std::vector<unsigned>& topology, 
 	const sf::Vector2f& pos, 
-	const sf::Vector2f& size)
+	const sf::Vector2f& size,
+	const sf::Color& desiredOutputsBgColor,
+	const sf::Color& baseColorOfDesiredOutputsCircles)
 {
 	float neuronDiameter = calcNeuronDiameter(topology, size.y);
 
@@ -315,10 +413,10 @@ void NeuralNet::initDesiredOutputsRenderer(
 		DesiredOutputsRenderer(
 			topology.back(),
 			desiredOutputsRendererPos,
-			sf::Color::Blue,
+			desiredOutputsBgColor,
 			neuronDiameter,
 			neuronDiameter,
-			sf::Color::White
+			baseColorOfDesiredOutputsCircles
 		)
 	);
 }
@@ -475,17 +573,17 @@ void NeuralNet::showBg()
 
 bool NeuralNet::areLayersBgRendered() const
 {
-	return m_layersbgAreRendered;
+	return m_layersBgAreRendered;
 }
 
 void NeuralNet::hideLayersBg()
 {
-	m_layersbgAreRendered = false;
+	m_layersBgAreRendered = false;
 }
 
 void NeuralNet::showLayersBg()
 {
-	m_layersbgAreRendered = true;
+	m_layersBgAreRendered = true;
 }
 
 void NeuralNet::updateWeights()

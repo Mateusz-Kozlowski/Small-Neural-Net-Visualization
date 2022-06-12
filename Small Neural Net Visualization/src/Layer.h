@@ -51,6 +51,8 @@ public:
 	const sf::Vector2f& getPos() const;
 	const sf::Vector2f& getRenderingSize() const;
 
+	const sf::Color& getBgColor() const;
+
 protected:
 	sf::RectangleShape m_bg;
 };

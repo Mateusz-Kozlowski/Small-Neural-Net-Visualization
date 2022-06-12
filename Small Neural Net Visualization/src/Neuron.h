@@ -7,7 +7,8 @@ class Neuron
 public:
 	Neuron(
 		const sf::Vector2f& pos,
-		float radius
+		float radius,
+		const sf::Color& baseColor
 	);
 
 	void setVal(const Scalar& val);
@@ -42,6 +43,8 @@ public:
 
 	float getDiameter() const;
 
+	const sf::Color& getBaseColor() const;
+
 private:
 	void initCircle(const sf::Vector2f& pos, float radius);
 
@@ -51,6 +54,8 @@ private:
 	Scalar m_derivative;
 	Scalar m_lossDerivativeWithRespectToActFunc;
 	Scalar m_biasGradient;
+
+	sf::Color m_baseColor;
 
 	sf::CircleShape m_circle;
 };

@@ -2,13 +2,15 @@
 
 Neuron::Neuron(
 	const sf::Vector2f& pos,
-	float radius)
+	float radius,
+	const sf::Color& baseColor)
 	: m_val(0.0),
 	  m_bias(0.0),
 	  m_actVal(0.0),
 	  m_derivative(0.0),
 	  m_lossDerivativeWithRespectToActFunc(0.0),
-	  m_biasGradient(0.0)
+	  m_biasGradient(0.0),
+	  m_baseColor(baseColor)
 {
 	initCircle(pos, radius);
 }
@@ -94,11 +96,11 @@ void Neuron::resetBiasGradient()
 
 void Neuron::updateRendering()
 {
-	sf::Color color(255, 255, 255);
+	sf::Color baseColor = m_baseColor;
 
-	color.a = 255 * m_actVal;
+	baseColor.a = 255 * m_actVal;
 
-	m_circle.setFillColor(color);
+	m_circle.setFillColor(baseColor);
 }
 
 void Neuron::render(sf::RenderTarget& target) const
@@ -119,6 +121,11 @@ void Neuron::setPos(const sf::Vector2f& pos)
 float Neuron::getDiameter() const
 {
 	return 2.0f * m_circle.getRadius();
+}
+
+const sf::Color& Neuron::getBaseColor() const
+{
+	return m_baseColor;
 }
 
 void Neuron::initCircle(const sf::Vector2f& pos, float radius)

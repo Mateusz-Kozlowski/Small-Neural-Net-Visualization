@@ -12,7 +12,8 @@ public:
 		unsigned firstRenderedInputIdx,
 		unsigned renderedInputsCount,
 		float renderedInputCircleDiameter,
-		float distBetweenRenderedInputsCircles
+		float distBetweenRenderedInputsCircles,
+		const sf::Color& renderedInputCirclesBaseColor
 	);
 
 	virtual void setInput(const std::vector<Scalar>& input) override;
@@ -78,4 +79,6 @@ private:
 	std::vector<Scalar> m_input;
 
 	std::vector<sf::CircleShape> m_renderedInputsCircles;
+
+	sf::Color m_renderedInputCirclesBaseColor;
 };

@@ -51,7 +51,8 @@ protected:
 		unsigned size,
 		const sf::Vector2f& pos,
 		float neuronCircleDiameter,
-		float distBetweenNeuronsCircles
+		float distBetweenNeuronsCircles,
+		const sf::Color& baseNeuronsColor
 	);
 	void initBg(
 		const sf::Vector2f& pos,

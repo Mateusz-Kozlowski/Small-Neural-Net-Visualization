@@ -14,6 +14,8 @@ public:
 		const sf::Color& desiredOutputsCirclesColor
 	);
 
+	const sf::Color& getBgColor() const;
+
 	void setDesiredOutput(const std::vector<Scalar>& desiredOutput);
 
 	void render(sf::RenderTarget& target, bool bgIsRendered) const;

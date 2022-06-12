@@ -10,7 +10,8 @@ public:
 		const sf::Vector2f& pos,
 		const sf::Color& bgColor,
 		float neuronCircleDiameter,
-		float distBetweenNeuronsCircles
+		float distBetweenNeuronsCircles,
+		const sf::Color& neuronsBaseColor
 	);
 
 	virtual void propagateForward(

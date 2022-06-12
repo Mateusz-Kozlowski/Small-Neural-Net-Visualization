@@ -14,7 +14,12 @@ public:
 		unsigned miniBatchSize,
 		const sf::Vector2f& pos,
 		const sf::Vector2f& size,
-		const sf::Color& bgColor
+		const sf::Color& bgColor,
+		const sf::Color& layersBgColor,
+		const sf::Color& desiredOutputsBgColor,
+		const sf::Color& baseNeuronsColor,
+		bool bgIsRendered,
+		bool layersBgAreRendered
 	);
 
 	const sf::Vector2f& getPos() const;
@@ -46,7 +51,9 @@ private:
 	void initLayers(
 		const std::vector<unsigned>& topology,
 		const sf::Vector2f& pos, 
-		const sf::Vector2f& size
+		const sf::Vector2f& size,
+		const sf::Color& layersBgColor,
+		const sf::Color& baseNeuronsColor
 	);
 	void initSynapses(const std::vector<unsigned>& topology);
 	void initBg(
@@ -57,7 +64,9 @@ private:
 	void initDesiredOutputsRenderer(
 		const std::vector<unsigned>& topology,
 		const sf::Vector2f& pos,
-		const sf::Vector2f& size
+		const sf::Vector2f& size,
+		const sf::Color& desiredOutputsBgColor,
+		const sf::Color& baseColorOfDesiredOutputsCircles
 	);
 
 	static float calcNeuronDiameter(
@@ -95,13 +104,13 @@ private:
 	Scalar m_learningRate;
 	unsigned m_miniBatchSize;
 	
-	std::vector<std::unique_ptr<Layer>> m_layers;
-	std::vector<SynapsesMatrix> m_synapses;
-
 	bool m_bgIsRendered;
-	bool m_layersbgAreRendered;
+	bool m_layersBgAreRendered;
 
 	sf::RectangleShape m_bg;
+
+	std::vector<std::unique_ptr<Layer>> m_layers;
+	std::vector<SynapsesMatrix> m_synapses;
 
 	std::unique_ptr<DesiredOutputsRenderer> m_desiredOutputsRenderer;
 };

@@ -111,7 +111,12 @@ void App::initNet()
 	unsigned miniBatchSize;
 	sf::Vector2f pos;
 	float width;
-	unsigned red, green, blue, alfa;
+	unsigned bgRed, bgGreen, bgBlue, bgAlfa;
+	unsigned layersBgColorRed, layersBgColorGreen, layersBgColorBlue, layersBgColorAlfa;
+	unsigned desiredOutputsBgColorRed, desiredOutputsBgColorGreen, desiredOutputsBgColorBlue, desiredOutputsBgColorAlfa;
+	unsigned baseNeuronsColorRed, baseNeuronsColorGreen, baseNeuronsColorBlue, baseNeuronsColorAlfa;
+	bool bgIsRendered;
+	bool layersBgAreRendered;
 
 	file >> layersCount;
 	topology.resize(layersCount);
@@ -124,7 +129,13 @@ void App::initNet()
 	file >> miniBatchSize;
 	file >> pos.x >> pos.y;
 	file >> width;
-	file >> red >> green >> blue >> alfa;
+
+	file >> bgRed >> bgGreen >> bgBlue >> bgAlfa;
+	file >> layersBgColorRed >> layersBgColorGreen >> layersBgColorBlue >> layersBgColorAlfa;
+	file >> desiredOutputsBgColorRed >> desiredOutputsBgColorGreen >> desiredOutputsBgColorBlue >> desiredOutputsBgColorAlfa;
+	file >> baseNeuronsColorRed >> baseNeuronsColorGreen >> baseNeuronsColorBlue >> baseNeuronsColorAlfa;
+	file >> bgIsRendered;
+	file >> layersBgAreRendered;
 
 	file.close();
 
@@ -140,7 +151,32 @@ void App::initNet()
 			miniBatchSize,
 			pos,
 			size,
-			sf::Color(red, green, blue, alfa)
+			sf::Color(
+				bgRed, 
+				bgGreen, 
+				bgBlue, 
+				bgAlfa
+			),
+			sf::Color(
+				layersBgColorRed,
+				layersBgColorGreen,
+				layersBgColorBlue,
+				layersBgColorAlfa
+			),
+			sf::Color(
+				desiredOutputsBgColorRed, 
+				desiredOutputsBgColorGreen, 
+				desiredOutputsBgColorBlue, 
+				desiredOutputsBgColorAlfa
+			),
+			sf::Color(
+				baseNeuronsColorRed,
+				baseNeuronsColorGreen,
+				baseNeuronsColorBlue,
+				baseNeuronsColorAlfa
+			),
+			bgIsRendered,
+			layersBgAreRendered
 		)
 	);
 
