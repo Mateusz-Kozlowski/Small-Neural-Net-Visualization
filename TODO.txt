@@ -1,3 +1,4 @@
+- add supporting loading a net from a file to an empty net class object
 - why there was a bug? 
 	wrong input coping?
 	initializing vars in classes?

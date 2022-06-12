@@ -35,9 +35,7 @@ void Synapse::updateGradient(
 	const Scalar& nextDerivative,
 	const Scalar& nextLossDerivativeWithRespectToActFunc)
 {
-	// I'm not sure but it seems that it could remove a bug so I'll leave it like this:
-	Scalar change = previousActVal * nextDerivative * nextLossDerivativeWithRespectToActFunc;
-	m_gradient += change;
+	m_gradient += previousActVal * nextDerivative * nextLossDerivativeWithRespectToActFunc;
 }
 
 void Synapse::updateRendering(Scalar biggestAbsValOfWeightInMatrix)
