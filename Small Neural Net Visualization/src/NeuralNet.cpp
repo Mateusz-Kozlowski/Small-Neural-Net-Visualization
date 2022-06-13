@@ -30,6 +30,11 @@ NeuralNet::NeuralNet(
 	);
 }
 
+NeuralNet::NeuralNet(const std::string& filePath)
+{
+	loadFromFile(filePath);
+}
+
 const sf::Vector2f& NeuralNet::getPos() const
 {
 	return m_bg.getPosition();
@@ -40,13 +45,13 @@ const sf::Vector2f& NeuralNet::getSize() const
 	return m_bg.getSize();
 }
 
-void NeuralNet::save(const std::string& path)
+void NeuralNet::saveToFile(const std::string& filePath)
 {
-	std::ofstream file(path);
+	std::ofstream file(filePath);
 
 	if (!file.is_open())
 	{
-		std::cerr << "CANNOT OPEN: " << path << '\n';
+		std::cerr << "CANNOT OPEN: " << filePath << '\n';
 		exit(-100);
 	}
 
@@ -78,7 +83,7 @@ void NeuralNet::save(const std::string& path)
 	file << static_cast<int>(m_layers.back()->getNeurons().back().getBaseColor().b) << ' ';
 	file << static_cast<int>(m_layers.back()->getNeurons().back().getBaseColor().a) << '\n';
 
-	// save topology:
+	// saveToFile topology:
 	file << m_layers.size() << '\n';
 	for (int i = 0; i < m_layers.size(); i++)
 	{
@@ -86,7 +91,7 @@ void NeuralNet::save(const std::string& path)
 	}
 	file << '\n';
 
-	// save biases:
+	// saveToFile biases:
 	for (int i=1; i<m_layers.size(); i++)
 	{
 		for (int j=0; j<m_layers[i]->getSize(); j++)
@@ -96,7 +101,7 @@ void NeuralNet::save(const std::string& path)
 	}
 	file << '\n';
 
-	// save weights:
+	// saveToFile weights:
 	for (const auto& synapsesMatrix : m_synapses)
 	{
 		for (const auto& it1 : synapsesMatrix.getSynapsesMatrix())
@@ -111,13 +116,13 @@ void NeuralNet::save(const std::string& path)
 	file.close();
 }
 
-void NeuralNet::load(const std::string& path)
+void NeuralNet::loadFromFile(const std::string& filePath)
 {
-	std::ifstream file(path);
+	std::ifstream file(filePath);
 
 	if (!file.is_open())
 	{
-		std::cerr << "CANNOT OPEN: " << path << '\n';
+		std::cerr << "CANNOT OPEN: " << filePath << '\n';
 		exit(-13);
 	}
 
@@ -195,7 +200,7 @@ void NeuralNet::load(const std::string& path)
 		baseNeuronsColor
 	);
 
-	// load biases:
+	// loadFromFile biases:
 	for (int i = 1; i < topology.size(); i++)
 	{
 		for (int j = 0; j < topology[i]; j++)
@@ -206,7 +211,7 @@ void NeuralNet::load(const std::string& path)
 		}
 	}
 
-	// load weights:
+	// loadFromFile weights:
 	for (int i = 1; i < topology.size(); i++)
 	{
 		for (int n = 0; n < topology[i]; n++)

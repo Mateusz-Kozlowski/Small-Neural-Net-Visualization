@@ -21,12 +21,13 @@ public:
 		bool bgIsRendered,
 		bool layersBgAreRendered
 	);
+	NeuralNet(const std::string& filePath);
 
 	const sf::Vector2f& getPos() const;
 	const sf::Vector2f& getSize() const;
 
-	void save(const std::string& path);
-	void load(const std::string& path);
+	void saveToFile(const std::string& filePath);
+	void loadFromFile(const std::string& filePath);
 
 	const std::vector<Scalar>& getOutput() const;
 	const std::vector<Scalar>& predict(const std::vector<Scalar>& input);

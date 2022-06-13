@@ -37,4 +37,6 @@ private:
 	std::vector<std::vector<Scalar>> m_testLabels;
 
 	std::unique_ptr<DataPointRenderer> m_dataPointRenderer;
+
+	std::string m_pathToFileWithLearnedNets;
 };

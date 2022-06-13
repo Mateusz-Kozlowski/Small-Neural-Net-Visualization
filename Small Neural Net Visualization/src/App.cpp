@@ -1,7 +1,10 @@
 #include "App.h"
 
 App::App()
-	: m_trainingDataIdx(-1), m_epochIdx(1U), m_learingPaused(false)
+	: m_trainingDataIdx(-1), 
+	  m_epochIdx(1U), 
+	  m_learingPaused(false),
+	  m_pathToFileWithLearnedNets("the newest version of net.ini")
 {
 	initWindow();
 	loadData();
@@ -105,6 +108,7 @@ void App::initNet()
 		exit(-13);
 	}
 
+	bool continueLearning;
 	unsigned layersCount;
 	std::vector<unsigned> topology;
 	float learningRate;
@@ -118,69 +122,82 @@ void App::initNet()
 	bool bgIsRendered;
 	bool layersBgAreRendered;
 
-	file >> layersCount;
-	topology.resize(layersCount);
-	for (int i = 0; i < layersCount; i++)
+	file >> continueLearning;
+
+	if (continueLearning)
 	{
-		file >> topology[i];
+		file.close();
+
+		m_net = std::make_unique<NeuralNet>(
+			NeuralNet(m_pathToFileWithLearnedNets)
+		);
 	}
+	else
+	{
+		file >> layersCount;
+		topology.resize(layersCount);
+		for (int i = 0; i < layersCount; i++)
+		{
+			file >> topology[i];
+		}
 
-	file >> learningRate;
-	file >> miniBatchSize;
-	file >> pos.x >> pos.y;
-	file >> width;
+		file >> learningRate;
+		file >> miniBatchSize;
+		file >> pos.x >> pos.y;
+		file >> width;
 
-	file >> bgRed >> bgGreen >> bgBlue >> bgAlfa;
-	file >> layersBgColorRed >> layersBgColorGreen >> layersBgColorBlue >> layersBgColorAlfa;
-	file >> desiredOutputsBgColorRed >> desiredOutputsBgColorGreen >> desiredOutputsBgColorBlue >> desiredOutputsBgColorAlfa;
-	file >> baseNeuronsColorRed >> baseNeuronsColorGreen >> baseNeuronsColorBlue >> baseNeuronsColorAlfa;
-	file >> bgIsRendered;
-	file >> layersBgAreRendered;
+		file >> bgRed >> bgGreen >> bgBlue >> bgAlfa;
+		file >> layersBgColorRed >> layersBgColorGreen >> layersBgColorBlue >> layersBgColorAlfa;
+		file >> desiredOutputsBgColorRed >> desiredOutputsBgColorGreen >> desiredOutputsBgColorBlue >> desiredOutputsBgColorAlfa;
+		file >> baseNeuronsColorRed >> baseNeuronsColorGreen >> baseNeuronsColorBlue >> baseNeuronsColorAlfa;
+		file >> bgIsRendered;
+		file >> layersBgAreRendered;
 
-	file.close();
+		file.close();
 
-	sf::Vector2f size(
-		width,
-		m_window.getSize().y - 2.0f * pos.y
-	);
+		sf::Vector2f size(
+			width,
+			m_window.getSize().y - 2.0f * pos.y
+		);
 
-	m_net = std::make_unique<NeuralNet>(
-		NeuralNet(
-			topology,
-			learningRate,
-			miniBatchSize,
-			pos,
-			size,
-			sf::Color(
-				bgRed, 
-				bgGreen, 
-				bgBlue, 
-				bgAlfa
-			),
-			sf::Color(
-				layersBgColorRed,
-				layersBgColorGreen,
-				layersBgColorBlue,
-				layersBgColorAlfa
-			),
-			sf::Color(
-				desiredOutputsBgColorRed, 
-				desiredOutputsBgColorGreen, 
-				desiredOutputsBgColorBlue, 
-				desiredOutputsBgColorAlfa
-			),
-			sf::Color(
-				baseNeuronsColorRed,
-				baseNeuronsColorGreen,
-				baseNeuronsColorBlue,
-				baseNeuronsColorAlfa
-			),
-			bgIsRendered,
-			layersBgAreRendered
-		)
-	);
+		m_net = std::make_unique<NeuralNet>(
+			NeuralNet(
+				topology,
+				learningRate,
+				miniBatchSize,
+				pos,
+				size,
+				sf::Color(
+					bgRed,
+					bgGreen,
+					bgBlue,
+					bgAlfa
+				),
+				sf::Color(
+					layersBgColorRed,
+					layersBgColorGreen,
+					layersBgColorBlue,
+					layersBgColorAlfa
+				),
+				sf::Color(
+					desiredOutputsBgColorRed,
+					desiredOutputsBgColorGreen,
+					desiredOutputsBgColorBlue,
+					desiredOutputsBgColorAlfa
+				),
+				sf::Color(
+					baseNeuronsColorRed,
+					baseNeuronsColorGreen,
+					baseNeuronsColorBlue,
+					baseNeuronsColorAlfa
+				),
+				bgIsRendered,
+				layersBgAreRendered
+			)
+			);
 
-	m_net->save("brand new and dumb net.ini");
+		m_net->saveToFile("brand new and dumb net.ini");
+	}
 }
 
 void App::initDataPointRenderer()
@@ -290,7 +307,7 @@ void App::updateLearningProcess()
 	{
 		m_trainingDataIdx = 0;
 
-		m_net->save("the newest version of net.ini");
+		m_net->saveToFile(m_pathToFileWithLearnedNets);
 		
 		std::cout << "Accuracy after " << m_epochIdx << " epoch: " << 100.0f * Utils::validateClassification(
 			m_testInputs,
