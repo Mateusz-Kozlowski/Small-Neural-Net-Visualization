@@ -1,1 +1,2 @@
+- implementing adding new layers like in TensorFlow (using move constructor or however its called)
 - convolutional neural networks
