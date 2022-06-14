@@ -154,7 +154,7 @@ SynapsesMatrix class is just a wrapper of Synapse class objects matrix.
 
 I'm not going to explain how exactly neural networks work and learn
 but in [Bibliography, inspiration and sources](#Bibliography,-inspiration-and-sources) section 
-there is a link to the source from which I learned all those things.  
+there is a link to the source from which I learned all those things.
 
 ## Status
 The project is finished but probably there are still things that can be improved and some features that can be added.
@@ -165,3 +165,9 @@ https://www.youtube.com/playlist?list=PLZHQObOWTQDNU6R1_67000Dx_ZCJB-3pi
 
 ##
 Mateusz Kozłowski 2022
+
+![output_frame](screenshots/learned2.png)
+![output_frame](screenshots/learned3.png)
+![output_frame](screenshots/learned4.png)
+![output_frame](screenshots/learned5.png)
+![output_frame](screenshots/learned6.png)
