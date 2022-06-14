@@ -1,6 +1,1 @@
-- why there was a bug? 
-	wrong input coping?
-	initializing vars in classes?
-	that weird way of adding double?
-	go the entire code and find more candidates
-- convolutional nn?
+- convolutional neural networks

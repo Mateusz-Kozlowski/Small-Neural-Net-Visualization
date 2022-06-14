@@ -8,8 +8,12 @@ SynapsesMatrix::SynapsesMatrix(
 	unsigned renderedInputsCount)
 {
 	m_synapses.resize(nextLayerNeurons.size());
-	
-	float neuronDiameter = nextLayerNeurons.back().getDiameter();
+
+	float neuronDiameter = 0.0f;
+	if (nextLayerNeurons.size() != 0)
+	{
+		neuronDiameter = nextLayerNeurons.back().getDiameter();
+	}
 
 	for (int n = 0; n < m_synapses.size(); n++)
 	{
@@ -58,7 +62,11 @@ SynapsesMatrix::SynapsesMatrix(
 {
 	m_synapses.resize(nextLayerNeurons.size());
 
-	float neuronDiameter = nextLayerNeurons.back().getDiameter();
+	float neuronDiameter = 0.0f;
+	if (nextLayerNeurons.size() != 0)
+	{
+		neuronDiameter = nextLayerNeurons.back().getDiameter();
+	}
 
 	for (int n = 0; n < m_synapses.size(); n++)
 	{
@@ -90,6 +98,11 @@ SynapsesMatrix::SynapsesMatrix(
 
 const std::pair<unsigned, unsigned>& SynapsesMatrix::getDimensions() const
 {
+	if (m_synapses.size() == 0)
+	{
+		return { m_synapses.size(), 0U };
+	}
+	
 	return { m_synapses.size(), m_synapses.back().size() };
 }
 
@@ -186,7 +199,7 @@ void SynapsesMatrix::render(sf::RenderTarget& target) const
 
 Scalar SynapsesMatrix::getBiggestAbsValOfWeightInMatrix() const
 {
-	Scalar result = m_synapses.back().back().getWeight();
+	Scalar result = 0.0;
 
 	for (const auto& it1 : m_synapses)
 	{

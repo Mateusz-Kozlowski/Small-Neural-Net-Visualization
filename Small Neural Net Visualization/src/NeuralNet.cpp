@@ -301,6 +301,12 @@ void NeuralNet::initLayers(
 	const sf::Color& layersBgColor,
 	const sf::Color& baseNeuronsColor)
 {
+	if (topology.size() <= 1)
+	{
+		std::cerr << "The net cannot have " << topology.size() << " layers\n";
+		throw std::invalid_argument("const std::vector<unsigned>& topology");
+	}
+
 	float neuronDiameter = calcNeuronDiameter(topology, size.y);
 	float spaceBetweenLayers = calcSpaceBetweenLayers(topology, size);
 
