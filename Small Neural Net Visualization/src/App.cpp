@@ -194,9 +194,7 @@ void App::initNet()
 				bgIsRendered,
 				layersBgAreRendered
 			)
-			);
-
-		m_net->saveToFile("brand new and dumb net.ini");
+		);
 	}
 }
 
