@@ -4,7 +4,7 @@
 
 Due to resizing the images that you can see in this file the synapses of the net look weird.  
 I recommend you to click on an image. Then a new tab in your web browser will open. 
-There you will be able to see the image in the original size, so you will see how the synapses really look like.
+There you will find the image in the original size, so you will see how the synapses really look like.
 Unfortunately the synapses also look weird in the video, but I still recommend you to watch it. 
 
 ## -> [A VIDEO SHOWING HOW THE PROGRAM EXACTLY WORKS](https://drive.google.com/file/d/1e9Iyq-AvTI3wAyvodawLXsHSVrPl6TFi/view?usp=sharing) <-
