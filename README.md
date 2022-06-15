@@ -65,10 +65,10 @@ In the top right corner of the window there is a square where the current analyz
 The last layer shows desired outputs. At the very beginning they don't look like outputs, the net is dumb.
 ![output_frame](screenshots/dumb1.png)
 
-The colors of synapses and neurons are random. Red synapses have negative value and the blue ones have positive value.
-The synapse is just a number connecting 2 neurons. Each neuron is connected to all neurons in the next layer.
+The colors of synapses and neurons are random. Red synapses have negative values and the blue ones have positive values.
+A synapse is just a number connecting 2 neurons. Each neuron is connected to all neurons in the next layer.
 The smaller the absolute value of a synapse weight the more transparent the color of this synapse is
-(the closer to 0 the number is the less visible the synapse is).  
+(the closer to 0 the number is the less visible is the synapse).  
 What about neurons?
 The net uses sigmoid activation function, so the set of neurons values is <0; 1>.
 Neurons with activation value equal to 1 are completely white 
@@ -102,8 +102,8 @@ void App::run()
 }
 ```
 So as you can see the program consists of 2 part. One of them is updating and the second is rendering.
-Rendering isn't complicated because the only thing it does is calling render functions of different objects 
-like Synapse class object which contain only a couple of lines.
+Rendering isn't complicated because the only thing it does is calling render functions of different objects
+(like Synapse class object), which contain only a couple of lines.
 ```cpp
 void Synapse::render(sf::RenderTarget& target) const
 {
@@ -124,7 +124,7 @@ your graphics card and maximum FPS count of your screen.
 On my laptop approximately 60 frames per second are shown on the screen
 and the program analyzes a couple of hundreds images per seconds.
 
-The biggest class is NeuralNet class. It can be constructed in 2 different ways:
+The biggest class is NeuralNet class. Its objects can be constructed in 2 different ways:
 ```cpp
 public:
 	NeuralNet(
