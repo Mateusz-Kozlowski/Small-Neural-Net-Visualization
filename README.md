@@ -1,8 +1,12 @@
 ![output_frame](screenshots/learned1.png)
 
-## "WARNING: The program (and the video below) may potentially trigger seizures for people with photosensitive epilepsy."
+## WARNING: The program (and the video below) may potentially trigger seizures for people with photosensitive epilepsy.
 
-## -> [A VIDEO SHOWING HOW THE PROGRAM EXACTLY WORKS]() <-
+Due to the resizing the images that you can see here the synapses of the net look weird.  
+I recommend you to use "Crtl"+"+" combination to see how the synapses really look like in the program  
+(or clone the repo and run the program on your own).
+
+## -> [A VIDEO SHOWING HOW THE PROGRAM EXACTLY WORKS](https://drive.google.com/file/d/1e9Iyq-AvTI3wAyvodawLXsHSVrPl6TFi/view?usp=sharing) <-
 
 ## Table of contents
 * [What is Small Neural Net Visualization?](#What-is-Small-Neural-Net-Visualization?)
