@@ -2,9 +2,9 @@
 
 ## WARNING: The program (and the video below) may potentially trigger seizures for people with photosensitive epilepsy.
 
-Due to the resizing the images that you can see here the synapses of the net look weird.  
-I recommend you to use "Crtl"+"+" combination to see how the synapses really look like in the program  
-(or clone the repo and run the program on your own).
+Due to the resizing the images that you can see in this file the synapses of the net look weird.  
+I recommend you to click on an image which will open a new tab in your web browser. 
+There you will be able to see the image in the original size, so you will see how the synapses really look like. 
 
 ## -> [A VIDEO SHOWING HOW THE PROGRAM EXACTLY WORKS](https://drive.google.com/file/d/1e9Iyq-AvTI3wAyvodawLXsHSVrPl6TFi/view?usp=sharing) <-
 
@@ -149,6 +149,7 @@ std::vector<SynapsesMatrix> m_synapses;
 ```
 
 Layer class is an abstract class from which derive InputLayer, NeuralLayer (also an abstract class), HiddenLayer and OutputLayer.
+
 ![output_frame](screenshots/inheritance.png)
 
 The program uses polymorphism to deal with the layers of the net.
