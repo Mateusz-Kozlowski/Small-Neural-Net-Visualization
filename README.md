@@ -2,7 +2,7 @@
 
 ## WARNING: The program (and the video below) may potentially trigger seizures for people with photosensitive epilepsy.
 
-Another fact:
+Another fact:  
 Due to resizing the images that you can see in this file the synapses of the net look weird.  
 I recommend you to click on an image. Then a new tab in your web browser will open. 
 There you will find the image in the original size, so you will see how the synapses really look like.
