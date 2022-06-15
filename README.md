@@ -46,7 +46,7 @@ b) you can change parameters of the net using config/net.ini file:
 - 784 24 16 10 - the sizes of the layers  
 - 1.0 - learning rate (the bigger the number the faster the net learns, the smaller the more precise the learning process is)  
 - 32 - mini batch size - after how many digits the parameters of the net are updated  
-- (the BIGGER the number the more precise the learning process is, the SMALLER the faster the net learns)  
+  (the BIGGER the number the more precise the learning process is, the SMALLER the faster the net learns)  
 - 50 50 - the position of the net in the window  
 - 1500 - the width of the net  
 - 50 50 50 255 - the color of the background of the net (red, green, blue, transparency) (0 <= each number <= 255)  
