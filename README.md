@@ -8,7 +8,7 @@ I recommend you to click on an image. Then a new tab in your web browser will op
 There you will find the image in the original size, so you will see how the synapses really look like.
 Unfortunately the synapses also look weird in the video, but I still recommend you to watch it. 
 
-## -> [A VIDEO SHOWING HOW THE PROGRAM EXACTLY WORKS](https://drive.google.com/file/d/1e9Iyq-AvTI3wAyvodawLXsHSVrPl6TFi/view?usp=sharing) <-
+## -> [A VIDEO SHOWING HOW THE PROGRAM EXACTLY WORKS](https://youtu.be/syDtv6uWxgk) <-
 
 ## Table of contents
 * [What is Small Neural Net Visualization?](#What-is-Small-Neural-Net-Visualization?)
